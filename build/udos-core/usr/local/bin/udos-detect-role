@@ -1,0 +1,13 @@
+#!/bin/bash
+# Detect current uDESK role
+
+ROLE_FILE="/etc/udos/role"
+CMDLINE_ROLE=$(grep -o 'udos.role=[^ ]*' /proc/cmdline 2>/dev/null | cut -d= -f2)
+
+if [ -n "$CMDLINE_ROLE" ]; then
+    echo "$CMDLINE_ROLE"
+elif [ -f "$ROLE_FILE" ]; then
+    cat "$ROLE_FILE"
+else
+    echo "basic"
+fi

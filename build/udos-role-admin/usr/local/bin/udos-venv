@@ -1,0 +1,32 @@
+#!/bin/bash
+# uDESK Python virtual environment helper
+
+VENV_DIR="/opt/udos/venv"
+mkdir -p "$VENV_DIR"
+
+case "$1" in
+    create)
+        if [ -z "$2" ]; then
+            echo "Usage: udos-venv create <name>"
+            exit 1
+        fi
+        echo "Creating Python venv: $2"
+        python3 -m venv "$VENV_DIR/$2"
+        echo "Activate with: source $VENV_DIR/$2/bin/activate"
+        ;;
+    list)
+        echo "Available virtual environments:"
+        ls -1 "$VENV_DIR" 2>/dev/null || echo "No virtual environments found"
+        ;;
+    remove)
+        if [ -z "$2" ]; then
+            echo "Usage: udos-venv remove <name>"
+            exit 1
+        fi
+        rm -rf "$VENV_DIR/$2"
+        echo "Removed venv: $2"
+        ;;
+    *)
+        echo "Usage: udos-venv {create|list|remove} [name]"
+        ;;
+esac

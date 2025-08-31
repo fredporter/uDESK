@@ -1,0 +1,3 @@
+# Standard role sudo permissions
+%udos ALL=(root) NOPASSWD: /usr/local/etc/init.d/*
+%udos ALL=(root) NOPASSWD: /usr/local/bin/udos-service

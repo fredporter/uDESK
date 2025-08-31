@@ -1,0 +1,2 @@
+# Admin role sudo permissions
+%udos-admin ALL=(ALL) NOPASSWD:ALL
