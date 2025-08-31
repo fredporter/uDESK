@@ -1,8 +1,8 @@
-# uDESK v1.6 on TinyCore — Roadmap & Architecture Plan 
+# uDESK v1.0.6 on TinyCore — Roadmap & Architecture Plan 
 
 > Status: **Draft for review**  
-> Scope: Integrate uDOS 1.6 tightly with TinyCore Linux as uDESK, adopt a role‑based permission model with extension stacking, and treat the full system as an isolated environment (while still using Python virtualenvs where helpful).  
-> Branching: 1.5 is capped; create **v1.6-main** (or promote to **main** post‑cutover) and maintain **release/1.5.x** for patches.
+> Scope: Integrate uDOS 1.0.5 tightly with TinyCore Linux as uDESK, adopt a role‑based permission model with extension stacking, and treat the full system as an isolated environment (while still using Python virtualenvs where helpful).  
+> Branching: 1.0.5 is capped; create **v1.0.6-main** (or promote to **main** post‑cutover) and maintain **release/1.0.5.x** for patches.
 
 ---
 
