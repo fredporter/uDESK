@@ -1,18 +1,17 @@
-#!/bin/bash
-# Bootstrap installation for TinyCore (no curl required)
-
-echo "🚀 uDOS Bootstrap Installation (No curl required)..."
+#!/bin/sh
+echo "uDOS Bootstrap Installer"
+echo "========================"
 
 # Install curl first if not available
-if ! command -v curl >/dev/null 2>&1; then
-    echo "📦 Installing curl..."
+if ! which curl >/dev/null 2>&1; then
+    echo "Installing curl..."
     tce-load -wi curl
 fi
 
 # Now run the main installation
-if command -v curl >/dev/null 2>&1; then
-    echo "✅ curl available, downloading main installer..."
-    curl -sL https://raw.githubusercontent.com/fredporter/uDESK/main/vm/github-install.sh | bash
+if which curl >/dev/null 2>&1; then
+    echo "curl available, downloading main installer..."
+    curl -sL https://raw.githubusercontent.com/fredporter/uDESK/main/vm/github-install-minimal.sh | sh
 else
     echo "❌ curl installation failed, using manual method..."
     
