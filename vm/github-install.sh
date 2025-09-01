@@ -71,9 +71,10 @@ sudo chmod +x /usr/local/bin/uvar
 sudo chmod +x /usr/local/bin/udata
 sudo chmod +x /usr/local/bin/utpl
 
-# Download default template
+# Download default template (optional - don't fail if it doesn't work)
+echo "Downloading default template..."
 curl -sL "https://raw.githubusercontent.com/fredporter/uDESK/main/build/uDOS-core/usr/local/share/udos/templates/document.md" | \
-    sudo tee /usr/local/share/udos/templates/document.md > /dev/null
+    sudo tee /usr/local/share/udos/templates/document.md > /dev/null || echo "Template download failed (optional)"
 
 # Add to persistence
 if [ -f /opt/.filetool.lst ]; then
