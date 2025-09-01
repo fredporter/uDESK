@@ -1,17 +1,15 @@
+
 #!/bin/sh
-# udos-detect-role
 
 VERSION="1.0.0"
 UDOS_HOME="${HOME}/.udos"
 
-# Check if we have bash, if not try to install it
 if ! which bash >/dev/null 2>&1; then
     if which tce-load >/dev/null 2>&1; then
         tce-load -wi bash >/dev/null 2>&1 || true
     fi
 fi
 
-# Use bash if available, otherwise stick with sh
 if which bash >/dev/null 2>&1; then
     # Re-execute with bash if we're still in sh
     if [ -z "$BASH_VERSION" ]; then
@@ -19,7 +17,6 @@ if which bash >/dev/null 2>&1; then
     fi
 fi
 
-# Colors
 RED='\033[0;31m'
 GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
@@ -28,7 +25,6 @@ PURPLE='\033[0;35m'
 CYAN='\033[0;36m'
 NC='\033[0m' # No Color
 
-# Role definitions with scores
 ROLE_GHOST=10
 ROLE_TOMB=15
 ROLE_CRYPT=20
@@ -38,7 +34,6 @@ ROLE_IMP=60
 ROLE_SORCERER=80
 ROLE_WIZARD=100
 
-# Detect user capabilities and calculate score
 detect_user_capabilities() {
     local score=$ROLE_GHOST  # Start with GHOST baseline
     local details=""
@@ -157,7 +152,6 @@ detect_user_capabilities() {
     echo "$score"
 }
 
-# Convert score to role
 score_to_role() {
     local score="$1"
     
@@ -180,7 +174,6 @@ score_to_role() {
     fi
 }
 
-# Get role description and color
 get_role_info() {
     local role="$1"
     
@@ -220,14 +213,12 @@ get_role_info() {
     esac
 }
 
-# Save role to user config
 save_user_role() {
     local role="$1"
     local score="$2"
     
     mkdir -p "$UDOS_HOME/vars"
     cat > "$UDOS_HOME/vars/role.env" << EOF
-# uDOS User Role Configuration
 USER_ROLE=$role
 USER_SCORE=$score
 ROLE_DETECTED_DATE=$(date '+%Y-%m-%d %H:%M:%S')
@@ -244,7 +235,6 @@ EOF
     fi
 }
 
-# Main detection function
 run_detection() {
     echo -e "${BLUE}🎭 uDOS Role Detection System v${VERSION}${NC}" >&2
     echo >&2
@@ -271,7 +261,6 @@ run_detection() {
     echo "$role"
 }
 
-# Parse command line arguments
 case "${1:-}" in
     -h|--help)
         echo -e "${BLUE}udos-detect-role - uDOS Role Detection System${NC}"
