@@ -25,7 +25,14 @@ fi
 
 # Copy packages to shared folder
 cp "$PROJECT_ROOT/build"/*.tcz "$UTM_DIR/shared-folder/"
-echo "✓ uDESK packages copied to UTM shared folder"
+
+# Copy Claude Code installer if it exists
+if [ -f "$PROJECT_ROOT/utm-setup/shared-folder/install-claude-code.sh" ]; then
+    cp "$PROJECT_ROOT/utm-setup/shared-folder/install-claude-code.sh" "$UTM_DIR/shared-folder/"
+    chmod +x "$UTM_DIR/shared-folder/install-claude-code.sh"
+fi
+
+echo "✓ uDESK packages and tools copied to UTM shared folder"
 
 echo "💿 Step 2: Downloading TinyCore ISO..."
 if [ ! -f "$TINYCORE_ISO" ]; then
@@ -115,6 +122,9 @@ echo "  udos-info          - System information"
 echo "  udos-detect-role   - Current role"
 echo "  udos-service list  - Available services"
 echo ""
+echo "Install Claude Code AI assistant:"
+echo "  ./install-claude-code.sh   - Install Claude Code CLI"
+echo ""
 echo "To install markdown tools:"
 echo "  tce-load -wi micro.tcz     - Micro editor"
 echo "  tce-load -wi git.tcz       - Git version control"
@@ -122,6 +132,9 @@ echo ""
 echo "Create your first markdown file:"
 echo "  echo '# Hello uDESK!' > welcome.md"
 echo "  cat welcome.md"
+echo ""
+echo "Get AI help with development:"
+echo "  claude-code                - Start Claude Code (after install)"
 echo ""
 WELCOME_EOF
 
@@ -134,9 +147,13 @@ echo ""
 echo "🎉 uDESK installation complete!"
 echo ""
 echo "Next steps:"
-echo "1. Reboot to test persistence: sudo reboot"
-echo "2. Run: ./udesk-welcome.sh for a tour"
-echo "3. Start creating with markdown!"
+echo "1. Install Claude Code: ./install-claude-code.sh"
+echo "2. Reboot to test persistence: sudo reboot"
+echo "3. Run: ./udesk-welcome.sh for a tour"
+echo "4. Start creating with markdown!"
+echo ""
+echo "Optional: Enable networking for Claude Code:"
+echo "  sudo dhcp.sh"
 echo ""
 echo "Your markdown-everything OS is ready! ✨"
 

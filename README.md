@@ -27,6 +27,7 @@ chmod +x setup-udesk-utm.sh
 - ✅ Detects your TinyCore ISO at `/Users/fredbook/Code/TinyCore-current.iso`
 - ✅ Builds uDESK packages with SquashFS compression  
 - ✅ Creates UTM virtual machine (or manual setup)
+- ✅ Includes Claude Code AI assistant installer
 - ✅ Opens UTM with your configured VM
 - ✅ Provides complete installation instructions
 

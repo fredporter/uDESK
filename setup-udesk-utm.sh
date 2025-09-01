@@ -73,6 +73,12 @@ else
     cp "$TINYCORE_ISO" "$SETUP_DIR/"
     cp "$PROJECT_ROOT/build"/*.tcz "$SETUP_DIR/udesk-packages/"
     
+    # Copy Claude Code installer if it exists
+    if [ -f "$PROJECT_ROOT/utm-setup/shared-folder/install-claude-code.sh" ]; then
+        cp "$PROJECT_ROOT/utm-setup/shared-folder/install-claude-code.sh" "$SETUP_DIR/udesk-packages/"
+        chmod +x "$SETUP_DIR/udesk-packages/install-claude-code.sh"
+    fi
+    
     # Create installer
     cat > "$SETUP_DIR/udesk-packages/install-udesk.sh" << 'INSTALL_EOF'
 #!/bin/bash
@@ -137,6 +143,9 @@ echo "udos-core.tcz" | sudo tee -a /mnt/sda1/tce/onboot.lst >/dev/null
 echo "udos-role-admin.tcz" | sudo tee -a /mnt/sda1/tce/onboot.lst >/dev/null
 
 echo "✅ uDESK will now load automatically on boot"
+echo ""
+echo "🤖 Optional: Install Claude Code AI assistant"
+echo "  ./install-claude-code.sh    # Requires internet"
 echo ""
 echo "🔄 Reboot to test: sudo reboot"
 echo "🎯 Or continue using uDESK now!"
