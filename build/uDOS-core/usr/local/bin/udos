@@ -47,6 +47,10 @@ init_udos() {
         touch "${UDOS_HOME}/templates/.initialized"
     fi
     
+    # Detect user role
+    echo -e "${CYAN}🎭 Detecting user capabilities...${NC}"
+    USER_ROLE=$(udos-detect-role --silent 2>/dev/null || echo "GHOST")
+    
     # Create default config
     cat > "${UDOS_HOME}/vars/config.env" << EOF
 # uDOS User Configuration
@@ -55,13 +59,14 @@ UDOS_GRID_SIZE=16
 UDOS_PALETTE=retro8
 UDOS_EDITOR=micro
 UDOS_VIEWER=glow
-USER_ROLE=${USER}
+USER_ROLE=${USER_ROLE}
 INITIALIZED=$(date)
 EOF
     
-    log "uDOS initialized for user ${USER}"
+    log "uDOS initialized for user ${USER} with role ${USER_ROLE}"
     echo -e "${GREEN}✅ uDOS initialized at ${UDOS_HOME}${NC}"
-    echo -e "${YELLOW}💡 Try: udos var list, udos tpl list, udos data list${NC}"
+    echo -e "${CYAN}🎭 Detected role: ${USER_ROLE}${NC}"
+    echo -e "${YELLOW}💡 Try: udos role info, udos var list, udos tpl list${NC}"
 }
 
 # Show system information
@@ -125,6 +130,152 @@ case "$1" in
     clean|cleanup)
         clean_udos
         ;;
+    role)
+        shift
+        case "${1:-}" in
+            detect|scan)
+                udos-detect-role --force
+                ;;
+            info|show)
+                if [ -f "${UDOS_HOME}/vars/role.env" ]; then
+                    source "${UDOS_HOME}/vars/role.env"
+                    echo -e "${BLUE}🎭 Current uDOS Role:${NC}"
+                    udos-detect-role --silent >/dev/null
+                    echo
+                    echo -e "${YELLOW}Role Details:${NC}"
+                    echo "  Role: ${USER_ROLE}"
+                    echo "  Score: ${USER_SCORE}"
+                    echo "  Detected: ${ROLE_DETECTED_DATE}"
+                else
+                    echo -e "${YELLOW}⚠️  No role detected yet. Run 'udos role detect' first.${NC}"
+                fi
+                ;;
+            upgrade|advance)
+                echo -e "${BLUE}🚀 Role Advancement Paths${NC}"
+                echo
+                if [ -f "${UDOS_HOME}/vars/role.env" ]; then
+                    source "${UDOS_HOME}/vars/role.env"
+                    echo -e "${YELLOW}Current Role: ${USER_ROLE} (Score: ${USER_SCORE})${NC}"
+                    echo
+                    echo -e "${CYAN}Next Role Requirements:${NC}"
+                    case "$USER_ROLE" in
+                        "GHOST")
+                            echo "  📦 TOMB (Level 15): Learn file management, archives, basic scripting"
+                            echo "     • Practice with tar, gzip, rsync"
+                            echo "     • Write simple backup scripts"
+                            echo "     • Organize file hierarchies"
+                            ;;
+                        "TOMB")
+                            echo "  🔐 CRYPT (Level 20): Master security and encryption"
+                            echo "     • Set up GPG encryption"
+                            echo "     • Configure SSH keys"
+                            echo "     • Learn password management"
+                            ;;
+                        "CRYPT")
+                            echo "  🤖 DRONE (Level 30): Automate repetitive tasks"
+                            echo "     • Write shell scripts"
+                            echo "     • Set up cron jobs"
+                            echo "     • Learn basic Python/Node.js"
+                            ;;
+                        "DRONE")
+                            echo "  ⚔️  KNIGHT (Level 40): Deploy and manage services"
+                            echo "     • Learn Docker containers"
+                            echo "     • Set up web servers"
+                            echo "     • Monitor system processes"
+                            ;;
+                        "KNIGHT")
+                            echo "  👹 IMP (Level 60): Master networking and security"
+                            echo "     • Network scanning with nmap"
+                            echo "     • Firewall configuration"
+                            echo "     • VPN setup and management"
+                            ;;
+                        "IMP")
+                            echo "  🔮 SORCERER (Level 80): Advanced automation and AI"
+                            echo "     • Machine learning frameworks"
+                            echo "     • Advanced automation with Ansible"
+                            echo "     • API development and integration"
+                            ;;
+                        "SORCERER")
+                            echo "  🧙 WIZARD (Level 100): Architect complete systems"
+                            echo "     • Infrastructure as code (Terraform)"
+                            echo "     • Kubernetes orchestration"
+                            echo "     • Multi-cloud deployment"
+                            ;;
+                        "WIZARD")
+                            echo "  🎓 You've mastered all roles! Consider:"
+                            echo "     • Mentoring other users"
+                            echo "     • Contributing to uDOS development"
+                            echo "     • Teaching and documentation"
+                            ;;
+                    esac
+                else
+                    echo -e "${YELLOW}⚠️  No role detected. Run 'udos role detect' first.${NC}"
+                fi
+                ;;
+            install|setup)
+                echo -e "${BLUE}🛠️  Role-Specific Tool Installation${NC}"
+                echo
+                if [ -f "${UDOS_HOME}/vars/role.env" ]; then
+                    source "${UDOS_HOME}/vars/role.env"
+                    echo -e "${YELLOW}Installing tools for role: ${USER_ROLE}${NC}"
+                    echo
+                    case "$USER_ROLE" in
+                        "GHOST")
+                            echo "Installing basic tools..."
+                            tce-load -wi nano htop curl git
+                            ;;
+                        "TOMB")
+                            echo "Installing file management tools..."
+                            tce-load -wi tar gzip unzip rsync tree
+                            ;;
+                        "CRYPT")
+                            echo "Installing security tools..."
+                            tce-load -wi gnupg openssh openssl
+                            ;;
+                        "DRONE")
+                            echo "Installing automation tools..."
+                            tce-load -wi python3 nodejs bash
+                            ;;
+                        "KNIGHT")
+                            echo "Installing DevOps tools..."
+                            echo "Note: Docker installation requires manual setup on TinyCore"
+                            tce-load -wi nginx
+                            ;;
+                        *)
+                            echo -e "${YELLOW}⚠️  Advanced role tools require manual installation${NC}"
+                            echo "See role documentation for installation guides."
+                            ;;
+                    esac
+                    echo -e "${GREEN}✅ Tool installation completed${NC}"
+                else
+                    echo -e "${YELLOW}⚠️  No role detected. Run 'udos role detect' first.${NC}"
+                fi
+                ;;
+            help|--help)
+                echo -e "${BLUE}uDOS Role Management${NC}"
+                echo
+                echo "Commands:"
+                echo "  detect       Analyze capabilities and detect role"
+                echo "  info         Show current role information"
+                echo "  upgrade      Show advancement paths"
+                echo "  install      Install role-specific tools"
+                echo "  help         Show this help"
+                echo
+                echo "Examples:"
+                echo "  udos role detect"
+                echo "  udos role info"
+                echo "  udos role upgrade"
+                ;;
+            "")
+                echo -e "${YELLOW}Role command requires subcommand. Use 'udos role help' for options.${NC}"
+                ;;
+            *)
+                echo -e "${RED}❌ Unknown role command: $1${NC}"
+                echo "Use 'udos role help' for available commands."
+                exit 1
+                ;;
+        esac
+        ;;
     help|--help|-h)
         echo -e "${BLUE}uDOS v${VERSION} - Universal Device Operating System${NC}"
         echo ""
@@ -133,12 +284,14 @@ case "$1" in
         echo "  var           Variable management (uvar)"
         echo "  data          Data layer operations (udata)"
         echo "  tpl           Template management (utpl)"
+        echo "  role          Role detection and management"
         echo "  info          Show system information"
         echo "  clean         Clean logs and cache"
         echo "  help          Show this help"
         echo ""
         echo "Examples:"
         echo "  udos init"
+        echo "  udos role detect"
         echo "  udos var set EDITOR=micro"
         echo "  udos tpl create document.md"
         echo "  udos data save notes.json"
