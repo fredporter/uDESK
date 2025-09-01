@@ -65,6 +65,15 @@ curl -sL "${GITHUB_RAW}/udata" | sudo tee /usr/local/bin/udata > /dev/null
 echo "Downloading utpl..."
 curl -sL "${GITHUB_RAW}/utpl" | sudo tee /usr/local/bin/utpl > /dev/null
 
+echo "Downloading udos-detect-role..."
+curl -sL "${GITHUB_RAW}/udos-detect-role" | sudo tee /usr/local/bin/udos-detect-role > /dev/null
+
+echo "Downloading udos-update..."
+curl -sL "${GITHUB_RAW}/udos-update" | sudo tee /usr/local/bin/udos-update > /dev/null
+
+echo "Downloading udos-help..."
+curl -sL "${GITHUB_RAW}/udos-help" | sudo tee /usr/local/bin/udos-help > /dev/null
+
 # Make executable
 sudo chmod +x /usr/local/bin/udos*
 sudo chmod +x /usr/local/bin/uvar
@@ -82,6 +91,9 @@ if [ -f /opt/.filetool.lst ]; then
     grep -qxF 'usr/local/bin/uvar' /opt/.filetool.lst || echo 'usr/local/bin/uvar' >> /opt/.filetool.lst
     grep -qxF 'usr/local/bin/udata' /opt/.filetool.lst || echo 'usr/local/bin/udata' >> /opt/.filetool.lst
     grep -qxF 'usr/local/bin/utpl' /opt/.filetool.lst || echo 'usr/local/bin/utpl' >> /opt/.filetool.lst
+    grep -qxF 'usr/local/bin/udos-detect-role' /opt/.filetool.lst || echo 'usr/local/bin/udos-detect-role' >> /opt/.filetool.lst
+    grep -qxF 'usr/local/bin/udos-update' /opt/.filetool.lst || echo 'usr/local/bin/udos-update' >> /opt/.filetool.lst
+    grep -qxF 'usr/local/bin/udos-help' /opt/.filetool.lst || echo 'usr/local/bin/udos-help' >> /opt/.filetool.lst
     grep -qxF 'usr/local/share/udos' /opt/.filetool.lst || echo 'usr/local/share/udos' >> /opt/.filetool.lst
     grep -qxF 'home/tc/.udos' /opt/.filetool.lst || echo 'home/tc/.udos' >> /opt/.filetool.lst
 fi

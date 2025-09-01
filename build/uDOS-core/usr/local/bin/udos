@@ -276,32 +276,42 @@ case "$1" in
                 ;;
         esac
         ;;
+    update)
+        shift
+        udos-update "$@"
+        ;;
     help|--help|-h)
-        echo -e "${BLUE}uDOS v${VERSION} - Universal Device Operating System${NC}"
-        echo ""
-        echo "Commands:"
-        echo "  init          Initialize uDOS environment"
-        echo "  var           Variable management (uvar)"
-        echo "  data          Data layer operations (udata)"
-        echo "  tpl           Template management (utpl)"
-        echo "  role          Role detection and management"
-        echo "  info          Show system information"
-        echo "  clean         Clean logs and cache"
-        echo "  help          Show this help"
-        echo ""
-        echo "Examples:"
-        echo "  udos init"
-        echo "  udos role detect"
-        echo "  udos var set EDITOR=micro"
-        echo "  udos tpl create document.md"
-        echo "  udos data save notes.json"
+        shift
+        case "${1:-}" in
+            ""|main)
+                udos-help main
+                ;;
+            *)
+                udos-help "$1"
+                ;;
+        esac
+        ;;
+    fullhelp|reference)
+        udos-help main
         ;;
     version|--version|-v)
         echo "uDOS ${VERSION}"
         ;;
     *)
         if [ -z "$1" ]; then
-            echo -e "${BLUE}uDOS v${VERSION}${NC} - Type 'udos help' for commands"
+            echo -e "${BLUE}uDOS v${VERSION}${NC} - Universal Device Operating System"
+            echo
+            echo -e "${CYAN}Quick Commands:${NC}"
+            echo "  udos init             Initialize uDOS environment"
+            echo "  udos role detect      Analyze capabilities and assign role"
+            echo "  udos role info        Show current role and advancement"
+            echo "  udos var set KEY=VAL  Set environment variable"
+            echo "  udos tpl create FILE  Create file from template"
+            echo "  udos update           Update uDOS from GitHub"
+            echo "  udos help             Show comprehensive help"
+            echo
+            echo -e "${YELLOW}💡 For detailed help: udos help [command]${NC}"
+            echo -e "${YELLOW}💡 For full reference: udos fullhelp${NC}"
         else
             echo -e "${RED}❌ Unknown command: $1${NC}"
             echo "Type 'udos help' for available commands"
