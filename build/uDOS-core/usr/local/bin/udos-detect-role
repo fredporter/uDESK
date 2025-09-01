@@ -1,6 +1,5 @@
 #!/bin/sh
-# udos-detect-role - Analyze user capabilities and assign uDOS role
-# Part of uDOS M2 role hierarchy system
+# udos-detect-role
 
 VERSION="1.0.0"
 UDOS_HOME="${HOME}/.udos"
