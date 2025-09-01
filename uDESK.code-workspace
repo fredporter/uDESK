@@ -1,0 +1,25 @@
+{
+    "folders": [
+        {
+            "path": "."
+        }
+    ],
+    "settings": {
+        "terminal.integrated.profiles.osx": {
+            "UTM TinyCore VM": {
+                "path": "/usr/bin/ssh",
+                "args": ["tc@192.168.64.2"],
+                "icon": "vm"
+            }
+        },
+        "terminal.integrated.defaultProfile.osx": "zsh"
+    },
+    "extensions": {
+        "recommendations": [
+            "ms-vscode-remote.remote-ssh",
+            "ms-vscode-remote.remote-ssh-edit",
+            "yzhang.markdown-all-in-one",
+            "ms-vscode.vscode-json"
+        ]
+    }
+}

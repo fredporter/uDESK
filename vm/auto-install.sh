@@ -23,11 +23,17 @@ echo "📦 Installing dependencies..."
 tce-load -wi bash
 tce-load -wi coreutils  
 tce-load -wi util-linux
-tce-load -wi git
 tce-load -wi curl
+tce-load -wi git
 tce-load -wi tmux
 tce-load -wi htop
 tce-load -wi python3
+
+# Verify curl installation
+if ! command -v curl >/dev/null 2>&1; then
+    echo "❌ curl installation failed, trying alternative..."
+    tce-load -wi curl.tcz
+fi
 
 # Download and install Gemini CLI (free alternative to Claude)
 echo "🤖 Installing Gemini CLI..."

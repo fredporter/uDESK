@@ -5,6 +5,20 @@ set -e
 
 echo "🚀 uDOS GitHub Installation..."
 
+# Install curl first if not available
+if ! command -v curl >/dev/null 2>&1; then
+    echo "📦 Installing curl..."
+    tce-load -wi curl
+    
+    # Verify curl installation
+    if ! command -v curl >/dev/null 2>&1; then
+        echo "❌ Failed to install curl. Manual installation required."
+        echo "Try: tce-load -wi curl"
+        exit 1
+    fi
+    echo "✅ curl installed successfully"
+fi
+
 # Check internet connectivity
 if ! ping -c 1 8.8.8.8 >/dev/null 2>&1; then
     echo "❌ No internet connection"

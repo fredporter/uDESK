@@ -1,19 +1,27 @@
-# uDOS One-Liner Installation for UTM TinyCore
+# uDOS Installation for UTM TinyCore
 
-## Method 1: Manual Installation (No Internet Required)
-Copy and paste this entire script into your TinyCore VM terminal:
+## 🚀 Quick Install (2 Commands)
 
+### Step 1: Install curl
 ```bash
-curl -sL https://raw.githubusercontent.com/fredporter/uDESK/main/vm/manual-install.sh | bash
+tce-load -wi curl
 ```
 
-## Method 2: GitHub Direct Download (Requires Internet)
+### Step 2: Install uDOS
 ```bash
 curl -sL https://raw.githubusercontent.com/fredporter/uDESK/main/vm/github-install.sh | bash
 ```
 
-## Method 3: Copy-Paste Installation (Manual)
-If GitHub downloads don't work, copy the contents of `vm/manual-install.sh` and paste directly into your VM terminal.
+That's it! 🎉
+
+## 🧪 Test Installation
+```bash
+udos version
+udos init
+udos info
+udos var set TEST=hello
+udos var get TEST
+```
 
 ## After Installation
 Test with these commands:
