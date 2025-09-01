@@ -1,1 +1,0 @@
-#!/bin/bash\n# Run the M1 test from the project directory\n\ncd /Users/fredbook/Code/uDESK\nchmod +x test-m1.sh\n./test-m1.sh\n
