@@ -1,10 +1,11 @@
 # uDOS CLI Testing Infrastructure
 
-## 🚀 Quick Start
+## 🚀 Quick Start (UTM Compatible)
 
-### 1. Deploy to VM
+### 1. Install in UTM VM
 ```bash
-./test-vm.sh deploy
+# In your UTM TinyCore VM terminal:
+curl -sL https://raw.githubusercontent.com/fredporter/uDESK/main/vm/github-install.sh | bash
 ```
 
 ### 2. Test functionality
@@ -12,33 +13,49 @@
 ./test-vm.sh test
 ```
 
-### 3. Connect to VM
+### 3. Connect to VM (if SSH configured)
 ```bash
 ./test-vm.sh connect
 ```
 
 ## 📋 Available Commands
 
-### VM Management
-- `./test-vm.sh deploy` - Deploy latest uDOS CLI to VM
+### VM Management (UTM)
+- `./test-vm.sh install` - One-liner uDOS installation
+- `./test-vm.sh deploy` - Deploy latest CLI (requires SSH)
 - `./test-vm.sh test` - Run functionality tests
 - `./test-vm.sh connect` - SSH into VM
-- `./test-vm.sh full-setup` - Complete VM setup
+- `./test-vm.sh ip` - Help with VM IP detection
 
-### AI Assistant
-- `./test-vm.sh ai "your question"` - Test Gemini AI assistant
+### Manual Installation (No SSH Required)
+If SSH isn't working, use manual installation:
+```bash
+# Copy this entire command into UTM VM:
+curl -sL https://raw.githubusercontent.com/fredporter/uDESK/main/vm/manual-install.sh | bash
+```
 
-## 🛠️ Setup Requirements
+## 🛠️ UTM Setup Requirements
 
-### VM Configuration
-1. **IP Address**: Update `VM_IP` in `test-vm.sh` (default: 192.168.64.2)
-2. **SSH Access**: Ensure passwordless SSH to VM
-3. **TinyCore**: VM running TinyCore Linux
+### VM Network Configuration
+1. **UTM Network**: Set to "Shared Network" or "NAT"
+2. **Find VM IP**: In VM run `ip addr show`
+3. **Set Host IP**: `export VM_IP=192.168.64.X`
 
-### Gemini AI Setup (Free)
-1. Get API key: https://makersuite.google.com/app/apikey
-2. In VM: `ai-setup`
-3. Enter your free API key
+### SSH Setup (Optional)
+```bash
+# In UTM VM (if you want SSH):
+sudo passwd tc  # Set password for tc user
+sudo /usr/local/etc/init.d/openssh start
+
+# On host:
+export VM_IP=your.vm.ip
+./test-vm.sh connect
+```
+
+### No SSH? No Problem!
+- Use direct copy-paste installation
+- Manual testing in VM terminal
+- GitHub raw download method
 
 ## 📁 Directory Structure
 
