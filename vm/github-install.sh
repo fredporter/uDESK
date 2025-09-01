@@ -1,8 +1,5 @@
-
 #!/bin/sh
-
 set -e
-
 echo "uDOS GitHub Installation..."
 
 if ! which bash >/dev/null 2>&1; then
