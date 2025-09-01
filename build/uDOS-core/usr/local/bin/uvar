@@ -1,0 +1,203 @@
+#!/bin/sh
+# uVAR - uDOS Variable Management System
+# Compatible with both sh and bash
+
+# Check if we have bash, if not try to install it
+if ! command -v bash >/dev/null 2>&1; then
+    if command -v tce-load >/dev/null 2>&1; then
+        echo "Installing bash for full compatibility..."
+        tce-load -wi bash >/dev/null 2>&1 || true
+    fi
+fi
+
+# Use bash if available, otherwise stick with sh
+if command -v bash >/dev/null 2>&1; then
+    # Re-execute with bash if we're still in sh
+    if [ -z "$BASH_VERSION" ]; then
+        exec bash "$0" "$@"
+    fi
+fi
+
+UDOS_HOME="${HOME}/.udos"
+VAR_DIR="${UDOS_HOME}/vars"
+
+# Colors
+GREEN='\033[0;32m'
+RED='\033[0;31m'
+YELLOW='\033[1;33m'
+BLUE='\033[0;34m'
+NC='\033[0m'
+
+# Ensure vars directory exists
+mkdir -p "${VAR_DIR}"
+
+# Get variable value
+get_var() {
+    local key="$1"
+    if [ -z "$key" ]; then
+        echo -e "${RED}❌ Variable name required${NC}"
+        return 1
+    fi
+    
+    # Check user vars first
+    if [ -f "${VAR_DIR}/${key}.var" ]; then
+        cat "${VAR_DIR}/${key}.var"
+        return 0
+    fi
+    
+    # Check config.env
+    if [ -f "${VAR_DIR}/config.env" ]; then
+        grep "^${key}=" "${VAR_DIR}/config.env" | cut -d'=' -f2- | tr -d '"'
+        return 0
+    fi
+    
+    echo -e "${RED}❌ Variable '${key}' not found${NC}"
+    return 1
+}
+
+# Set variable value
+set_var() {
+    local input="$1"
+    if [ -z "$input" ]; then
+        echo -e "${RED}❌ Usage: uvar set KEY=VALUE${NC}"
+        return 1
+    fi
+    
+    if [[ "$input" != *"="* ]]; then
+        echo -e "${RED}❌ Invalid format. Use: KEY=VALUE${NC}"
+        return 1
+    fi
+    
+    local key="${input%%=*}"
+    local value="${input#*=}"
+    
+    # Validate key name
+    if [[ ! "$key" =~ ^[A-Z][A-Z0-9_]*$ ]]; then
+        echo -e "${RED}❌ Invalid key name. Use uppercase letters, numbers, and underscores${NC}"
+        return 1
+    fi
+    
+    # Save to individual file
+    echo "$value" > "${VAR_DIR}/${key}.var"
+    
+    # Also update config.env if it's a system variable
+    case "$key" in
+        UDOS_*|USER_*|EDITOR|VIEWER|PALETTE)
+            if [ -f "${VAR_DIR}/config.env" ]; then
+                # Remove existing line and add new one
+                grep -v "^${key}=" "${VAR_DIR}/config.env" > "${VAR_DIR}/config.env.tmp" 2>/dev/null || true
+                echo "${key}=${value}" >> "${VAR_DIR}/config.env.tmp"
+                mv "${VAR_DIR}/config.env.tmp" "${VAR_DIR}/config.env"
+            fi
+            ;;
+    esac
+    
+    echo -e "${GREEN}✅ ${key}=${value}${NC}"
+    echo "$(date '+%Y-%m-%d %H:%M:%S') SET ${key}=${value}" >> "${UDOS_HOME}/logs/vars.log"
+}
+
+# List all variables
+list_vars() {
+    echo -e "${BLUE}📋 uDOS Variables${NC}"
+    echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+    
+    # System variables from config.env
+    if [ -f "${VAR_DIR}/config.env" ]; then
+        echo -e "${YELLOW}System Variables:${NC}"
+        while IFS='=' read -r key value; do
+            if [[ "$key" =~ ^[A-Z] ]] && [[ "$key" != "#"* ]]; then
+                printf "  %-20s %s\n" "$key" "$value"
+            fi
+        done < "${VAR_DIR}/config.env"
+        echo ""
+    fi
+    
+    # User variables
+    if ls "${VAR_DIR}"/*.var >/dev/null 2>&1; then
+        echo -e "${YELLOW}User Variables:${NC}"
+        for var_file in "${VAR_DIR}"/*.var; do
+            if [ -f "$var_file" ]; then
+                local key=$(basename "$var_file" .var)
+                local value=$(cat "$var_file")
+                printf "  %-20s %s\n" "$key" "$value"
+            fi
+        done
+    else
+        echo -e "${YELLOW}No user variables set${NC}"
+    fi
+}
+
+# Delete variable
+delete_var() {
+    local key="$1"
+    if [ -z "$key" ]; then
+        echo -e "${RED}❌ Variable name required${NC}"
+        return 1
+    fi
+    
+    local deleted=false
+    
+    # Remove from individual file
+    if [ -f "${VAR_DIR}/${key}.var" ]; then
+        rm "${VAR_DIR}/${key}.var"
+        deleted=true
+    fi
+    
+    # Remove from config.env
+    if [ -f "${VAR_DIR}/config.env" ] && grep -q "^${key}=" "${VAR_DIR}/config.env"; then
+        grep -v "^${key}=" "${VAR_DIR}/config.env" > "${VAR_DIR}/config.env.tmp"
+        mv "${VAR_DIR}/config.env.tmp" "${VAR_DIR}/config.env"
+        deleted=true
+    fi
+    
+    if [ "$deleted" = true ]; then
+        echo -e "${GREEN}✅ Variable '${key}' deleted${NC}"
+        echo "$(date '+%Y-%m-%d %H:%M:%S') DELETE ${key}" >> "${UDOS_HOME}/logs/vars.log"
+    else
+        echo -e "${RED}❌ Variable '${key}' not found${NC}"
+        return 1
+    fi
+}
+
+# Main command dispatcher
+case "$1" in
+    get)
+        shift
+        get_var "$@"
+        ;;
+    set)
+        shift
+        set_var "$@"
+        ;;
+    list|ls)
+        list_vars
+        ;;
+    delete|del|rm)
+        shift
+        delete_var "$@"
+        ;;
+    help|--help|-h)
+        echo -e "${BLUE}uVAR - uDOS Variable Management${NC}"
+        echo ""
+        echo "Commands:"
+        echo "  get KEY           Get variable value"
+        echo "  set KEY=VALUE     Set variable value"
+        echo "  list              List all variables"
+        echo "  delete KEY        Delete variable"
+        echo ""
+        echo "Examples:"
+        echo "  uvar set EDITOR=micro"
+        echo "  uvar get EDITOR"
+        echo "  uvar list"
+        echo "  uvar delete EDITOR"
+        ;;
+    *)
+        if [ -n "$1" ]; then
+            # Assume it's a get operation
+            get_var "$1"
+        else
+            echo -e "${RED}❌ Command required. Use 'uvar help' for usage${NC}"
+            exit 1
+        fi
+        ;;
+esac
