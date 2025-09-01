@@ -1,56 +1,49 @@
+
 #!/bin/sh
 
 set -e
 
-echo "🚀 uDOS GitHub Installation..."
+echo "uDOS GitHub Installation..."
 
-# Install bash first if not available
 if ! which bash >/dev/null 2>&1; then
-    echo "📦 Installing bash..."
+    echo "Installing bash..."
     tce-load -wi bash
     
-    # Verify bash installation
     if ! which bash >/dev/null 2>&1; then
-        echo "❌ Failed to install bash. Continuing with sh..."
+        echo "Failed to install bash. Continuing with sh..."
         USE_SH=true
     else
-        echo "✅ bash installed successfully"
+        echo " bash installed successfully"
         USE_SH=false
     fi
 else
     USE_SH=false
 fi
 
-# Install curl first if not available
 if ! which curl >/dev/null 2>&1; then
-    echo "📦 Installing curl..."
+    echo " Installing curl..."
     tce-load -wi curl
     
-    # Verify curl installation
     if ! which curl >/dev/null 2>&1; then
-        echo "❌ Failed to install curl. Manual installation required."
+        echo " Failed to install curl. Manual installation required."
         echo "Try: tce-load -wi curl"
         exit 1
     fi
-    echo "✅ curl installed successfully"
+    echo " curl installed successfully"
 fi
 
-# Check internet connectivity
 if ! ping -c 1 8.8.8.8 >/dev/null 2>&1; then
-    echo "❌ No internet connection"
+    echo " No internet connection"
     exit 1
 fi
 
-# GitHub raw URL base
 GITHUB_RAW="https://raw.githubusercontent.com/fredporter/uDESK/main/build/uDOS-core/usr/local/bin"
 
-echo "📥 Downloading uDOS CLI tools..."
+echo " Downloading uDOS CLI tools..."
 
-# Create directories
 sudo mkdir -p /usr/local/bin
 sudo mkdir -p /usr/local/share/udos/templates
 
-# Download main CLI tools
 echo "Downloading udos..."
 curl -sL "${GITHUB_RAW}/udos" | sudo tee /usr/local/bin/udos > /dev/null
 
@@ -72,18 +65,15 @@ curl -sL "${GITHUB_RAW}/udos-update" | sudo tee /usr/local/bin/udos-update > /de
 echo "Downloading udos-help..."
 curl -sL "${GITHUB_RAW}/udos-help" | sudo tee /usr/local/bin/udos-help > /dev/null
 
-# Make executable
 sudo chmod +x /usr/local/bin/udos*
 sudo chmod +x /usr/local/bin/uvar
 sudo chmod +x /usr/local/bin/udata
 sudo chmod +x /usr/local/bin/utpl
 
-# Download default template (optional - don't fail if it doesn't work)
 echo "Downloading default template..."
 curl -sL "https://raw.githubusercontent.com/fredporter/uDESK/main/build/uDOS-core/usr/local/share/udos/templates/document.md" | \
     sudo tee /usr/local/share/udos/templates/document.md > /dev/null || echo "Template download failed (optional)"
 
-# Add to persistence
 if [ -f /opt/.filetool.lst ]; then
     grep -qxF 'usr/local/bin/udos' /opt/.filetool.lst || echo 'usr/local/bin/udos' >> /opt/.filetool.lst
     grep -qxF 'usr/local/bin/uvar' /opt/.filetool.lst || echo 'usr/local/bin/uvar' >> /opt/.filetool.lst
@@ -96,11 +86,10 @@ if [ -f /opt/.filetool.lst ]; then
     grep -qxF 'home/tc/.udos' /opt/.filetool.lst || echo 'home/tc/.udos' >> /opt/.filetool.lst
 fi
 
-# Initialize uDOS
 udos init
 
 echo ""
-echo "✅ uDOS GitHub Installation Complete!"
+echo " uDOS GitHub Installation Complete!"
 echo ""
 echo "Test the installation:"
 echo "  udos version"
