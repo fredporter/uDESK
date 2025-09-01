@@ -1,0 +1,6 @@
+﻿Task,Component,Due Date,Milestone,Notes,Priority,Status
+Test build system,Build System,,M1 - Core Integration,Build system scripts created and ready for testing,Critical,In Progress
+Build first udos-core.tcz,udos-core,,M1 - Core Integration,,High,Not Started
+Generate boot hooks with Claude,udos-core,,M1 - Core Integration,,High,Not Started
+Create persistence integration,udos-core,,M1 - Core Integration,,High,Not Started
+Download TinyCore base ISO,Build System,,M1 - Core Integration,"TinyCore ISO download script created, ready to test",Critical,In Progress
