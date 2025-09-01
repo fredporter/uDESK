@@ -1,0 +1,12 @@
+uDESK Packages for UTM:
+=======================
+total 40
+drwxr-xr-x  7 fredbook  staff   224  1 Sep 19:10 .
+drwxr-xr-x  8 fredbook  staff   256  1 Sep 19:10 ..
+-rwxr-xr-x  1 fredbook  staff  2693  1 Sep 19:10 auto-install-udesk.sh
+-rw-r--r--  1 fredbook  staff  4096  1 Sep 19:10 udos-core.tcz
+-rw-r--r--  1 fredbook  staff  4096  1 Sep 19:10 udos-role-admin.tcz
+-rw-r--r--  1 fredbook  staff  4096  1 Sep 19:10 udos-role-basic.tcz
+-rw-r--r--  1 fredbook  staff  4096  1 Sep 19:10 udos-role-standard.tcz
+
+Total size:  36K
