@@ -1,18 +1,16 @@
 #!/bin/sh
-# Download and install uDOS from GitHub (UTM-friendly)
-# Compatible with both sh and bash
 
 set -e
 
 echo "🚀 uDOS GitHub Installation..."
 
 # Install bash first if not available
-if ! command -v bash >/dev/null 2>&1; then
+if ! which bash >/dev/null 2>&1; then
     echo "📦 Installing bash..."
     tce-load -wi bash
     
     # Verify bash installation
-    if ! command -v bash >/dev/null 2>&1; then
+    if ! which bash >/dev/null 2>&1; then
         echo "❌ Failed to install bash. Continuing with sh..."
         USE_SH=true
     else
@@ -24,12 +22,12 @@ else
 fi
 
 # Install curl first if not available
-if ! command -v curl >/dev/null 2>&1; then
+if ! which curl >/dev/null 2>&1; then
     echo "📦 Installing curl..."
     tce-load -wi curl
     
     # Verify curl installation
-    if ! command -v curl >/dev/null 2>&1; then
+    if ! which curl >/dev/null 2>&1; then
         echo "❌ Failed to install curl. Manual installation required."
         echo "Try: tce-load -wi curl"
         exit 1
