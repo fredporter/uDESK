@@ -1,0 +1,399 @@
+#!/bin/sh
+# uDOS Unified Command Interface v1.0.5
+# Single entry point for all uDOS functionality on TinyCore Linux
+# POSIX shell compatible
+
+VERSION="1.0.5"
+UDOS_HOME="${HOME}/.udos"
+UDOS_SYSTEM="/usr/local/share/udos"
+UDOS_OPT="/opt/udos"
+
+# Colors for output (POSIX compatible)
+if [ -t 1 ]; then
+    RED='\033[0;31m'
+    GREEN='\033[0;32m'
+    BLUE='\033[0;34m'
+    YELLOW='\033[1;33m'
+    CYAN='\033[0;36m'
+    NC='\033[0m'
+else
+    RED='' GREEN='' BLUE='' YELLOW='' CYAN='' NC=''
+fi
+
+# Logging functions
+log_info() { printf "${CYAN}ℹ️  %s${NC}\n" "$1"; }
+log_success() { printf "${GREEN}✅ %s${NC}\n" "$1"; }
+log_error() { printf "${RED}❌ %s${NC}\n" "$1"; }
+log_warning() { printf "${YELLOW}⚠️  %s${NC}\n" "$1"; }
+
+# ASCII Art Banner
+show_banner() {
+    cat << 'BANNER_EOF'
+
+    ██╗   ██╗██████╗  ██████╗ ███████╗
+    ██║   ██║██╔══██╗██╔═══██╗██╔════╝
+    ██║   ██║██║  ██║██║   ██║███████╗
+    ██║   ██║██║  ██║██║   ██║╚════██║
+    ╚██████╔╝██████╔╝╚██████╔╝███████║
+     ╚═════╝ ╚═════╝  ╚═════╝ ╚══════╝
+
+    Universal Device Operating System v1.0.5
+    TinyCore Linux Edition
+
+BANNER_EOF
+}
+
+# Initialize uDOS environment
+udos_init() {
+    log_info "Initializing uDOS environment..."
+    
+    # Create user directories
+    mkdir -p "${UDOS_HOME}/vars"
+    mkdir -p "${UDOS_HOME}/data"
+    mkdir -p "${UDOS_HOME}/templates"
+    mkdir -p "${UDOS_HOME}/logs"
+    mkdir -p "${UDOS_HOME}/projects"
+    
+    # Create config file
+    cat > "${UDOS_HOME}/vars/config.env" << EOF
+UDOS_VERSION=${VERSION}
+USER_ROLE=APPRENTICE
+UDOS_GRID_SIZE=16
+UDOS_INIT_DATE=$(date '+%Y-%m-%d %H:%M:%S')
+EOF
+    
+    # Set default role
+    echo "APPRENTICE" > "${UDOS_HOME}/vars/role"
+    
+    log_success "uDOS environment initialized"
+    log_info "Home directory: ${UDOS_HOME}"
+}
+
+# Variable management
+udos_var() {
+    case "${1:-}" in
+        set)
+            if [ -z "${2:-}" ]; then
+                log_error "Usage: udos var set KEY=VALUE"
+                return 1
+            fi
+            key=$(echo "$2" | cut -d'=' -f1)
+            value=$(echo "$2" | cut -d'=' -f2-)
+            mkdir -p "${UDOS_HOME}/vars"
+            echo "$value" > "${UDOS_HOME}/vars/${key}"
+            log_success "Set $key = $value"
+            ;;
+        get)
+            if [ -z "${2:-}" ]; then
+                log_error "Usage: udos var get KEY"
+                return 1
+            fi
+            if [ -f "${UDOS_HOME}/vars/$2" ]; then
+                cat "${UDOS_HOME}/vars/$2"
+            else
+                log_error "Variable $2 not found"
+                return 1
+            fi
+            ;;
+        list)
+            printf "${BLUE}📋 uDOS Variables:${NC}\n"
+            if [ -d "${UDOS_HOME}/vars" ]; then
+                for var_file in "${UDOS_HOME}/vars"/*; do
+                    if [ -f "$var_file" ]; then
+                        var_name=$(basename "$var_file")
+                        var_value=$(cat "$var_file")
+                        printf "  %s = %s\n" "$var_name" "$var_value"
+                    fi
+                done
+            else
+                printf "  No variables set\n"
+            fi
+            ;;
+        *)
+            printf "${BLUE}uDOS Variable Management${NC}\n"
+            printf "Usage:\n"
+            printf "  udos var set KEY=VALUE  Set a variable\n"
+            printf "  udos var get KEY        Get a variable\n"
+            printf "  udos var list           List all variables\n"
+            ;;
+    esac
+}
+
+# Role detection and management
+udos_role() {
+    case "${1:-}" in
+        detect)
+            log_info "Detecting system capabilities..."
+            
+            role="APPRENTICE"
+            score=0
+            
+            # Check system capabilities
+            [ -f "/usr/bin/gcc" ] && score=$((score + 10))
+            [ -f "/usr/bin/git" ] && score=$((score + 5))
+            [ -f "/usr/bin/vim" ] || [ -f "/usr/bin/nano" ] && score=$((score + 3))
+            [ -f "/usr/bin/curl" ] && score=$((score + 2))
+            [ -f "/usr/bin/wget" ] && score=$((score + 2))
+            
+            # Determine role based on score
+            if [ $score -ge 20 ]; then
+                role="ARCHITECT"
+            elif [ $score -ge 15 ]; then
+                role="MASTER"
+            elif [ $score -ge 10 ]; then
+                role="SAGE"
+            elif [ $score -ge 7 ]; then
+                role="SCHOLAR"
+            elif [ $score -ge 5 ]; then
+                role="SCRIBE"
+            fi
+            
+            # Save role
+            mkdir -p "${UDOS_HOME}/vars"
+            echo "$role" > "${UDOS_HOME}/vars/role"
+            echo "$score" > "${UDOS_HOME}/vars/role_score"
+            
+            printf "${GREEN}🎭 Role Detected: %s${NC}\n" "$role"
+            printf "Capability Score: %d\n" "$score"
+            ;;
+        info|show)
+            if [ -f "${UDOS_HOME}/vars/role" ]; then
+                role=$(cat "${UDOS_HOME}/vars/role")
+                score=$(cat "${UDOS_HOME}/vars/role_score" 2>/dev/null || echo "Unknown")
+                printf "${BLUE}🎭 Current Role: %s${NC}\n" "$role"
+                printf "Score: %s\n" "$score"
+                printf "\nRole Hierarchy:\n"
+                printf "  GHOST → APPRENTICE → SCRIBE → SCHOLAR → SAGE → MASTER → ARCHITECT → WIZARD\n"
+            else
+                log_warning "No role detected. Run 'udos role detect' first."
+            fi
+            ;;
+        *)
+            printf "${BLUE}uDOS Role Management${NC}\n"
+            printf "Usage:\n"
+            printf "  udos role detect        Detect capabilities and assign role\n"
+            printf "  udos role info          Show current role information\n"
+            ;;
+    esac
+}
+
+# Template management
+udos_tpl() {
+    case "${1:-}" in
+        list)
+            printf "${BLUE}📄 Available Templates:${NC}\n"
+            if [ -d "${UDOS_SYSTEM}/templates" ]; then
+                for tpl in "${UDOS_SYSTEM}/templates"/*.md; do
+                    if [ -f "$tpl" ]; then
+                        printf "  %s\n" "$(basename "$tpl" .md)"
+                    fi
+                done
+            fi
+            if [ -d "${UDOS_HOME}/templates" ]; then
+                printf "\n${BLUE}📄 User Templates:${NC}\n"
+                for tpl in "${UDOS_HOME}/templates"/*.md; do
+                    if [ -f "$tpl" ]; then
+                        printf "  %s (user)\n" "$(basename "$tpl" .md)"
+                    fi
+                done
+            fi
+            ;;
+        create)
+            if [ -z "${2:-}" ]; then
+                log_error "Usage: udos tpl create TEMPLATE_NAME [OUTPUT_FILE]"
+                return 1
+            fi
+            
+            template_name="$2"
+            output_file="${3:-${template_name}.md}"
+            
+            # Look for template
+            template_file=""
+            if [ -f "${UDOS_HOME}/templates/${template_name}.md" ]; then
+                template_file="${UDOS_HOME}/templates/${template_name}.md"
+            elif [ -f "${UDOS_SYSTEM}/templates/${template_name}.md" ]; then
+                template_file="${UDOS_SYSTEM}/templates/${template_name}.md"
+            else
+                log_error "Template '$template_name' not found"
+                return 1
+            fi
+            
+            cp "$template_file" "$output_file"
+            log_success "Created $output_file from template $template_name"
+            ;;
+        *)
+            printf "${BLUE}uDOS Template Management${NC}\n"
+            printf "Usage:\n"
+            printf "  udos tpl list                     List available templates\n"
+            printf "  udos tpl create NAME [OUTPUT]     Create file from template\n"
+            ;;
+    esac
+}
+
+# Data management
+udos_data() {
+    case "${1:-}" in
+        list)
+            printf "${BLUE}📊 uDOS Data Files:${NC}\n"
+            if [ -d "${UDOS_HOME}/data" ]; then
+                for data_file in "${UDOS_HOME}/data"/*; do
+                    if [ -f "$data_file" ]; then
+                        printf "  %s\n" "$(basename "$data_file")"
+                    fi
+                done
+            else
+                printf "  No data files found\n"
+            fi
+            ;;
+        backup)
+            backup_dir="${UDOS_HOME}/backups/$(date '+%Y%m%d_%H%M%S')"
+            mkdir -p "$backup_dir"
+            if [ -d "${UDOS_HOME}/data" ]; then
+                cp -r "${UDOS_HOME}/data"/* "$backup_dir/" 2>/dev/null || true
+                log_success "Data backed up to $backup_dir"
+            else
+                log_warning "No data directory to backup"
+            fi
+            ;;
+        *)
+            printf "${BLUE}uDOS Data Management${NC}\n"
+            printf "Usage:\n"
+            printf "  udos data list      List data files\n"
+            printf "  udos data backup    Backup all data\n"
+            ;;
+    esac
+}
+
+# System information
+udos_info() {
+    printf "${BLUE}🖥️  uDOS System Information${NC}\n"
+    printf "Version: %s\n" "$VERSION"
+    printf "Home: %s\n" "$UDOS_HOME"
+    printf "System: %s\n" "$UDOS_SYSTEM"
+    
+    if [ -f "${UDOS_HOME}/vars/config.env" ]; then
+        printf "Status: Initialized\n"
+        if [ -f "${UDOS_HOME}/vars/role" ]; then
+            printf "Role: %s\n" "$(cat "${UDOS_HOME}/vars/role")"
+        fi
+    else
+        printf "Status: Not initialized (run 'udos init')\n"
+    fi
+    
+    printf "\nSystem Resources:\n"
+    printf "  Disk: %s\n" "$(df -h "$UDOS_HOME" 2>/dev/null | tail -1 | awk '{print $4 " available"}' || echo "Unknown")"
+    printf "  Memory: %s\n" "$(free -h 2>/dev/null | grep Mem | awk '{print $7 " available"}' || echo "Unknown")"
+}
+
+# Update system
+udos_update() {
+    log_info "Checking for uDOS updates..."
+    
+    if command -v curl >/dev/null 2>&1; then
+        log_info "Downloading latest installer..."
+        curl -sSL "https://raw.githubusercontent.com/fredporter/uDESK/main/vm/current/install-udos-tinycore.sh" -o "/tmp/udos-update.sh"
+        chmod +x "/tmp/udos-update.sh"
+        log_info "Running update..."
+        exec "/tmp/udos-update.sh"
+    elif command -v wget >/dev/null 2>&1; then
+        log_info "Downloading latest installer..."
+        wget -q "https://raw.githubusercontent.com/fredporter/uDESK/main/vm/current/install-udos-tinycore.sh" -O "/tmp/udos-update.sh"
+        chmod +x "/tmp/udos-update.sh"
+        log_info "Running update..."
+        exec "/tmp/udos-update.sh"
+    else
+        log_error "Neither curl nor wget available for updates"
+        return 1
+    fi
+}
+
+# Help system
+udos_help() {
+    case "${1:-}" in
+        var|variable|variables)
+            udos_var
+            ;;
+        role|roles)
+            udos_role
+            ;;
+        tpl|template|templates)
+            udos_tpl
+            ;;
+        data)
+            udos_data
+            ;;
+        *)
+            show_banner
+            printf "${CYAN}Available Commands:${NC}\n"
+            printf "  udos init             Initialize uDOS environment\n"
+            printf "  udos info             Show system information\n"
+            printf "  udos role detect      Detect capabilities and assign role\n"
+            printf "  udos role info        Show current role\n"
+            printf "  udos var set KEY=VAL  Set environment variable\n"
+            printf "  udos var get KEY      Get environment variable\n"
+            printf "  udos var list         List all variables\n"
+            printf "  udos tpl list         List available templates\n"
+            printf "  udos tpl create NAME  Create file from template\n"
+            printf "  udos data list        List data files\n"
+            printf "  udos data backup      Backup user data\n"
+            printf "  udos update           Update uDOS system\n"
+            printf "  udos help [COMMAND]   Show help for specific command\n"
+            printf "  udos version          Show version information\n"
+            printf "\n${YELLOW}💡 For detailed help: udos help [command]${NC}\n"
+            ;;
+    esac
+}
+
+# Main command router
+main() {
+    case "${1:-}" in
+        init)
+            udos_init
+            ;;
+        info)
+            udos_info
+            ;;
+        var|variable)
+            shift
+            udos_var "$@"
+            ;;
+        role)
+            shift
+            udos_role "$@"
+            ;;
+        tpl|template)
+            shift
+            udos_tpl "$@"
+            ;;
+        data)
+            shift
+            udos_data "$@"
+            ;;
+        update)
+            udos_update
+            ;;
+        help|--help|-h)
+            shift
+            udos_help "$@"
+            ;;
+        version|--version|-v)
+            printf "uDOS %s\n" "$VERSION"
+            ;;
+        "")
+            printf "${BLUE}uDOS v%s${NC} - Universal Device Operating System\n" "$VERSION"
+            printf "\n${CYAN}Quick Start:${NC}\n"
+            printf "  udos init             Initialize your environment\n"
+            printf "  udos role detect      Detect your capabilities\n"
+            printf "  udos help             Show all commands\n"
+            printf "\n${YELLOW}💡 Type 'udos help' for complete command list${NC}\n"
+            ;;
+        *)
+            log_error "Unknown command: $1"
+            printf "Type 'udos help' for available commands.\n"
+            return 1
+            ;;
+    esac
+}
+
+# Execute main function
+main "$@"

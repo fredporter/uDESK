@@ -1,0 +1,4 @@
+#!/bin/sh
+# uvar - Variable Management Wrapper
+# Calls main udos command for backward compatibility
+exec udos var "$@"

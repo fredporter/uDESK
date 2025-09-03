@@ -1,0 +1,4 @@
+#!/bin/sh
+# udata - Data Management Wrapper
+# Calls main udos command for backward compatibility
+exec udos data "$@"
