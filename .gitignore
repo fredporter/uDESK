@@ -42,7 +42,12 @@ vm-setup/
 
 # Development & Testing
 # ---------------------
-dev/
+# Allow important dev directories but ignore test debris
+dev/*
+!dev/m2-integration/
+!dev/AI-WORKFLOW-STANDARDS.md
+!dev/SESSION-CURRENT.md
+!dev/IMPLEMENTATION-COMPLETE.md
 test/
 tests/
 *-test.*
