@@ -4,8 +4,19 @@
 # POSIX shell compatible
 
 VERSION="1.0.5"
-UDOS_HOME="$                printf "Role Hierarchy:\n"
-                printf "  👻 GHOST → ⚰️ TOMB → 🤖 DRONE → 🔐 CRYPT → 😈 IMP → ⚔️ KNIGHT → 🧙‍♂️ SORCERER → 🧙‍♀️ WIZARD\n"OME}/.udos"
+UDOS_H        info|show)
+            if [ -f "${UDOS_HOME}/vars/role" ]; then
+                role=$(cat "${UDOS_HOME}/vars/role")
+                score=$(cat "${UDOS_HOME}/vars/role_score" 2>/dev/null || echo "Unknown")
+                echo "${BLUE}🎭 Current Role: $role${NC}"
+                echo "Score: $score"
+                echo ""
+                echo "Role Hierarchy:"
+                echo "  👻 GHOST → ⚰️ TOMB → 🤖 DRONE → 🔐 CRYPT → 😈 IMP → ⚔️ KNIGHT → 🧙‍♂️ SORCERER → 🧙‍♀️ WIZARD"
+            else
+                log_warning "No role detected. Run 'udos role detect' first."
+            fi
+            ;;/.udos"
 UDOS_SYSTEM="/usr/local/share/udos"
 UDOS_OPT="/opt/udos"
 
@@ -22,10 +33,10 @@ else
 fi
 
 # Logging functions
-log_info() { printf "${CYAN}ℹ️  %s${NC}\n" "$1"; }
-log_success() { printf "${GREEN}✅ %s${NC}\n" "$1"; }
-log_error() { printf "${RED}❌ %s${NC}\n" "$1"; }
-log_warning() { printf "${YELLOW}⚠️  %s${NC}\n" "$1"; }
+log_info() { echo "${CYAN}ℹ️  $1${NC}"; }
+log_success() { echo "${GREEN}✅ $1${NC}"; }
+log_error() { echo "${RED}❌ $1${NC}"; }
+log_warning() { echo "${YELLOW}⚠️  $1${NC}"; }
 
 # ASCII Art Banner
 show_banner() {
@@ -95,27 +106,27 @@ udos_var() {
             fi
             ;;
         list)
-            printf "${BLUE}📋 uDOS Variables:${NC}\n"
+            echo "${BLUE}📋 uDOS Variables:${NC}"
             if [ -d "${UDOS_HOME}/vars" ]; then
                 for var_file in "${UDOS_HOME}/vars"/*; do
                     if [ -f "$var_file" ]; then
                         var_name=$(basename "$var_file")
                         var_value=$(cat "$var_file")
-                        printf "  %s = %s\n" "$var_name" "$var_value"
+                        echo "  $var_name = $var_value"
                     fi
                 done
             else
-                printf "  No variables set\n"
+                echo "  No variables set"
             fi
             ;;
         *)
-            printf "${BLUE}uDOS Variable Management${NC}\n"
-            printf "Display Format        Actual Command\n"
-            printf "──────────────        ──────────────\n"
-            printf "UDOS VAR SET KEY=VAL  udos var set KEY=VALUE\n"
-            printf "UDOS VAR GET KEY      udos var get KEY\n"
-            printf "UDOS VAR LIST         udos var list\n"
-            printf "UVAR SET KEY=VAL      uvar set KEY=VALUE\n"
+            echo "${BLUE}uDOS Variable Management${NC}"
+            echo "Display Format        Actual Command"
+            echo "──────────────        ──────────────"
+            echo "UDOS VAR SET KEY=VAL  udos var set KEY=VALUE"
+            echo "UDOS VAR GET KEY      udos var get KEY"
+            echo "UDOS VAR LIST         udos var list"
+            echo "UVAR SET KEY=VAL      uvar set KEY=VALUE"
             ;;
     esac
 }
@@ -160,8 +171,8 @@ udos_role() {
             echo "$role" > "${UDOS_HOME}/vars/role"
             echo "$score" > "${UDOS_HOME}/vars/role_score"
             
-            printf "${GREEN}🎭 Role Detected: %s${NC}\n" "$role"
-            printf "Capability Score: %d\n" "$score"
+            echo "${GREEN}🎭 Role Detected: $role${NC}"
+            echo "Capability Score: $score"
             ;;
         info|show)
             if [ -f "${UDOS_HOME}/vars/role" ]; then
@@ -375,29 +386,32 @@ udos_help() {
             ;;
         *)
             show_banner
-            printf "${CYAN}Available Commands:${NC}\n"
-            printf "\n${YELLOW}Display Format              Actual Command${NC}\n"
-            printf "──────────────              ──────────────\n"
-            printf "UDOS INIT                   udos init\n"
-            printf "UDOS INFO                   udos info\n"
-            printf "UDOS ROLE DETECT            udos role detect\n"
-            printf "UDOS ROLE INFO              udos role info\n"
-            printf "UDOS VAR SET KEY=VALUE      udos var set KEY=VALUE\n"
-            printf "UDOS VAR GET KEY            udos var get KEY\n"
-            printf "UDOS VAR LIST               udos var list\n"
-            printf "UDOS TPL LIST               udos tpl list\n"
-            printf "UDOS TPL CREATE NAME        udos tpl create NAME\n"
-            printf "UDOS DATA LIST              udos data list\n"
-            printf "UDOS DATA BACKUP            udos data backup\n"
-            printf "UDOS UPDATE                 udos update\n"
-            printf "UDOS VERSION                udos version\n"
-            printf "UDOS HELP [COMMAND]         udos help [command]\n"
-            printf "\n${YELLOW}Wrapper Commands:${NC}\n"
-            printf "UVAR SET/GET/LIST           uvar set/get/list\n"
-            printf "UDATA LIST/BACKUP           udata list/backup\n"
-            printf "UTPL LIST/CREATE            utpl list/create\n"
-            printf "\n${CYAN}💡 Commands shown in CAPS, type in lowercase${NC}\n"
-            printf "${CYAN}💡 For detailed help: UDOS HELP [command]${NC}\n"
+            echo "${CYAN}Available Commands:${NC}"
+            echo ""
+            echo "${YELLOW}Display Format              Actual Command${NC}"
+            echo "──────────────              ──────────────"
+            echo "UDOS INIT                   udos init"
+            echo "UDOS INFO                   udos info"
+            echo "UDOS ROLE DETECT            udos role detect"
+            echo "UDOS ROLE INFO              udos role info"
+            echo "UDOS VAR SET KEY=VALUE      udos var set KEY=VALUE"
+            echo "UDOS VAR GET KEY            udos var get KEY"
+            echo "UDOS VAR LIST               udos var list"
+            echo "UDOS TPL LIST               udos tpl list"
+            echo "UDOS TPL CREATE NAME        udos tpl create NAME"
+            echo "UDOS DATA LIST              udos data list"
+            echo "UDOS DATA BACKUP            udos data backup"
+            echo "UDOS UPDATE                 udos update"
+            echo "UDOS VERSION                udos version"
+            echo "UDOS HELP [COMMAND]         udos help [command]"
+            echo ""
+            echo "${YELLOW}Wrapper Commands:${NC}"
+            echo "UVAR SET/GET/LIST           uvar set/get/list"
+            echo "UDATA LIST/BACKUP           udata list/backup"
+            echo "UTPL LIST/CREATE            utpl list/create"
+            echo ""
+            echo "${CYAN}💡 Commands shown in CAPS, type in lowercase${NC}"
+            echo "${CYAN}💡 For detailed help: UDOS HELP [command]${NC}"
             ;;
     esac
 }
@@ -435,23 +449,25 @@ main() {
             udos_help "$@"
             ;;
         version|--version|-v)
-            printf "uDOS %s\n" "$VERSION"
+            echo "uDOS $VERSION"
             ;;
         "")
-            printf "${BLUE}uDOS v%s${NC} - Universal Device Operating System\n" "$VERSION"
-            printf "TinyCore Linux Edition - Clean Architecture\n"
-            printf "\n${CYAN}Quick Start:${NC}\n"
-            printf "Display Format        Actual Command\n"
-            printf "──────────────        ──────────────\n"
-            printf "UDOS INIT             udos init\n"
-            printf "UDOS ROLE DETECT      udos role detect\n"
-            printf "UDOS HELP             udos help\n"
-            printf "\n${YELLOW}💡 Commands shown in CAPS, type in lowercase${NC}\n"
-            printf "${YELLOW}💡 Type UDOS HELP for complete command list${NC}\n"
+            echo "${BLUE}uDOS v$VERSION${NC} - Universal Device Operating System"
+            echo "TinyCore Linux Edition - Clean Architecture"
+            echo ""
+            echo "${CYAN}Quick Start:${NC}"
+            echo "Display Format        Actual Command"
+            echo "──────────────        ──────────────"
+            echo "UDOS INIT             udos init"
+            echo "UDOS ROLE DETECT      udos role detect"
+            echo "UDOS HELP             udos help"
+            echo ""
+            echo "${YELLOW}💡 Commands shown in CAPS, type in lowercase${NC}"
+            echo "${YELLOW}💡 Type UDOS HELP for complete command list${NC}"
             ;;
         *)
             log_error "Unknown command: $1"
-            printf "Type 'udos help' for available commands.\n"
+            echo "Type 'udos help' for available commands."
             return 1
             ;;
     esac
