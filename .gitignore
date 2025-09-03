@@ -42,12 +42,38 @@ vm-setup/
 
 # Development & Testing
 # ---------------------
+dev/
 test/
 tests/
 *-test.*
 test-*
 *.test
 *.log
+**/dev/**
+**/testing/**
+**/tests/**
+
+# Development Files (Keep in /dev directory only)
+# ------------------------------------------------
+IMPLEMENTATION-*.md
+SESSION-*.md
+SUMMARY-*.md
+ROADMAP-*.md
+TESTING.md
+test-vm.sh
+*-debug.*
+*-notes.*
+*.draft.*
+
+# AI/Copilot Working Files
+# -------------------------
+.claude/
+.copilot/
+.cursor/
+copilot-*.md
+session-*.md
+conversation-*.md
+ai-*.log
 *.tmp
 *.bak
 *.orig
