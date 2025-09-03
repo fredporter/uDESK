@@ -1,0 +1,3 @@
+#!/bin/bash
+# uDOS Template Manager - Clean interface for udos template commands
+exec /usr/bin/udos tpl "$@"

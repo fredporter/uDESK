@@ -1,4 +1,0 @@
-#!/bin/sh
-# utpl - Template Management Wrapper
-# Calls main udos command for backward compatibility
-exec udos tpl "$@"

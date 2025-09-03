@@ -1,5 +1,5 @@
-# uDESK - Comprehensive .gitignore
-# =====================================
+# uDESK - Clean Structure .gitignore
+# ===================================
 
 # System Files
 # -------------
@@ -14,10 +14,8 @@ Thumbs.db
 *.swp
 *.swo
 
-# Build Artifacts
-# ---------------
-build/
-out/
+# Build Artifacts (NOT applicable - we use clean structure)
+# ---------------------------------------------------------
 *.tcz
 *.tce
 *.deb
@@ -34,41 +32,27 @@ out/
 *.qcow2
 *.utm/
 
-# Generated UTM/Setup Directories
-# -------------------------------
-utm-setup/
-utm-ready/
-vm-setup/
-
 # Development & Testing
 # ---------------------
-# Allow important dev directories but ignore test debris
-dev/*
-!dev/m2-integration/
-!dev/AI-WORKFLOW-STANDARDS.md
-!dev/SESSION-CURRENT.md
-!dev/IMPLEMENTATION-COMPLETE.md
+# Allow ALL docs/dev/ content - it's organized now
+# Allow usr/, etc/ - they're our clean structure
 test/
 tests/
 *-test.*
-test-*
 *.test
 *.log
-**/dev/**
 **/testing/**
 **/tests/**
 
-# Development Files (Keep in /dev directory only)
-# ------------------------------------------------
-IMPLEMENTATION-*.md
-SESSION-*.md
-SUMMARY-*.md
-ROADMAP-*.md
-TESTING.md
-test-vm.sh
-*-debug.*
-*-notes.*
-*.draft.*
+# Temporary Files
+# ---------------
+*.tmp
+*.bak
+*.orig
+logs/
+tmp/
+temp/
+cache/
 
 # AI/Copilot Working Files
 # -------------------------
@@ -79,11 +63,6 @@ copilot-*.md
 session-*.md
 conversation-*.md
 ai-*.log
-*.tmp
-*.bak
-*.orig
-logs/
-tmp/
 
 # IDE & Editor Files  
 # ------------------
@@ -94,29 +73,6 @@ tmp/
 .emacs.d/
 *.elc
 
-# Node.js (if used for build tools)
-# ----------------------------------
-node_modules/
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-
-# Python (if used for build tools)
-# ---------------------------------
-__pycache__/
-*.py[cod]
-*$py.class
-*.so
-.Python
-pip-log.txt
-pip-delete-this-directory.txt
-
-# Package Managers
-# ----------------
-.npm
-.yarn-cache
-.pnpm-store
-
 # Environment Files
 # -----------------
 .env
@@ -124,12 +80,6 @@ pip-delete-this-directory.txt
 .env.development.local
 .env.test.local
 .env.production.local
-
-# Claude Code & AI Tools
-# -----------------------
-.claude/
-.anthropic/
-.openai/
 
 # TinyCore Specific
 # -----------------
@@ -142,46 +92,13 @@ mydata.tgz
 *.filetool.lst
 *.xfiletool.lst
 
-# Temporary Downloads
-# -------------------
-download/
-downloads/
-temp/
-cache/
-
-# Documentation Build
-# -------------------
-_site/
-.jekyll-cache/
-.jekyll-metadata
-
-# Backup Files
-# ------------
-*.backup
-*~
-\#*\#
-.#*
-
-# OS Specific
-# -----------
-# Windows
+# OS Specific Executables
+# ------------------------
 *.exe
 *.msi
 *.bat
 *.cmd
-
-# macOS
 *.app
 *.dmg
 *.pkg
-
-# Linux
-*.deb
-*.rpm
 *.AppImage
-
-# Development Config
-# ------------------
-.dev/
-.local/
-config.local.*

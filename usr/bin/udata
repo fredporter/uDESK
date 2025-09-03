@@ -1,0 +1,3 @@
+#!/bin/bash
+# uDOS Data Manager - Clean interface for udos data commands  
+exec /usr/bin/udos data "$@"

@@ -1,0 +1,3 @@
+#!/bin/bash
+# uDOS Variable Manager - Clean interface for udos var commands
+exec /usr/bin/udos var "$@"
