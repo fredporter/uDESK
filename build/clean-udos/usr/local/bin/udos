@@ -304,6 +304,102 @@ udos_info() {
     printf "  Memory: %s\n" "$(free -h 2>/dev/null | grep Mem | awk '{print $7 " available"}' || echo "Unknown")"
 }
 
+# Test system
+udos_test() {
+    case "${1:-system}" in
+        system|basic)
+            log_info "Running uDOS system tests..."
+            echo ""
+            
+            # Test 1: Core functionality
+            echo "${BLUE}🧪 Test 1: Core Commands${NC}"
+            if udos version >/dev/null 2>&1; then
+                log_success "udos version - OK"
+            else
+                log_error "udos version - FAILED"
+            fi
+            
+            if udos role detect >/dev/null 2>&1; then
+                log_success "udos role detect - OK"
+            else
+                log_error "udos role detect - FAILED"
+            fi
+            
+            # Test 2: Environment
+            echo ""
+            echo "${BLUE}🧪 Test 2: Environment${NC}"
+            if [ -d "$UDOS_HOME" ]; then
+                log_success "UDOS_HOME exists - OK"
+            else
+                log_error "UDOS_HOME missing - FAILED"
+            fi
+            
+            if [ -d "$UDOS_SYSTEM" ]; then
+                log_success "UDOS_SYSTEM exists - OK"
+            else
+                log_warning "UDOS_SYSTEM missing - Optional"
+            fi
+            
+            # Test 3: Dependencies
+            echo ""
+            echo "${BLUE}🧪 Test 3: Dependencies${NC}"
+            for cmd in sh bash echo printf; do
+                if command -v "$cmd" >/dev/null 2>&1; then
+                    log_success "$cmd available - OK"
+                else
+                    log_error "$cmd missing - FAILED"
+                fi
+            done
+            
+            echo ""
+            log_success "System test completed"
+            ;;
+        m2|interface|web)
+            log_info "Running M2 integration tests..."
+            echo ""
+            
+            # Check if M2 integration exists
+            M2_DIR="/tmp/uDESK/dev/m2-integration"
+            if [ ! -d "$M2_DIR" ]; then
+                log_warning "M2 integration not found in /tmp/uDESK"
+                log_info "To run M2 tests, first clone the repository:"
+                echo "  cd /tmp && git clone https://github.com/fredporter/uDESK.git"
+                echo "  udos test m2"
+                return 1
+            fi
+            
+            echo "${BLUE}🧪 M2 Integration Test${NC}"
+            if [ -f "$M2_DIR/test-vm.sh" ]; then
+                log_success "M2 test suite found"
+                log_info "Running M2 integration test..."
+                if "$M2_DIR/test-vm.sh"; then
+                    log_success "M2 test completed - check /tmp/udos-m2-test/"
+                else
+                    log_error "M2 test failed"
+                fi
+            else
+                log_error "M2 test suite not found"
+            fi
+            ;;
+        quick)
+            log_info "Running quick system check..."
+            echo ""
+            
+            printf "${BLUE}🚀 uDOS Quick Test${NC}\n"
+            printf "Version: %s\n" "$(udos version 2>/dev/null || echo 'FAILED')"
+            printf "Role: %s\n" "$(udos role detect 2>/dev/null || echo 'FAILED')"
+            printf "Home: %s\n" "${UDOS_HOME}"
+            printf "Status: %s\n" "$([ -d "$UDOS_HOME" ] && echo 'OK' || echo 'FAILED')"
+            ;;
+        *)
+            log_info "Available test modes:"
+            echo "  ${CYAN}udos test system${NC}    - Full system test"
+            echo "  ${CYAN}udos test m2${NC}        - M2 integration test"
+            echo "  ${CYAN}udos test quick${NC}     - Quick status check"
+            ;;
+    esac
+}
+
 # Update system
 udos_update() {
     log_info "Checking for uDOS updates..."
@@ -372,6 +468,23 @@ udos_help() {
             printf "UDOS DATA BACKUP    udos data backup\n"
             printf "UDATA LIST          udata list\n"
             ;;
+        test|testing)
+            printf "${BLUE}uDOS Testing System${NC}\n"
+            printf "Display Format      Actual Command\n"
+            printf "──────────────      ──────────────\n"
+            printf "UDOS TEST           udos test system\n"
+            printf "UDOS TEST SYSTEM    udos test system\n"
+            printf "UDOS TEST M2        udos test m2\n"
+            printf "UDOS TEST QUICK     udos test quick\n"
+            printf "\n${YELLOW}Test Modes:${NC}\n"
+            printf "  system  - Full system functionality test\n"
+            printf "  m2      - M2 web interface integration test\n"
+            printf "  quick   - Quick status check\n"
+            printf "\n${YELLOW}Examples:${NC}\n"
+            printf "  udos test          # System test\n"
+            printf "  udos test m2       # M2 integration test\n"
+            printf "  udos test quick    # Quick check\n"
+            ;;
         *)
             show_banner
             echo "${CYAN}Available Commands:${NC}"
@@ -389,6 +502,7 @@ udos_help() {
             echo "UDOS TPL CREATE NAME        udos tpl create NAME"
             echo "UDOS DATA LIST              udos data list"
             echo "UDOS DATA BACKUP            udos data backup"
+            echo "UDOS TEST [MODE]            udos test [system|m2|quick]"
             echo "UDOS UPDATE                 udos update"
             echo "UDOS VERSION                udos version"
             echo "UDOS HELP [COMMAND]         udos help [command]"
@@ -429,6 +543,10 @@ main() {
             shift
             udos_data "$@"
             ;;
+        test)
+            shift
+            udos_test "$@"
+            ;;
         update)
             udos_update
             ;;
@@ -448,6 +566,7 @@ main() {
             echo "──────────────        ──────────────"
             echo "UDOS INIT             udos init"
             echo "UDOS ROLE DETECT      udos role detect"
+            echo "UDOS TEST             udos test"
             echo "UDOS HELP             udos help"
             echo ""
             echo "${YELLOW}💡 Commands shown in CAPS, type in lowercase${NC}"
