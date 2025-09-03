@@ -4,19 +4,7 @@
 # POSIX shell compatible
 
 VERSION="1.0.5"
-UDOS_H        info|show)
-            if [ -f "${UDOS_HOME}/vars/role" ]; then
-                role=$(cat "${UDOS_HOME}/vars/role")
-                score=$(cat "${UDOS_HOME}/vars/role_score" 2>/dev/null || echo "Unknown")
-                echo "${BLUE}🎭 Current Role: $role${NC}"
-                echo "Score: $score"
-                echo ""
-                echo "Role Hierarchy:"
-                echo "  👻 GHOST → ⚰️ TOMB → 🤖 DRONE → 🔐 CRYPT → 😈 IMP → ⚔️ KNIGHT → 🧙‍♂️ SORCERER → 🧙‍♀️ WIZARD"
-            else
-                log_warning "No role detected. Run 'udos role detect' first."
-            fi
-            ;;/.udos"
+UDOS_HOME="${UDOS_HOME:-$HOME/.udos}"
 UDOS_SYSTEM="/usr/local/share/udos"
 UDOS_OPT="/opt/udos"
 
