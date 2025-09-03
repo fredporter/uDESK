@@ -47,8 +47,8 @@ SUCCESS=0
 
 echo "Attempting to mount UTM shared folder..."
 
-# Common UTM share tags to try
-SHARE_TAGS="udeskshare share shared hostshare utm_share vm_share"
+# Common UTM share tags to try (uDESK first as likely folder name)
+SHARE_TAGS="uDESK udeskshare share shared hostshare utm_share vm_share"
 
 for tag in $SHARE_TAGS; do
     echo "  Trying share tag: $tag"

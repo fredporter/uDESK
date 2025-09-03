@@ -13,8 +13,8 @@ sudo dhcp.sh
 echo "Setting up UTM shared folder..."
 sudo mkdir -p /mnt/shared
 
-# Try to mount common UTM share names
-for tag in udeskshare share shared; do
+# Try to mount common UTM share names (uDESK first)
+for tag in uDESK udeskshare share shared; do
     echo "Trying: $tag"
     if sudo mount -t 9p -o trans=virtio,version=9p2000.L "$tag" /mnt/shared 2>/dev/null; then
         echo "✓ Mounted UTM share: $tag"
@@ -52,7 +52,7 @@ else
     echo "Configure UTM:"
     echo "1. VM Settings → Sharing"
     echo "2. Add Directory → Select uDESK folder"
-    echo "3. Share name: 'udeskshare'"
+    echo "3. Share name will be 'uDESK' (folder name)"
     echo "4. Restart VM and run this script again"
 fi
 

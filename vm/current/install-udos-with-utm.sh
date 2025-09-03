@@ -81,7 +81,7 @@ sudo mkdir -p /mnt/shared
 sudo tee /usr/local/bin/mount-utm-share > /dev/null << 'MOUNT_EOF'
 #!/bin/sh
 MOUNT_POINT="/mnt/shared"
-for tag in udeskshare share shared hostshare; do
+for tag in uDESK udeskshare share shared hostshare; do
     echo "Trying UTM share tag: $tag"
     if sudo mount -t 9p -o trans=virtio,version=9p2000.L "$tag" "$MOUNT_POINT" 2>/dev/null; then
         echo "✓ UTM shared folder mounted at $MOUNT_POINT"
