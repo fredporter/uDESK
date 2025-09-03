@@ -1,0 +1,23 @@
+# uDOS TinyCore Persistence Configuration
+# Add these lines to /opt/.filetool.lst
+
+# uDOS Configuration
+etc/udos
+opt/udos
+
+# User Configuration
+home/tc/.udos
+home/tc/.profile
+home/tc/.ashrc
+
+# System Integration
+opt/bootlocal.sh
+opt/bootsync.sh
+
+# VNC Configuration (if using VNC)
+home/tc/.vnc
+etc/X11
+
+# Package Lists
+etc/sysconfig/tcedir/onboot.lst
+etc/sysconfig/tcedir/optional

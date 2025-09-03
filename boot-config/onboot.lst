@@ -1,0 +1,26 @@
+# TinyCore onboot.lst - Packages to load automatically
+# Place in /mnt/sda1/tce/onboot.lst
+
+# Core TinyCore packages
+nano.tcz
+bash.tcz
+
+# uDOS Core (required)
+udos-core.tcz
+
+# uDOS VNC Support (optional)
+Xvesa.tcz
+fluxbox.tcz
+x11vnc.tcz
+udos-vnc.tcz
+
+# uDOS Boot Integration (optional)
+udos-boot.tcz
+
+# Network tools
+curl.tcz
+wget.tcz
+
+# Development tools (if admin role)
+git.tcz
+python3.6.tcz

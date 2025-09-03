@@ -1,0 +1,14 @@
+Title:          udos-boot.tcz
+Description:    Universal Device Operating System - Boot Integration
+Version:        1.0.5
+Author:         uDOS Project
+Original-site:  https://github.com/fredporter/uDOS
+Copying-policy: MIT
+Size:           4KB
+Extension_by:   uDOS Team
+Tags:           boot integration startup
+Comments:       Boot integration and ASCII art for uDOS
+                Provides automatic startup and branding
+                Integrates with TinyCore boot system
+Change-log:     2024/09/03 v1.0.5 Initial boot package
+Current:        2024/09/03

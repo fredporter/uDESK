@@ -1,0 +1,8 @@
+-rw-r--r--@ 1 fredbook  staff  3689 Sep  3 21:25 ./DEPLOYMENT-GUIDE.md
+-rw-r--r--@ 1 fredbook  staff  1331 Sep  3 21:25 ./QUICK-REFERENCE.md
+-rw-r--r--@ 1 fredbook  staff  33501 Sep  3 21:25 ./udos-offline-bundle.tar.gz
+-rw-r--r--@ 1 fredbook  staff  37590 Sep  3 21:25 ./udos-offline-bundle.zip
+-rw-r--r--@ 1 fredbook  staff  2661 Sep  3 21:25 ./udos-extracted-bundle.tar.gz
+-rw-r--r--@ 1 fredbook  staff  370 Sep  3 21:25 ./checksums.sha256
+-rw-r--r--@ 1 fredbook  staff  3003 Sep  3 21:25 ./udos-extracted-bundle.zip
+-rw-r--r--@ 1 fredbook  staff  520 Sep  3 21:25 ./file-manifest.txt

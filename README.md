@@ -1,184 +1,178 @@
-# 🚀 uDESK - Markdown-Everything Operating System
+# uDESK - Universal Device Operating System for TinyCore
 
-[![Version](https://img.shields.io/badge/version-1.0.6-blue.svg)](#current-status)
-[![Status](https://img.shields.io/badge/status-Ready%20for%20VM-green.svg)](#quick-start)
+[![Version](https://img.shields.io/badge/version-1.0.5-blue.svg)](#current-status)
+[![Status](https://img.shields.io/badge/status-Production%20Ready-green.svg)](#quick-start)
 [![Build](https://img.shields.io/badge/build-passing-brightgreen.svg)](#package-status)
 
-uDESK is a lightweight, markdown-focused Linux distribution based on TinyCore Linux. **Everything in uDESK is configured through markdown files** for maximum readability, version control compatibility, and universal editability.
+uDESK provides TinyCore Linux integration for **uDOS (Universal Device Operating System)**, enabling the complete uDOS CLI suite, role hierarchy system, and desktop environment in TinyCore's minimal Linux environment.
 
-## ✨ Philosophy: Markdown Everything
+## ✨ Integration Features
 
-🌟 **Human-Readable Configuration**: All system settings in `.md` format  
-📝 **Documentation-Driven**: Every component self-documenting  
-🎯 **Version Control Friendly**: Git-native configuration management  
-⚡ **Universal Compatibility**: Edit with any text editor  
-🔧 **Developer Focused**: Built by developers, for developers  
+🎯 **Hybrid Distribution**: GitHub, TCZ package, and offline installation methods  
+⚡ **Boot Integration**: ASCII art branding and automatic environment setup  
+� **Role Hierarchy**: M1 CLI foundation + M2 8-role system (GHOST to WIZARD)  
+🖥️ **VNC Desktop**: Full desktop environment with copy-paste functionality  
+🚀 **Complete Automation**: Hands-off installation and configuration  
+� **TinyCore Native**: Leverages TCZ packages and boot automation  
 
 ## 🚀 Quick Start
 
-### One-Command Setup
+### Automatic Installation (Recommended)
 ```bash
-cd /Users/fredbook/Code/uDESK
-chmod +x setup-udesk-utm.sh
-./setup-udesk-utm.sh
+# Download and run hybrid installer
+wget https://raw.githubusercontent.com/fredporter/uDESK/main/vm/current/install-udos.sh
+chmod +x install-udos.sh
+./install-udos.sh
 ```
 
-**What this does:**
-- ✅ Detects your TinyCore ISO at `/Users/fredbook/Code/TinyCore-current.iso`
-- ✅ Builds uDESK packages with SquashFS compression  
-- ✅ Creates UTM virtual machine (or manual setup)
-- ✅ Includes Claude Code AI assistant installer
-- ✅ Opens UTM with your configured VM
-- ✅ Provides complete installation instructions
-
-### Alternative Methods
-
-**Manual Build:**
+### Manual Setup
 ```bash
-./build.sh --clean --role admin
-```
+# Clone repository
+git clone https://github.com/fredporter/uDESK.git
+cd uDESK/vm/current/
 
-**UTM Automation (requires QEMU):**
+# Run installer
+./install-udos.sh
+
+# Setup boot integration
+./udos-boot-art.sh setup
+```
+### Verification
 ```bash
-./utm-auto-setup.sh
+# Test installation
+udos help                 # Show all commands
+udos info                 # System information  
+udos version              # Version information
+udos auto                 # Start full environment
+
+# Test role system
+udos-detect-role          # Show current role
+udos role status          # Role hierarchy status
 ```
 
-**Simple Manual Setup:**
+## 📦 Distribution Methods
+
+### 🌐 GitHub Installation (Recommended)
+- **Source**: Raw GitHub files
+- **Requirements**: Network connectivity
+- **Speed**: Fast, always latest version
+- **Use case**: Standard installations
+
+### 📦 TCZ Package Installation  
+- **Source**: TinyCore extension packages
+- **Requirements**: TinyCore Linux
+- **Speed**: Very fast, optimized
+- **Use case**: TinyCore native deployments
+
+### 💾 Offline Installation
+- **Source**: Local installation bundle
+- **Requirements**: No network needed
+- **Speed**: Fast, self-contained
+- **Use case**: Air-gapped environments
+
+## 🎯 uDOS Role Hierarchy
+
+The complete 8-role system from uDOS is available in TinyCore:
+
+### Core Roles
+- **👻 GHOST (10)** - Minimal observer access
+- **⚰️ TOMB (20)** - Read-only system access  
+- **🔐 CRYPT (30)** - Basic encrypted operations
+- **🤖 DRONE (40)** - Automated task execution
+
+### Advanced Roles  
+- **⚔️ KNIGHT (50)** - Standard user privileges
+- **😈 IMP (60)** - Enhanced user operations
+- **🧙‍♂️ SORCERER (80)** - Advanced system control
+- **🧙‍♀️ WIZARD (100)** - Full administrative access
+
+## 🖥️ Desktop Environment
+
+### VNC Integration
 ```bash
-./utm-simple-setup.sh
+# Start VNC desktop
+udos-vnc start
+
+# Configure VNC settings
+udos-vnc config
+
+# Check VNC status
+udos-vnc status
 ```
 
-## 📦 Package Status
-
-### Core Components (Ready for VM Launch)
-- **udos-core.tcz** (4.5KB) - Base system with markdown tools ✅
-- **udos-role-basic.tcz** (898B) - Minimal markdown environment ✅
-- **udos-role-standard.tcz** (1.0KB) - Productivity tools ✅
-- **udos-role-admin.tcz** (1.4KB) - Full development environment ✅
-
-**Total system size:** 7.8KB compressed
-
-### Built-in Commands
-```bash
-udos-info              # System information in markdown format
-udos-detect-role       # Current role detection  
-udos-service list      # Available services
-```
-
-## 🎯 Role-Based Architecture
-
-### 🟢 Basic Role (898B)
-```markdown
-# Basic Role Features
-- Minimal system footprint
-- Core markdown editing tools  
-- Essential system utilities
-- Perfect for focused writing
-- No sudo access (secure)
-```
-
-### 🟡 Standard Role (1.0KB)  
-```markdown
-# Standard Role Features
-- All Basic features
-- Productivity applications
-- Enhanced markdown workflow
-- File management tools
-- Limited sudo for user tasks
-```
-
-### 🔴 Admin Role (1.4KB)
-```markdown
-# Admin Role Features  
-- All Standard features
-- Full development toolchain
-- Python + virtual environments
-- System administration tools
-- Complete package management
-- Full sudo access
-```
-
-## 🖥️ UTM Setup (macOS)
-
-### Prerequisites
-- **UTM** installed from https://mac.getutm.app/
-- **TinyCore ISO** at `/Users/fredbook/Code/TinyCore-current.iso`
-- **Optional**: Homebrew for automation features
-
-### Critical VM Settings
-```markdown
-# UTM VM Configuration
-- **Type**: Virtualize → Linux
-- **RAM**: 1024 MB minimum
-- **Storage**: 4 GB minimum  
-- **Display**: Console Only ⚠️ (fixes "display not active" errors)
-- **Network**: NAT or Bridged
-- **ISO**: Your TinyCore-current.iso
-```
-
-### Installation Process
-1. **Boot TinyCore** in UTM (text mode is normal)
-2. **Copy uDESK packages** to VM via drag-drop or shared folder
-3. **Run installation script**: `./install-udesk.sh`
-4. **Test installation**: `udos-info`
-5. **Reboot for persistence**: `sudo reboot`
+**Features**:
+- Full desktop environment in TinyCore
+- Copy-paste functionality between host/VM
+- Remote access capabilities
+- Secure password protection
 
 ## 🏗️ Project Structure
 
 ```
 uDESK/
-├── README.md                    # This file
-├── QUICKSTART.md               # 5-minute setup guide
-├── build/                      # Built packages (.tcz files)
-│   ├── udos-core.tcz          # Core system (4.5KB)
-│   ├── udos-role-basic.tcz    # Basic role (898B)
-│   ├── udos-role-standard.tcz # Standard role (1.0KB)
-│   └── udos-role-admin.tcz    # Admin role (1.4KB)
+├── README.md                    # Project overview
+├── vm/                          # TinyCore integration
+│   ├── current/                # Production files
+│   │   ├── install-udos.sh    # Hybrid installer
+│   │   ├── udos-boot-art.sh   # Boot integration
+│   │   └── README.md          # Installation guide
+│   └── archive/               # Development history
+│       ├── legacy/            # Superseded scripts  
+│       └── troubleshooting/   # Diagnostic tools
+├── build/                      # Built uDOS packages
 ├── docs/                       # Documentation
-│   ├── BUILD.md               # Build instructions
-│   ├── INSTALL.md             # Installation guide
-│   ├── ROLES.md               # Role descriptions
-│   └── UTM.md                 # UTM setup guide
-├── packaging/                  # Package build scripts
-├── src/                        # Source code
-└── setup-udesk-utm.sh        # Main setup automation
+├── packaging/                  # Build scripts
+└── src/                       # Source code
 ```
 
-## 📝 Markdown-First Design
+## � Advanced Configuration
 
-### Configuration Files
-```markdown
-# Example: /etc/udos/config.md
-# uDESK System Configuration
-
-## Current Settings
-- **Role**: admin
-- **Version**: 1.0.6  
-- **Boot Mode**: persistent
-- **Network**: dhcp enabled
-
-## Available Commands
-- `udos-info` - System status
-- `udos-detect-role` - Current role
-- `udos-service list` - Available services
-```
-
-### System Information
+### Environment Variables
 ```bash
-$ udos-info
-# uDESK System Information
+# VNC Configuration
+export UDOS_VNC_PASSWORD="your-secure-password"
+export UDOS_AUTO_VNC="yes"
+export UDOS_DESKTOP="yes"
 
-## Current Status
-- **Role**: admin
-- **Uptime**: 00:05:32 up
-- **Memory**: 45M/1024M
-- **Load**: 0.12, 0.08, 0.03
+# Role Configuration  
+export UDOS_DEFAULT_ROLE="knight"
+export UDOS_AUTO_DETECT="yes"
 
-## Installed Extensions  
-- udos-core.tcz
-- udos-role-admin.tcz
-- micro.tcz
-- git.tcz
+# Boot Configuration
+export UDOS_BOOT_ART="yes"
+export UDOS_AUTO_START="yes"
+```
+
+### Boot Integration
+```bash
+# Setup automatic boot integration
+./udos-boot-art.sh setup
+
+# Test ASCII art displays
+./udos-boot-art.sh test
+
+# Remove boot integration
+./udos-boot-art.sh remove
+```
+
+## 🚀 Development Features
+
+### Command Suite
+The complete uDOS CLI is available:
+- `udos` - Main command router
+- `uvar` - Variable management
+- `udata` - Data operations  
+- `utpl` - Template processing
+- `udos-detect-role` - Role detection
+- `udos-vnc` - VNC management
+- `udos-boot-config` - Boot configuration
+
+### TinyCore Integration
+- **Native TCZ packages** for optimal performance
+- **Boot automation** via bootlocal.sh integration
+- **Persistent configuration** through filetool.lst
+- **Desktop environment** with VNC support
+- **Package management** integration
 
 *Generated: 2025-01-15 10:30:45*
 ```
@@ -203,78 +197,67 @@ $ udos-info
 ```bash
 # View package contents
 tar -tzf build/udos-core.tcz
-
-# With SquashFS tools installed
-unsquashfs -l build/udos-core.tcz
-
-# Test package installation
-tce-load -i build/udos-core.tcz
-```
-
 ## 🐛 Troubleshooting
 
-### Common UTM Issues
-```markdown
-# "Display not active" error
-**Fix**: Set Display to "Console Only" in UTM VM settings
+### Installation Issues
+```bash
+# Network connectivity problems
+./install-udos.sh offline      # Use offline installation
 
-# ISO not found
-**Fix**: Ensure TinyCore ISO is at `/Users/fredbook/Code/TinyCore-current.iso`
+# Permission issues  
+sudo ./install-udos.sh         # Run with admin privileges
 
-# Build tools missing  
-**Fix**: Install with `brew install squashfs cdrtools`
-**Alternative**: Use fallback tar.gz compression (works automatically)
+# Package conflicts
+./install-udos.sh github       # Force GitHub installation
 ```
 
-### TinyCore Issues
+### TinyCore Specific
 ```bash
 # Packages don't persist
-ls /mnt/sda1/tce/onboot.lst    # Check boot list
-tce-load -i udos-core.tcz      # Reload manually
+sudo filetool.sh -b            # Backup configuration
+tce-load -i package.tcz        # Reload packages
 
-# Network not working
-sudo dhcp.sh                   # Enable networking
+# VNC not starting
+udos-vnc config                # Reconfigure VNC
+udos-vnc start                 # Manual start
 
-# Need more packages
-tce-load -wi micro.tcz         # Install micro editor
-tce-load -wi git.tcz           # Install git
+# Role detection issues
+udos-detect-role --reset       # Reset role detection
 ```
 
 ## 🎯 Current Status
 
-✅ **M1 Complete**: Core system and role packages built and tested  
-✅ **UTM Integration**: Automated VM setup with Console Only display  
-✅ **SquashFS Compression**: Optimized 7.8KB total package size  
-✅ **Markdown Tools**: Built-in markdown-focused commands  
-🔄 **M2 In Progress**: Enhanced role policies and package management  
-🔮 **M3 Planned**: Advanced markdown toolchain and GUI options  
+✅ **M1 Complete**: Full CLI suite with role hierarchy  
+✅ **M2 Complete**: 8-role system (GHOST to WIZARD)  
+✅ **TinyCore Integration**: Native boot and desktop support  
+✅ **VNC Desktop**: Copy-paste functionality working  
+✅ **Hybrid Distribution**: GitHub/TCZ/offline installation  
+✅ **Production Ready**: Comprehensive automation and documentation  
 
-### Ready for Launch!
-- **Build Status**: All packages built with SquashFS compression
-- **VM Status**: UTM automation scripts tested and working  
-- **Documentation**: Complete setup guides and troubleshooting
-- **Total Size**: 7.8KB compressed, boots in ~10 seconds
+### Ready for Deployment!
+- **Installation**: One-command hybrid installer
+- **Integration**: Complete TinyCore boot automation
+- **Documentation**: Comprehensive guides and troubleshooting
+- **Compatibility**: Full POSIX shell compliance
 
 ## 📚 Documentation
 
-- **[Quick Start Guide](QUICKSTART.md)** - Get running in 5 minutes
-- **[Installation Guide](docs/INSTALL.md)** - Detailed setup instructions  
-- **[Role Guide](docs/ROLES.md)** - Choose your environment
-- **[Build Guide](docs/BUILD.md)** - Development and packaging
-- **[UTM Guide](docs/UTM.md)** - Virtual machine setup
-- **[Troubleshooting](docs/TROUBLESHOOTING.md)** - Common issues and fixes
+- **[Installation Guide](vm/current/README.md)** - Complete setup instructions
+- **[Boot Integration](vm/current/udos-boot-art.sh)** - ASCII art and branding
+- **[Archive](vm/archive/README.md)** - Development history and tools
+- **[uDOS Project](../uDOS/README.md)** - Main Universal Device Operating System
 
 ## 🤝 Contributing
 
-uDESK embraces markdown throughout the development process:
+uDESK provides TinyCore integration for the Universal Device Operating System:
 
 ```markdown
-# Development Workflow
-1. **Documentation**: All docs in markdown format
-2. **Configuration**: Human-readable .md config files  
-3. **Issues**: Described in markdown templates
-4. **Testing**: Markdown-based test reports
-5. **Releases**: Changelog and notes in markdown
+# Development Focus
+1. **TinyCore Compatibility**: POSIX shell compliance
+2. **Boot Integration**: Seamless startup automation
+3. **Package Management**: TCZ and hybrid distribution
+4. **Desktop Environment**: VNC and accessibility
+5. **Documentation**: Comprehensive user guides
 ```
 
 ## 📄 License
@@ -283,31 +266,33 @@ MIT License - see [LICENSE](LICENSE) file for details.
 
 ---
 
-## 🎉 Ready to Launch Your Markdown OS!
+## 🎉 Ready to Deploy Universal Device Operating System!
 
 ```bash
-# One command to get started
-./setup-udesk-utm.sh
+# Quick installation
+curl -sL https://raw.githubusercontent.com/fredporter/uDESK/main/vm/current/install-udos.sh | bash
 
-# Then in your UTM VM
-./install-udesk.sh
-udos-info
+# Or manual setup
+git clone https://github.com/fredporter/uDESK.git
+cd uDESK/vm/current/
+./install-udos.sh
 ```
 
-### The Numbers
-- **Total build size**: 7.8KB compressed
-- **Boot time**: ~10 seconds in UTM
-- **Memory usage**: ~45MB base system
-- **Philosophy**: Everything is markdown
+### The Achievement
+- **Complete uDOS Integration**: Full CLI suite in TinyCore
+- **8-Role Hierarchy**: Progressive capability system
+- **Hybrid Distribution**: Multiple installation methods
+- **Boot Automation**: ASCII art branding and environment setup
+- **Production Ready**: Comprehensive testing and documentation
 
 ### Next Steps
-1. Run the setup script
-2. Create UTM VM with Console Only display  
-3. Install uDESK packages
-4. Start creating with markdown!
+1. Run the hybrid installer
+2. Configure role hierarchy
+3. Setup desktop environment
+4. Start using the Universal Device Operating System!
 
-*Welcome to uDESK - where everything is markdown! 🚀*
+*Welcome to uDESK - TinyCore integration for Universal Device Operating System! 🚀*
 
 ---
 
-> **uDESK v1.0.6** - Built for developers who believe configuration should be as readable as documentation, and documentation should be as simple as markdown.
+> **uDESK v1.0.5** - Bringing the power of Universal Device Operating System to TinyCore Linux with complete automation, role hierarchy, and seamless integration.
