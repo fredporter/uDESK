@@ -44,6 +44,41 @@ show_banner() {
 BANNER_EOF
 }
 
+# Check prerequisites
+check_prerequisites() {
+    log_info "Checking prerequisites..."
+    
+    # Check if we have basic tools
+    local missing_tools=""
+    
+    for tool in curl bash git; do
+        if ! command -v "$tool" >/dev/null 2>&1; then
+            missing_tools="$missing_tools $tool"
+        fi
+    done
+    
+    if [ -n "$missing_tools" ]; then
+        log_warning "Missing required tools:$missing_tools"
+        
+        if command -v tce-load >/dev/null 2>&1; then
+            log_info "TinyCore detected - attempting to install missing tools..."
+            for tool in $missing_tools; do
+                log_info "Installing $tool..."
+                tce-load -wi "$tool.tcz" || log_error "Failed to install $tool"
+            done
+        else
+            log_error "Please install missing tools first:"
+            for tool in $missing_tools; do
+                echo "  - $tool"
+            done
+            log_error "For TinyCore: tce-load -wi $tool.tcz"
+            return 1
+        fi
+    else
+        log_success "All prerequisites available"
+    fi
+}
+
 # Detect VM environment
 detect_vm_environment() {
     log_info "Detecting VM environment..."
@@ -158,29 +193,59 @@ setup_virtds() {
 install_tools() {
     log_info "Installing essential tools..."
     
-    # Core tools for git operations
-    local tools="git bash curl wget nano"
-    
+    # Check if we have a package manager first
     if command -v tce-load >/dev/null 2>&1; then
-        # TinyCore
-        for tool in $tools; do
+        # TinyCore - install core tools first
+        log_info "TinyCore detected - installing core tools..."
+        
+        # Essential tools for this script
+        local core_tools="curl bash git wget nano"
+        
+        for tool in $core_tools; do
             if ! command -v "$tool" >/dev/null 2>&1; then
                 log_info "Installing $tool..."
-                tce-load -wi "$tool.tcz" 2>/dev/null || log_warning "Failed to install $tool"
+                if tce-load -wi "$tool.tcz" 2>/dev/null; then
+                    log_success "Installed $tool"
+                else
+                    log_warning "Failed to install $tool - may not be available"
+                fi
+            else
+                log_info "$tool already available"
             fi
         done
+        
+        # Additional useful tools
+        local extra_tools="htop tree rsync"
+        for tool in $extra_tools; do
+            tce-load -wi "$tool.tcz" 2>/dev/null && log_success "Installed $tool" || true
+        done
+        
     elif command -v apt-get >/dev/null 2>&1; then
         # Debian/Ubuntu
-        sudo apt-get update && sudo apt-get install -y $tools
+        log_info "Debian/Ubuntu detected"
+        sudo apt-get update && sudo apt-get install -y curl bash git wget nano
     elif command -v yum >/dev/null 2>&1; then
         # RHEL/CentOS
-        sudo yum install -y $tools
+        log_info "RHEL/CentOS detected"
+        sudo yum install -y curl bash git wget nano
     elif command -v apk >/dev/null 2>&1; then
         # Alpine
-        sudo apk add $tools
+        log_info "Alpine detected"
+        sudo apk add curl bash git wget nano
     else
-        log_warning "Package manager not detected, tools may need manual installation"
+        log_warning "Package manager not detected"
+        log_warning "Please manually install: curl, bash, git, wget"
+        return 1
     fi
+    
+    # Verify critical tools
+    for tool in curl bash git; do
+        if ! command -v "$tool" >/dev/null 2>&1; then
+            log_error "Critical tool '$tool' not available after installation"
+            log_error "Please install manually: tce-load -wi $tool.tcz"
+            return 1
+        fi
+    done
     
     log_success "Essential tools installation completed"
 }
@@ -296,6 +361,12 @@ main() {
     show_banner
     
     log_info "Starting Git-based uDOS VM deployment..."
+    
+    # Check prerequisites first
+    if ! check_prerequisites; then
+        log_error "Prerequisites check failed. Please install required tools."
+        exit 1
+    fi
     
     # Setup sequence
     detect_vm_environment

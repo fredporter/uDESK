@@ -1,6 +1,18 @@
 # 🚀 ONE-COMMAND GIT DEPLOYMENT WITH VIRTDS & SPICE
 
-## Copy-Paste This ONE Command Into Any VM:
+## 🔧 BOOTSTRAP (Fresh TinyCore VM - Run FIRST):
+
+```bash
+# Step 1: Enable networking
+sudo dhcp.sh
+
+# Step 2: Install essential tools
+tce-load -wi curl.tcz
+tce-load -wi bash.tcz  
+tce-load -wi git.tcz
+```
+
+## ⚡ THEN Copy-Paste This ONE Command:
 
 ```bash
 curl -sL https://raw.githubusercontent.com/fredporter/uDESK/main/vm/current/git-deploy.sh | bash
