@@ -1,6 +1,7 @@
-#!/bin/bash
+#!/bin/sh
 # uDOS VM Git-Based Deployment Script
 # Supports UTM, QEMU, VirtualBox with VIRTDS and SPICE
+# POSIX shell compatible for TinyCore
 
 set -e
 

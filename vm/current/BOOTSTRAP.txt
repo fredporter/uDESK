@@ -10,7 +10,15 @@ tce-load -wi bash.tcz
 tce-load -wi git.tcz
 tce-load -wi wget.tcz
 
-## Step 3: Now Run Git Deployment
+## Step 3A: Run POSIX-Compatible Deployment (RECOMMENDED)
+curl -sL https://raw.githubusercontent.com/fredporter/uDESK/main/vm/current/git-deploy-posix.sh | sh
+
+## Step 3B: Alternative - Download and Run Manually
+wget https://raw.githubusercontent.com/fredporter/uDESK/main/vm/current/git-deploy-posix.sh
+chmod +x git-deploy-posix.sh
+./git-deploy-posix.sh
+
+## Step 3C: Original Script (if bash is available)
 curl -sL https://raw.githubusercontent.com/fredporter/uDESK/main/vm/current/git-deploy.sh | bash
 
 # ═══════════════════════════════════════════════════════════════
