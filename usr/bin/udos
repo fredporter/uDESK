@@ -416,6 +416,12 @@ udos_test() {
                 log_info "Install Node.js to enable M3 desktop integration"
             fi
             ;;
+        m4|ai|automation)
+            log_info "Running M4 AI automation tests..."
+            
+            # Call the M4 test function
+            udos_m4 test
+            ;;
         quick)
             log_info "Running quick system check..."
             echo ""
@@ -537,6 +543,317 @@ udos_update() {
     fi
 }
 
+# M4 AI Automation
+udos_m4() {
+    local udos_share="/usr/share/udos"
+    
+    case "${1:-}" in
+        workflow)
+            shift
+            case "${1:-}" in
+                list)
+                    if [ -f "$udos_share/udos-m4-workflow.js" ]; then
+                        log_info "Listing M4 workflows..."
+                        node "$udos_share/udos-m4-workflow.js" list
+                    else
+                        log_error "M4 workflow engine not found"
+                        return 1
+                    fi
+                    ;;
+                create)
+                    shift
+                    if [ -f "$udos_share/udos-m4-workflow.js" ]; then
+                        log_info "Creating M4 workflow..."
+                        if [ -n "$1" ]; then
+                            node "$udos_share/udos-m4-workflow.js" create "$1"
+                        else
+                            echo "Usage: udos m4 workflow create '<workflow-json>'"
+                            echo "Example: udos m4 workflow create '{\"name\":\"Daily Backup\",\"actions\":[{\"type\":\"command\",\"command\":\"udos data backup\"}]}'"
+                        fi
+                    else
+                        log_error "M4 workflow engine not found"
+                        return 1
+                    fi
+                    ;;
+                run|execute)
+                    shift
+                    if [ -f "$udos_share/udos-m4-workflow.js" ]; then
+                        if [ -n "$1" ]; then
+                            log_info "Executing workflow: $1"
+                            node "$udos_share/udos-m4-workflow.js" execute "$1"
+                        else
+                            log_error "Workflow ID required"
+                            return 1
+                        fi
+                    else
+                        log_error "M4 workflow engine not found"
+                        return 1
+                    fi
+                    ;;
+                *)
+                    printf "${BLUE}🤖 uDOS M4 Workflow Engine${NC}\n"
+                    printf "Display Format                   Actual Command\n"
+                    printf "──────────────                   ──────────────\n"
+                    printf "UDOS M4 WORKFLOW LIST            udos m4 workflow list\n"
+                    printf "UDOS M4 WORKFLOW CREATE          udos m4 workflow create\n"
+                    printf "UDOS M4 WORKFLOW RUN <id>        udos m4 workflow run <id>\n"
+                    printf "\n${YELLOW}Examples:${NC}\n"
+                    printf "  udos m4 workflow list\n"
+                    printf "  udos m4 workflow create '{\"name\":\"Test\",\"actions\":[]}'\n"
+                    printf "  udos m4 workflow run workflow-id\n"
+                    ;;
+            esac
+            ;;
+        ai)
+            shift
+            case "${1:-}" in
+                learn)
+                    shift
+                    if [ -f "$udos_share/udos-m4-ai.js" ]; then
+                        if [ -n "$1" ]; then
+                            log_info "Learning from command: $1"
+                            node "$udos_share/udos-m4-ai.js" learn "$1" "${2:-}"
+                        else
+                            log_error "Command required for learning"
+                            return 1
+                        fi
+                    else
+                        log_error "M4 AI system not found"
+                        return 1
+                    fi
+                    ;;
+                predict)
+                    shift
+                    if [ -f "$udos_share/udos-m4-ai.js" ]; then
+                        if [ -n "$1" ]; then
+                            log_info "Predicting next commands for: $1"
+                            node "$udos_share/udos-m4-ai.js" predict "$1"
+                        else
+                            log_error "Command required for prediction"
+                            return 1
+                        fi
+                    else
+                        log_error "M4 AI system not found"
+                        return 1
+                    fi
+                    ;;
+                suggest)
+                    if [ -f "$udos_share/udos-m4-ai.js" ]; then
+                        log_info "Getting AI suggestions..."
+                        local context="{\"workingDir\":\"$(pwd)\",\"user\":\"$USER\"}"
+                        node "$udos_share/udos-m4-ai.js" suggest "$context"
+                    else
+                        log_error "M4 AI system not found"
+                        return 1
+                    fi
+                    ;;
+                stats)
+                    if [ -f "$udos_share/udos-m4-ai.js" ]; then
+                        log_info "AI pattern statistics..."
+                        node "$udos_share/udos-m4-ai.js" stats
+                    else
+                        log_error "M4 AI system not found"
+                        return 1
+                    fi
+                    ;;
+                *)
+                    printf "${BLUE}🧠 uDOS M4 AI System${NC}\n"
+                    printf "Display Format                   Actual Command\n"
+                    printf "──────────────                   ──────────────\n"
+                    printf "UDOS M4 AI LEARN <cmd>           udos m4 ai learn <command>\n"
+                    printf "UDOS M4 AI PREDICT <cmd>         udos m4 ai predict <command>\n"
+                    printf "UDOS M4 AI SUGGEST               udos m4 ai suggest\n"
+                    printf "UDOS M4 AI STATS                 udos m4 ai stats\n"
+                    printf "\n${YELLOW}Examples:${NC}\n"
+                    printf "  udos m4 ai learn 'udos system status'\n"
+                    printf "  udos m4 ai predict 'udos data'\n"
+                    printf "  udos m4 ai suggest\n"
+                    ;;
+            esac
+            ;;
+        template)
+            shift
+            case "${1:-}" in
+                list)
+                    if [ -f "$udos_share/udos-m4-templates.js" ]; then
+                        log_info "Listing M4 templates..."
+                        node "$udos_share/udos-m4-templates.js" list "${2:-}"
+                    else
+                        log_error "M4 template system not found"
+                        return 1
+                    fi
+                    ;;
+                generate)
+                    shift
+                    if [ -f "$udos_share/udos-m4-templates.js" ]; then
+                        if [ -n "$1" ]; then
+                            log_info "Generating from template: $1"
+                            node "$udos_share/udos-m4-templates.js" generate "$1" "${2:-}" "${3:-}"
+                        else
+                            log_error "Template ID required"
+                            return 1
+                        fi
+                    else
+                        log_error "M4 template system not found"
+                        return 1
+                    fi
+                    ;;
+                suggest)
+                    if [ -f "$udos_share/udos-m4-templates.js" ]; then
+                        log_info "Getting template suggestions..."
+                        local context="{\"workingDir\":\"$(pwd)\",\"fileName\":\"${2:-}\"}"
+                        node "$udos_share/udos-m4-templates.js" suggest "$context"
+                    else
+                        log_error "M4 template system not found"
+                        return 1
+                    fi
+                    ;;
+                create)
+                    shift
+                    if [ -f "$udos_share/udos-m4-templates.js" ]; then
+                        if [ -n "$1" ]; then
+                            log_info "Creating template..."
+                            node "$udos_share/udos-m4-templates.js" create "$1"
+                        else
+                            echo "Usage: udos m4 template create '<template-json>'"
+                            echo "Example: udos m4 template create '{\"name\":\"My Template\",\"template\":\"content\"}'"
+                        fi
+                    else
+                        log_error "M4 template system not found"
+                        return 1
+                    fi
+                    ;;
+                learn)
+                    shift
+                    if [ -f "$udos_share/udos-m4-templates.js" ]; then
+                        if [ -n "$1" ] && [ -f "$1" ]; then
+                            log_info "Learning from file: $1"
+                            node "$udos_share/udos-m4-templates.js" learn "$1" "${2:-}"
+                        else
+                            log_error "Valid file path required"
+                            return 1
+                        fi
+                    else
+                        log_error "M4 template system not found"
+                        return 1
+                    fi
+                    ;;
+                stats)
+                    if [ -f "$udos_share/udos-m4-templates.js" ]; then
+                        log_info "Template usage statistics..."
+                        node "$udos_share/udos-m4-templates.js" stats
+                    else
+                        log_error "M4 template system not found"
+                        return 1
+                    fi
+                    ;;
+                *)
+                    printf "${BLUE}📄 uDOS M4 Template System${NC}\n"
+                    printf "Display Format                      Actual Command\n"
+                    printf "──────────────                      ──────────────\n"
+                    printf "UDOS M4 TEMPLATE LIST               udos m4 template list\n"
+                    printf "UDOS M4 TEMPLATE GENERATE <id>      udos m4 template generate <id>\n"
+                    printf "UDOS M4 TEMPLATE SUGGEST            udos m4 template suggest\n"
+                    printf "UDOS M4 TEMPLATE CREATE             udos m4 template create\n"
+                    printf "UDOS M4 TEMPLATE LEARN <file>       udos m4 template learn <file>\n"
+                    printf "UDOS M4 TEMPLATE STATS              udos m4 template stats\n"
+                    printf "\n${YELLOW}Examples:${NC}\n"
+                    printf "  udos m4 template list script\n"
+                    printf "  udos m4 template generate bash-script\n"
+                    printf "  udos m4 template suggest\n"
+                    ;;
+            esac
+            ;;
+        nlp)
+            shift
+            if [ -f "$udos_share/udos-m4-nlp.js" ]; then
+                if [ -n "$*" ]; then
+                    log_info "Processing natural language query..."
+                    node "$udos_share/udos-m4-nlp.js" "$*"
+                else
+                    log_error "Natural language query required"
+                    echo "Usage: udos m4 nlp <natural language query>"
+                    echo "Example: udos m4 nlp 'backup my data and show system status'"
+                fi
+            else
+                log_error "M4 NLP system not found"
+                return 1
+            fi
+            ;;
+        test)
+            log_info "Running M4 AI automation tests..."
+            
+            echo "${BLUE}🧪 M4 AI Automation Test${NC}"
+            echo "──────────────────────────"
+            
+            # Test workflow engine
+            if [ -f "$udos_share/udos-m4-workflow.js" ]; then
+                echo "✅ Workflow engine: Available"
+                node "$udos_share/udos-m4-workflow.js" list >/dev/null 2>&1 && echo "   ✅ Engine functional" || echo "   ❌ Engine error"
+            else
+                echo "❌ Workflow engine: Missing"
+            fi
+            
+            # Test AI system
+            if [ -f "$udos_share/udos-m4-ai.js" ]; then
+                echo "✅ AI system: Available"
+                node "$udos_share/udos-m4-ai.js" stats >/dev/null 2>&1 && echo "   ✅ AI functional" || echo "   ❌ AI error"
+            else
+                echo "❌ AI system: Missing"
+            fi
+            
+            # Test template system
+            if [ -f "$udos_share/udos-m4-templates.js" ]; then
+                echo "✅ Template system: Available"
+                node "$udos_share/udos-m4-templates.js" list >/dev/null 2>&1 && echo "   ✅ Templates functional" || echo "   ❌ Templates error"
+            else
+                echo "❌ Template system: Missing"
+            fi
+            
+            # Test NLP
+            if [ -f "$udos_share/udos-m4-nlp.js" ]; then
+                echo "✅ NLP system: Available"
+            else
+                echo "❌ NLP system: Missing"
+            fi
+            
+            # Check Node.js
+            if command -v node >/dev/null 2>&1; then
+                echo "✅ Node.js: Available ($(node --version))"
+            else
+                echo "❌ Node.js: Missing"
+                log_info "Install Node.js to enable M4 AI automation"
+            fi
+            
+            echo ""
+            echo "${GREEN}M4 Test Summary:${NC}"
+            echo "  • Workflow automation for task execution"
+            echo "  • AI pattern recognition for smart suggestions"
+            echo "  • Template generation for rapid development"
+            echo "  • Natural language processing for intuitive commands"
+            ;;
+        *)
+            printf "${BLUE}🤖 uDOS M4 AI Automation System${NC}\n"
+            printf "Display Format              Actual Command\n"
+            printf "──────────────              ──────────────\n"
+            printf "UDOS M4 WORKFLOW            udos m4 workflow\n"
+            printf "UDOS M4 AI                  udos m4 ai\n"
+            printf "UDOS M4 TEMPLATE            udos m4 template\n"
+            printf "UDOS M4 NLP <query>         udos m4 nlp <query>\n"
+            printf "UDOS M4 TEST                udos m4 test\n"
+            printf "\n${YELLOW}M4 Features:${NC}\n"
+            printf "  workflow - AI-powered automation workflows\n"
+            printf "  ai       - Intelligent pattern recognition\n"
+            printf "  template - Smart code and config generation\n"
+            printf "  nlp      - Natural language command processing\n"
+            printf "\n${YELLOW}Examples:${NC}\n"
+            printf "  udos m4 ai suggest\n"
+            printf "  udos m4 template list\n"
+            printf "  udos m4 nlp 'backup my data'\n"
+            ;;
+    esac
+}
+
 # Help system
 udos_help() {
     case "${1:-}" in
@@ -605,11 +922,13 @@ udos_help() {
             printf "UDOS TEST SYSTEM    udos test system\n"
             printf "UDOS TEST M2        udos test m2\n"
             printf "UDOS TEST M3        udos test m3\n"
+            printf "UDOS TEST M4        udos test m4\n"
             printf "UDOS TEST QUICK     udos test quick\n"
             printf "\n${YELLOW}Test Modes:${NC}\n"
             printf "  system  - Full system functionality test\n"
             printf "  m2      - M2 web interface integration test\n"
             printf "  m3      - M3 desktop integration test\n"
+            printf "  m4      - M4 AI automation test\n"
             printf "  quick   - Quick status check\n"
             printf "\n${YELLOW}Examples:${NC}\n"
             printf "  udos test          # System test\n"
@@ -635,6 +954,10 @@ udos_help() {
             echo "UDOS DATA BACKUP            udos data backup"
             echo "UDOS M3 WINDOW              udos m3 window"
             echo "UDOS M3 TEST                udos m3 test"
+            echo "UDOS M4 WORKFLOW            udos m4 workflow"
+            echo "UDOS M4 AI                  udos m4 ai"
+            echo "UDOS M4 TEMPLATE            udos m4 template"
+            echo "UDOS M4 NLP                 udos m4 nlp"
             echo "UDOS TEST [MODE]            udos test [system|m2|m3|quick]"
             echo "UDOS UPDATE                 udos update"
             echo "UDOS VERSION                udos version"
@@ -679,6 +1002,10 @@ main() {
         m3|desktop)
             shift
             udos_m3 "$@"
+            ;;
+        m4|ai|automation)
+            shift
+            udos_m4 "$@"
             ;;
         test)
             shift
