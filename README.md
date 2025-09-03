@@ -2,7 +2,9 @@
 
 [![Version](https://img.shields.io/badge/version-1.0.5-blue.svg)](#current-status)
 [![Status](https://img.shields.io/badge/status-Production%20Ready-green.svg)](#quick-start)
-[![Build](https://img.shields.io/badge/build-passing-brightgreen.svg)](#package-status)
+[![Build](https://img.shields.io/badge/build-passgit clone https://github.com/fredporter/uDESK.git
+cd uDESK/vm/current
+./install.sh-brightgreen.svg)](#package-status)
 
 uDESK provides TinyCore Linux integration for **uDOS (Universal Device Operating System)**, enabling the complete uDOS CLI suite, role hierarchy system, and desktop environment in TinyCore's minimal Linux environment.
 
@@ -19,10 +21,17 @@ uDESK provides TinyCore Linux integration for **uDOS (Universal Device Operating
 
 ### Automatic Installation (Recommended)
 ```bash
-# Download and run hybrid installer
-wget https://raw.githubusercontent.com/fredporter/uDESK/main/vm/current/install-udos.sh
-chmod +x install-udos.sh
-./install-udos.sh
+# Download and run installer
+wget https://raw.githubusercontent.com/fredporter/uDESK/main/vm/current/install.sh
+chmod +x install.sh
+./install.sh
+```
+
+### One-Line Setup
+```bash
+# Complete setup for fresh TinyCore VM
+wget https://raw.githubusercontent.com/fredporter/uDESK/main/vm/current/setup.sh
+chmod +x setup.sh && ./setup.sh
 ```
 
 ### Manual Setup
@@ -32,7 +41,7 @@ git clone https://github.com/fredporter/uDESK.git
 cd uDESK/vm/current/
 
 # Run installer
-./install-udos.sh
+./install.sh
 
 # Setup boot integration
 ./udos-boot-art.sh setup
@@ -113,7 +122,7 @@ uDESK/
 ├── README.md                    # Project overview
 ├── vm/                          # TinyCore integration
 │   ├── current/                # Production files
-│   │   ├── install-udos.sh    # Hybrid installer
+│   │   ├── install.sh         # Main installer
 │   │   ├── udos-boot-art.sh   # Boot integration
 │   │   └── README.md          # Installation guide
 │   └── archive/               # Development history
@@ -202,13 +211,13 @@ tar -tzf build/udos-core.tcz
 ### Installation Issues
 ```bash
 # Network connectivity problems
-./install-udos.sh offline      # Use offline installation
+./install.sh                   # Standard installation
 
 # Permission issues  
-sudo ./install-udos.sh         # Run with admin privileges
+sudo ./install.sh              # Run with admin privileges
 
-# Package conflicts
-./install-udos.sh github       # Force GitHub installation
+# Installation verification
+./install.sh --verify          # Install with verification
 ```
 
 ### TinyCore Specific
@@ -270,12 +279,12 @@ MIT License - see [LICENSE](LICENSE) file for details.
 
 ```bash
 # Quick installation
-curl -sL https://raw.githubusercontent.com/fredporter/uDESK/main/vm/current/install-udos.sh | bash
+curl -sL https://raw.githubusercontent.com/fredporter/uDESK/main/vm/current/install.sh | bash
 
 # Or manual setup
 git clone https://github.com/fredporter/uDESK.git
 cd uDESK/vm/current/
-./install-udos.sh
+./install.sh
 ```
 
 ### The Achievement

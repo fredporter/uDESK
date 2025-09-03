@@ -4,26 +4,39 @@ Production-ready files for uDOS TinyCore Linux integration.
 
 ## Primary Installation
 
-### install-udos.sh
-**Hybrid Distribution Manager** - Automatically detects and uses the best installation method:
+### install.sh
+**Main uDOS Installer** - Installs the modular uDOS system:
 
 ```sh
-# Auto-detect best method
-./install-udos.sh
+# Standard installation
+./install.sh
 
-# Force specific method
-./install-udos.sh github    # GitHub installation
-./install-udos.sh tcz       # TinyCore extension package
-./install-udos.sh offline   # Local bundle installation
-./install-udos.sh update    # Update existing installation
+# Installation with verification
+./install.sh --verify
 ```
 
 **Features**:
-- Auto-detection of network connectivity
-- Fallback installation methods
+- Clean modular installation
 - ASCII art boot integration
 - Environment variable configuration
 - Installation verification
+- Persistence setup
+
+## Quick Setup
+
+### setup.sh
+**Quick VM Setup** - One-command setup for fresh TinyCore VM:
+
+```sh
+# Complete VM setup
+./setup.sh
+```
+
+**Features**:
+- Essential tools installation
+- Git repository setup
+- Automatic uDOS installation
+- Environment configuration
 
 ## Boot Integration
 
@@ -41,12 +54,25 @@ Production-ready files for uDOS TinyCore Linux integration.
 ./udos-boot-art.sh remove
 ```
 
-**Features**:
-- Boot sequence ASCII art
-- Login prompt branding
-- Terminal prompt integration
-- Environment initialization
-- TinyCore bootlocal.sh integration
+## UTM Integration
+
+### utm.sh
+**UTM Shared Folder Setup** - Configures Mac UTM shared folder integration:
+
+```sh
+# Setup UTM shared folders
+./utm.sh
+```
+
+## VM Configuration
+
+### vm.sh
+**General VM Setup** - Configures VM environment:
+
+```sh
+# Setup VM environment
+./vm.sh
+```
 
 ## Quick Start
 

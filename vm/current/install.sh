@@ -1,8 +1,8 @@
 #!/bin/sh
 set -e
 
-# uDOS Clean TinyCore Installation Script v1.0.5
-# Installs the new modular, organized uDOS structure
+# uDOS TinyCore Installation Script v1.0.5
+# Installs the modular uDOS system
 
 VERSION="1.0.5"
 
@@ -187,17 +187,22 @@ main() {
         log_success "🎉 Clean uDOS installation completed successfully!"
         echo ""
         log_info "Available commands:"
-        log_info "  udos              Main unified command"
-        log_info "  uvar              Variable management"
-        log_info "  udata             Data management"
-        log_info "  utpl              Template management"
+        log_info "Display Format              Actual Command"
+        log_info "──────────────              ──────────────"
+        log_info "UDOS HELP                   udos help"
+        log_info "UDOS INIT                   udos init"
+        log_info "UDOS ROLE DETECT            udos role detect"
+        log_info "UDOS VAR SET KEY=VALUE      udos var set KEY=VALUE"
+        log_info "UVAR GET KEY                uvar get KEY"
         echo ""
         log_info "Quick start:"
-        log_info "  udos help         Show all commands"
-        log_info "  udos info         Show system information"
-        log_info "  udos role info    Show your role"
+        log_info "  Type: udos help         (Show all commands)"
+        log_info "  Type: udos info         (Show system information)"  
+        log_info "  Type: udos role info    (Show your role)"
         echo ""
         log_success "Welcome to the clean, modular uDOS!"
+        echo ""
+        log_success "💡 Commands shown in CAPS, type in lowercase"
     else
         log_error "Installation verification failed"
         echo ""

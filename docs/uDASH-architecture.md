@@ -66,7 +66,7 @@ Single interface that adapts to deployment context:
 
 Each uDOS role sees different interface elements:
 - **Ghost**: Read-only dashboard
-- **User**: Basic editing tools
-- **Member**: Full desktop interface
-- **Admin**: System management panels
+- **Tomb**: Basic editing tools
+- **Imp**: Full desktop interface
+- **Sorceror**: System management panels
 - **Wizard**: Development environment (explicit mode)

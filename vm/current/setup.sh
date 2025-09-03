@@ -1,8 +1,8 @@
 #!/bin/bash
-# Quick TinyCore VM Setup for Clean uDOS
+# TinyCore VM Setup for uDOS
 # Run this script in a fresh TinyCore VM
 
-echo "🚀 Clean uDOS TinyCore VM Setup"
+echo "🚀 uDOS TinyCore VM Setup"
 echo "================================"
 
 # Function to check if command was successful
