@@ -28,6 +28,18 @@ else
     echo "⚠️  M2 interface not found"
 fi
 
+# Test M3 interface if available  
+if [ -f "$UDOS_SHARE/udos-m3-window.js" ]; then
+    echo "✅ M3 desktop components found"
+    if command -v node >/dev/null 2>&1; then
+        echo "✅ Node.js available for M3"
+    else
+        echo "⚠️  Node.js required for M3 functionality"
+    fi
+else
+    echo "⚠️  M3 desktop components not found"
+fi
+
 # Test role system
 echo "Testing role system..."
 $UDOS_BIN role >/dev/null 2>&1 && echo "✅ Role system accessible" || echo "⚠️  Role system issues"

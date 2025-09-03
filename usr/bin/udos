@@ -381,6 +381,41 @@ udos_test() {
                 log_error "M2 test suite not found"
             fi
             ;;
+        m3|desktop)
+            log_info "Running M3 desktop integration tests..."
+            echo ""
+            
+            echo "${BLUE}🧪 M3 Desktop Integration Test${NC}"
+            
+            # Test Node.js availability
+            if command -v node >/dev/null 2>&1; then
+                log_success "Node.js available for M3"
+                
+                # Test M3 window manager
+                if [ -f "${UDOS_SYSTEM}/udos-m3-window.js" ]; then
+                    log_success "M3 window manager found"
+                    
+                    log_info "Testing window detection..."
+                    if node "${UDOS_SYSTEM}/udos-m3-window.js" detect >/dev/null 2>&1; then
+                        log_success "M3 window detection working"
+                    else
+                        log_warning "M3 window detection issues (may be platform-specific)"
+                    fi
+                    
+                    log_info "Testing M3 integration with udos command..."
+                    if udos m3 test >/dev/null 2>&1; then
+                        log_success "M3 command integration working"
+                    else
+                        log_error "M3 command integration failed"
+                    fi
+                else
+                    log_error "M3 window manager not found at ${UDOS_SYSTEM}/udos-m3-window.js"
+                fi
+            else
+                log_error "Node.js required for M3 functionality"
+                log_info "Install Node.js to enable M3 desktop integration"
+            fi
+            ;;
         quick)
             log_info "Running quick system check..."
             echo ""
@@ -395,7 +430,87 @@ udos_test() {
             log_info "Available test modes:"
             echo "  ${CYAN}udos test system${NC}    - Full system test"
             echo "  ${CYAN}udos test m2${NC}        - M2 integration test"
+            echo "  ${CYAN}udos test m3${NC}        - M3 desktop test"
             echo "  ${CYAN}udos test quick${NC}     - Quick status check"
+            ;;
+    esac
+}
+
+# M3 Desktop Integration
+udos_m3() {
+    case "${1:-}" in
+        window|windows)
+            shift
+            case "${1:-}" in
+                detect|list)
+                    log_info "Detecting windows..."
+                    if command -v node >/dev/null 2>&1; then
+                        node "${UDOS_SYSTEM}/udos-m3-window.js" detect
+                    else
+                        log_error "Node.js required for M3 window management"
+                        return 1
+                    fi
+                    ;;
+                focus)
+                    if [ -n "${2:-}" ]; then
+                        log_info "Focusing window: $2"
+                        node "${UDOS_SYSTEM}/udos-m3-window.js" focus "$2"
+                    else
+                        log_error "Window ID required. Use: udos m3 window focus <id>"
+                        return 1
+                    fi
+                    ;;
+                move)
+                    if [ $# -ge 6 ]; then
+                        log_info "Moving window: $2"
+                        node "${UDOS_SYSTEM}/udos-m3-window.js" move "$2" "$3" "$4" "$5" "$6"
+                    else
+                        log_error "Usage: udos m3 window move <id> <x> <y> <width> <height>"
+                        return 1
+                    fi
+                    ;;
+                *)
+                    printf "${BLUE}🪟 uDOS M3 Window Management${NC}\n"
+                    printf "Display Format              Actual Command\n"
+                    printf "──────────────              ──────────────\n"
+                    printf "UDOS M3 WINDOW DETECT       udos m3 window detect\n"
+                    printf "UDOS M3 WINDOW LIST         udos m3 window list\n"
+                    printf "UDOS M3 WINDOW FOCUS ID     udos m3 window focus <id>\n"
+                    printf "UDOS M3 WINDOW MOVE ID X Y W H  udos m3 window move <id> <x> <y> <w> <h>\n"
+                    printf "\n${YELLOW}Examples:${NC}\n"
+                    printf "  udos m3 window detect\n"
+                    printf "  udos m3 window focus 0x1234567\n"
+                    printf "  udos m3 window move 0x1234567 100 100 800 600\n"
+                    ;;
+            esac
+            ;;
+        test)
+            log_info "Testing M3 desktop integration..."
+            if command -v node >/dev/null 2>&1; then
+                log_success "Node.js available for M3"
+                node "${UDOS_SYSTEM}/udos-m3-window.js" detect >/dev/null 2>&1
+                if [ $? -eq 0 ]; then
+                    log_success "M3 window detection working"
+                else
+                    log_warning "M3 window detection issues"
+                fi
+            else
+                log_error "Node.js required for M3 functionality"
+                return 1
+            fi
+            ;;
+        *)
+            printf "${BLUE}🖥️  uDOS M3 Desktop Integration${NC}\n"
+            printf "Display Format           Actual Command\n"
+            printf "──────────────           ──────────────\n"
+            printf "UDOS M3 WINDOW           udos m3 window\n"
+            printf "UDOS M3 TEST             udos m3 test\n"
+            printf "\n${YELLOW}Features:${NC}\n"
+            printf "• Cross-platform window management\n"
+            printf "• Window detection and focus\n"
+            printf "• Window positioning and resizing\n"
+            printf "• Desktop integration hooks\n"
+            printf "\n${CYAN}💡 Type 'UDOS M3 WINDOW' for window commands${NC}\n"
             ;;
     esac
 }
@@ -460,6 +575,20 @@ udos_help() {
             printf "  udos tpl create readme\n"
             printf "  utpl list\n"
             ;;
+        m3|desktop)
+            printf "${BLUE}🖥️  uDOS M3 Desktop Integration${NC}\n"
+            printf "Display Format              Actual Command\n"
+            printf "──────────────              ──────────────\n"
+            printf "UDOS M3 WINDOW DETECT       udos m3 window detect\n"
+            printf "UDOS M3 WINDOW FOCUS ID     udos m3 window focus <id>\n"
+            printf "UDOS M3 WINDOW MOVE         udos m3 window move <id> <x> <y> <w> <h>\n"
+            printf "UDOS M3 TEST                udos m3 test\n"
+            printf "\n${YELLOW}Examples:${NC}\n"
+            printf "  udos m3 window detect\n"
+            printf "  udos m3 window focus 0x1234567\n"
+            printf "  udos m3 window move 0x1234567 100 100 800 600\n"
+            printf "  udos test m3\n"
+            ;;
         data)
             printf "${BLUE}uDOS Data Management${NC}\n"
             printf "Display Format      Actual Command\n"
@@ -475,10 +604,12 @@ udos_help() {
             printf "UDOS TEST           udos test system\n"
             printf "UDOS TEST SYSTEM    udos test system\n"
             printf "UDOS TEST M2        udos test m2\n"
+            printf "UDOS TEST M3        udos test m3\n"
             printf "UDOS TEST QUICK     udos test quick\n"
             printf "\n${YELLOW}Test Modes:${NC}\n"
             printf "  system  - Full system functionality test\n"
             printf "  m2      - M2 web interface integration test\n"
+            printf "  m3      - M3 desktop integration test\n"
             printf "  quick   - Quick status check\n"
             printf "\n${YELLOW}Examples:${NC}\n"
             printf "  udos test          # System test\n"
@@ -502,7 +633,9 @@ udos_help() {
             echo "UDOS TPL CREATE NAME        udos tpl create NAME"
             echo "UDOS DATA LIST              udos data list"
             echo "UDOS DATA BACKUP            udos data backup"
-            echo "UDOS TEST [MODE]            udos test [system|m2|quick]"
+            echo "UDOS M3 WINDOW              udos m3 window"
+            echo "UDOS M3 TEST                udos m3 test"
+            echo "UDOS TEST [MODE]            udos test [system|m2|m3|quick]"
             echo "UDOS UPDATE                 udos update"
             echo "UDOS VERSION                udos version"
             echo "UDOS HELP [COMMAND]         udos help [command]"
@@ -542,6 +675,10 @@ main() {
         data)
             shift
             udos_data "$@"
+            ;;
+        m3|desktop)
+            shift
+            udos_m3 "$@"
             ;;
         test)
             shift
