@@ -1,16 +1,16 @@
-# M4 - Advanced Automation Roadmap
+# M4 - Advanced Workflow Roadmap
 
 ## Overview
-M4 introduces intelligent automation capabilities to uDOS, leveraging AI and machine learning to provide predictive system management, automated workflows, and intelligent template generation.
+M4 introduces intelligent workflow capabilities to uDOS, leveraging Smart and machine learning to provide predictive system management, automated workflows, and intelligent template generation.
 
 ## Goals
-- **Primary**: AI-assisted workflow automation and smart system management
+- **Primary**: AI-assisted workflow workflow and smart system management
 - **Secondary**: Predictive analytics and intelligent resource optimization
 - **Tertiary**: Advanced scripting framework with natural language processing
 
 ---
 
-## Phase 1: Automation Framework (v1.1.0 - March 2026)
+## Phase 1: Workflow Framework (v1.1.0 - March 2026)
 
 ### Workflow Engine
 - **Workflow Definition**: Visual and code-based workflow creation
@@ -18,17 +18,17 @@ M4 introduces intelligent automation capabilities to uDOS, leveraging AI and mac
 - **Action Chains**: Sequential and parallel action execution
 - **Error Handling**: Robust error recovery and fallback systems
 
-### AI Integration
+### Smart Integration
 - **Pattern Recognition**: System usage pattern analysis
 - **Predictive Actions**: Proactive system management
 - **Smart Suggestions**: Intelligent recommendation system
 - **Learning Algorithms**: Adaptive behavior improvement
 
-### Automation API
-- **RESTful Interface**: HTTP-based automation control
+### Workflow API
+- **RESTful Interface**: HTTP-based workflow control
 - **Webhook Support**: External system integration
 - **Event Streaming**: Real-time event notification
-- **Batch Operations**: Bulk automation task management
+- **Batch Operations**: Bulk workflow task management
 
 ---
 
@@ -59,7 +59,7 @@ M4 introduces intelligent automation capabilities to uDOS, leveraging AI and mac
 ### New Components
 ```
 usr/share/udos/
-├── automation/
+├── workflow/
 │   ├── workflow-engine.js
 │   ├── ai-processor.js
 │   ├── pattern-analyzer.js
@@ -76,14 +76,14 @@ usr/share/udos/
 
 ### AI/ML Integration
 - **Local Models**: On-device processing for privacy
-- **Cloud Services**: Optional cloud-based AI enhancement
+- **Cloud Services**: Optional cloud-based Smart enhancement
 - **Training Data**: User behavior learning (opt-in)
 - **Model Updates**: Continuous improvement system
 
 ### Data Management
 ```
 etc/udos/
-├── automation.conf
+├── workflow.conf
 ├── ai-settings.conf
 ├── patterns/
 │   ├── user-patterns.json
@@ -100,10 +100,10 @@ etc/udos/
 ## Implementation Strategy
 
 ### Phase 1 Development
-1. **Workflow Engine**: Core automation infrastructure
+1. **Workflow Engine**: Core workflow infrastructure
 2. **Basic AI**: Simple pattern recognition
-3. **API Framework**: Automation control interface
-4. **Testing Infrastructure**: Automation testing tools
+3. **API Framework**: Workflow control interface
+4. **Testing Infrastructure**: Workflow testing tools
 
 ### Phase 2 Development
 1. **Advanced AI**: Machine learning integration
@@ -113,8 +113,8 @@ etc/udos/
 
 ### Integration Points
 - **M1 Foundation**: Leverages core udos command system
-- **M2 Interface**: Web-based automation control
-- **M3 Desktop**: Desktop automation triggers
+- **M2 Interface**: Web-based workflow control
+- **M3 Desktop**: Desktop workflow triggers
 - **External Systems**: API-based third-party integration
 
 ---
@@ -123,14 +123,14 @@ etc/udos/
 
 ### Automated System Management
 - **Resource Optimization**: Automatic CPU/memory tuning
-- **Cleanup Automation**: Intelligent system cleanup
+- **Cleanup Workflow**: Intelligent system cleanup
 - **Security Monitoring**: Automated threat detection
 - **Performance Tuning**: Continuous optimization
 
-### Workflow Automation
+### Workflow Workflow
 - **Development Workflows**: Automated build/test/deploy
 - **Data Processing**: Intelligent data transformation
-- **Communication Automation**: Smart notification management
+- **Communication Workflow**: Smart notification management
 - **Backup Management**: Predictive backup scheduling
 
 ### Intelligent Assistance
@@ -143,22 +143,22 @@ etc/udos/
 
 ## Testing and Validation
 
-### Automation Testing
+### Workflow Testing
 - **Workflow Validation**: Automated workflow testing
-- **AI Accuracy**: Machine learning model validation
-- **Performance Impact**: Automation overhead measurement
+- **Smart Accuracy**: Machine learning model validation
+- **Performance Impact**: Workflow overhead measurement
 - **Reliability Testing**: Long-term stability validation
 
 ### User Experience Testing
-- **Workflow Usability**: Automation creation ease
-- **AI Helpfulness**: Intelligence feature effectiveness
+- **Workflow Usability**: Workflow creation ease
+- **Smart Helpfulness**: Intelligence feature effectiveness
 - **Learning Curve**: User adaptation measurement
 - **Satisfaction Metrics**: User feedback analysis
 
 ### Safety and Security
-- **Permission Systems**: Automation privilege management
-- **Audit Logging**: Complete automation activity logs
-- **Rollback Capabilities**: Automation undo functionality
+- **Permission Systems**: Workflow privilege management
+- **Audit Logging**: Complete workflow activity logs
+- **Rollback Capabilities**: Workflow undo functionality
 - **Security Scanning**: Automated security validation
 
 ---
@@ -166,26 +166,26 @@ etc/udos/
 ## Risk Management
 
 ### Technical Risks
-- **AI Accuracy**: Machine learning prediction errors
-- **Performance Impact**: Automation system overhead
+- **Smart Accuracy**: Machine learning prediction errors
+- **Performance Impact**: Workflow system overhead
 - **Complexity Management**: System complexity growth
 - **Integration Challenges**: Third-party compatibility
 
 ### Mitigation Strategies
-- **Gradual Learning**: Conservative AI recommendation approach
+- **Gradual Learning**: Conservative Smart recommendation approach
 - **Performance Monitoring**: Continuous system impact measurement
 - **Modular Design**: Isolated, testable components
 - **Extensive Testing**: Comprehensive validation before release
 
 ### User Risks
-- **Over-automation**: Excessive system control reduction
+- **Over-workflow**: Excessive system control reduction
 - **Learning Dependency**: User skill atrophy
 - **Privacy Concerns**: Data collection and usage
 - **Control Loss**: Reduced manual system control
 
 ### User Protection
 - **Manual Override**: Always-available manual control
-- **Transparency**: Clear automation action explanation
+- **Transparency**: Clear workflow action explanation
 - **Privacy Controls**: Granular data sharing controls
 - **Education Resources**: User empowerment documentation
 
@@ -194,14 +194,14 @@ etc/udos/
 ## Success Metrics
 
 ### Technical Success
-- [ ] Workflow automation reduces manual tasks by 60%
-- [ ] AI predictions achieve >85% accuracy
+- [ ] Workflow workflow reduces manual tasks by 60%
+- [ ] Smart predictions achieve >85% accuracy
 - [ ] System performance impact <10%
 - [ ] Integration compatibility >95%
 
 ### User Success
 - [ ] User productivity improvement >40%
-- [ ] Automation adoption rate >70%
+- [ ] Workflow adoption rate >70%
 - [ ] User satisfaction >4.3/5
 - [ ] Learning curve <2 hours to basic proficiency
 
@@ -217,11 +217,11 @@ etc/udos/
 
 ### March 2026 (Phase 1)
 - Month 1: Workflow engine development
-- Month 2: Basic AI integration
+- Month 2: Basic Smart integration
 - Month 3: API framework and testing
 
 ### June 2026 (Phase 2)
-- Month 1: Advanced AI features
+- Month 1: Advanced Smart features
 - Month 2: NLP integration
 - Month 3: Predictive systems and release
 

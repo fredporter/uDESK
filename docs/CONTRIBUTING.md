@@ -12,7 +12,7 @@ uDESK/
 ├── docs/                 # Documentation
 ├── isos/                 # ISO creation tools
 ├── packaging/            # TCZ package build scripts
-├── scripts/              # All automation scripts
+├── scripts/              # All workflow scripts
 │   ├── setup-*.sh       # Setup automation
 │   ├── dev-*.sh         # Development helpers  
 │   ├── utm-*.sh         # UTM VM scripts
@@ -137,11 +137,11 @@ cd uDESK
 
 ## 🎯 Claude Code Integration
 
-### AI-Assisted Development
+### Smart-Assisted Development
 - Use Claude Code for generating components
-- All AI-generated content in markdown format
-- Review and test AI-generated code
-- Document AI assistance in commits
+- All Smart-generated content in markdown format
+- Review and test Smart-generated code
+- Document Smart assistance in commits
 
 ### Claude Code Setup in VM
 ```bash

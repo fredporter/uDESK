@@ -1,0 +1,103 @@
+{
+  "name": "Daily System Backup",
+  "description": "Automated daily backup with comprehensive data protection and notifications",
+  "version": "1.0",
+  "author": "uDOS M4 AI",
+  "created": "2025-09-04",
+  "enabled": true,
+  "triggers": [
+    {
+      "type": "schedule",
+      "cron": "0 2 * * *",
+      "description": "Run every day at 2 AM"
+    },
+    {
+      "type": "command",
+      "pattern": "daily backup",
+      "description": "Trigger via natural language"
+    }
+  ],
+  "conditions": [
+    {
+      "type": "disk_space",
+      "minimum": "1GB",
+      "description": "Ensure sufficient disk space"
+    },
+    {
+      "type": "time_range",
+      "start": "01:00",
+      "end": "05:00",
+      "description": "Only run during maintenance window"
+    }
+  ],
+  "actions": [
+    {
+      "type": "notification",
+      "title": "Backup Starting",
+      "message": "Daily system backup initiated at ${TIMESTAMP}",
+      "priority": "normal"
+    },
+    {
+      "type": "command",
+      "command": "udos data backup",
+      "timeout": 300000,
+      "stopOnError": true,
+      "description": "Backup all uDOS data"
+    },
+    {
+      "type": "command", 
+      "command": "udos var get BACKUP_STATUS",
+      "timeout": 5000,
+      "description": "Check backup completion status"
+    },
+    {
+      "type": "ai_suggest",
+      "prompt": "System backup completed, suggest next maintenance tasks",
+      "context": {
+        "task": "post_backup",
+        "time": "${HOUR}"
+      }
+    },
+    {
+      "type": "file",
+      "operation": "create",
+      "path": "/tmp/udos-backup-${DATE}.log",
+      "content": "Backup completed successfully at ${TIMESTAMP}\nStatus: ${BACKUP_STATUS}\nNext backup: ${NEXT_BACKUP_TIME}",
+      "description": "Create backup log"
+    },
+    {
+      "type": "notification",
+      "title": "Backup Complete",
+      "message": "Daily backup finished successfully. Log: /tmp/udos-backup-${DATE}.log",
+      "priority": "high"
+    }
+  ],
+  "variables": {
+    "BACKUP_PATH": "/backup/udos",
+    "RETENTION_DAYS": "30",
+    "NOTIFICATION_EMAIL": "admin@example.com"
+  },
+  "error_handling": {
+    "on_failure": [
+      {
+        "type": "notification",
+        "title": "Backup Failed",
+        "message": "Daily backup encountered an error: ${ERROR_MESSAGE}",
+        "priority": "urgent"
+      },
+      {
+        "type": "command",
+        "command": "udos system status",
+        "description": "Check system health after backup failure"
+      }
+    ],
+    "retry_count": 3,
+    "retry_delay": 300
+  },
+  "metadata": {
+    "category": "system_maintenance",
+    "tags": ["backup", "daily", "automated", "critical"],
+    "complexity": "intermediate",
+    "estimated_runtime": "5-15 minutes"
+  }
+}

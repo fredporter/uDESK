@@ -1,0 +1,184 @@
+{
+  "name": "Smart-Powered Development Workflow",
+  "description": "Intelligent development workflow with git workflow, code analysis, and Smart suggestions",
+  "version": "1.0",
+  "author": "uDOS M4 AI", 
+  "created": "2025-09-04",
+  "enabled": true,
+  "triggers": [
+    {
+      "type": "command",
+      "pattern": "dev workflow",
+      "description": "Start development workflow"
+    },
+    {
+      "type": "file",
+      "path": ".git/COMMIT_EDITMSG",
+      "event": "modified",
+      "description": "Trigger on git commit"
+    }
+  ],
+  "conditions": [
+    {
+      "type": "file_exists",
+      "path": ".git",
+      "description": "Must be in a git repository"
+    },
+    {
+      "type": "command_success",
+      "command": "git status",
+      "description": "Git must be functional"
+    }
+  ],
+  "actions": [
+    {
+      "type": "notification",
+      "title": "Development Workflow",
+      "message": "Starting Smart-assisted development workflow in ${PWD}",
+      "priority": "normal"
+    },
+    {
+      "type": "command",
+      "command": "git status --porcelain",
+      "timeout": 5000,
+      "description": "Check working directory status"
+    },
+    {
+      "type": "ai_suggest",
+      "prompt": "Based on git status, suggest next development actions",
+      "context": {
+        "git_status": "${GIT_STATUS}",
+        "project_type": "${PROJECT_TYPE}",
+        "current_branch": "${CURRENT_BRANCH}"
+      }
+    },
+    {
+      "type": "command",
+      "command": "find . -name '*.js' -o -name '*.py' -o -name '*.sh' | head -20",
+      "timeout": 10000,
+      "description": "Identify code files for analysis"
+    },
+    {
+      "type": "ai_suggest",
+      "prompt": "Analyze code files and suggest improvements or testing strategies",
+      "context": {
+        "code_files": "${CODE_FILES}",
+        "file_count": "${FILE_COUNT}"
+      }
+    }
+  ],
+  "workflow_phases": [
+    {
+      "name": "analysis",
+      "description": "Code analysis and quality checks",
+      "actions": [
+        {
+          "type": "command",
+          "command": "wc -l *.js *.py *.sh 2>/dev/null | tail -1",
+          "description": "Count total lines of code"
+        },
+        {
+          "type": "command",
+          "command": "grep -r 'TODO\\|FIXME\\|HACK' . --include='*.js' --include='*.py' --include='*.sh' | wc -l",
+          "description": "Count technical debt markers"
+        },
+        {
+          "type": "ai_suggest",
+          "prompt": "Based on code metrics, suggest refactoring priorities",
+          "context": {
+            "total_lines": "${TOTAL_LINES}",
+            "todo_count": "${TODO_COUNT}",
+            "complexity": "auto_detected"
+          }
+        }
+      ]
+    },
+    {
+      "name": "testing",
+      "description": "Automated testing recommendations",
+      "actions": [
+        {
+          "type": "file",
+          "operation": "exists",
+          "path": "test",
+          "description": "Check for test directory"
+        },
+        {
+          "type": "ai_suggest",
+          "prompt": "Suggest testing strategy for this codebase",
+          "context": {
+            "has_tests": "${HAS_TEST_DIR}",
+            "project_structure": "${PROJECT_STRUCTURE}"
+          }
+        }
+      ]
+    },
+    {
+      "name": "documentation",
+      "description": "Documentation analysis and suggestions",
+      "actions": [
+        {
+          "type": "file",
+          "operation": "exists",
+          "path": "README.md",
+          "description": "Check for documentation"
+        },
+        {
+          "type": "command",
+          "command": "find . -name '*.md' | wc -l",
+          "description": "Count documentation files"
+        },
+        {
+          "type": "ai_suggest",
+          "prompt": "Suggest documentation improvements",
+          "context": {
+            "has_readme": "${HAS_README}",
+            "doc_count": "${DOC_COUNT}"
+          }
+        }
+      ]
+    }
+  ],
+  "smart_actions": [
+    {
+      "condition": "GIT_STATUS contains 'modified'",
+      "actions": [
+        {
+          "type": "ai_suggest",
+          "prompt": "Review modified files and suggest commit message",
+          "context": {
+            "modified_files": "${MODIFIED_FILES}"
+          }
+        },
+        {
+          "type": "notification",
+          "title": "Commit Suggestion",
+          "message": "Smart suggests: ${AI_COMMIT_MESSAGE}",
+          "priority": "normal"
+        }
+      ]
+    },
+    {
+      "condition": "TODO_COUNT > 5",
+      "actions": [
+        {
+          "type": "notification",
+          "title": "Technical Debt Alert",
+          "message": "Found ${TODO_COUNT} TODO items - consider prioritizing cleanup",
+          "priority": "medium"
+        }
+      ]
+    }
+  ],
+  "variables": {
+    "MAX_FILE_SIZE": "1MB",
+    "SUPPORTED_EXTENSIONS": "js,py,sh,md,json",
+    "ANALYSIS_DEPTH": "basic"
+  },
+  "metadata": {
+    "category": "development",
+    "tags": ["git", "ai-assisted", "code-analysis", "workflow"],
+    "complexity": "advanced",
+    "estimated_runtime": "2-5 minutes"
+  }
+}

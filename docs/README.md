@@ -19,20 +19,40 @@ Welcome to the uDOS documentation hub. This directory contains all documentation
 
 ---
 
-## 🗺️ Roadmaps
+## 🗺️ Development Documentation
 
-### Strategic Planning
-- **[ROADMAP.md](roadmaps/ROADMAP.md)** - Complete project roadmap overview
-- **[M3-DESKTOP-INTEGRATION.md](roadmaps/M3-DESKTOP-INTEGRATION.md)** - Desktop integration milestone
-- **[M4-AUTOMATION.md](roadmaps/M4-AUTOMATION.md)** - AI automation milestone  
-- **[M5-ECOSYSTEM.md](roadmaps/M5-ECOSYSTEM.md)** - Ecosystem expansion milestone
+### Completed Milestones
+- **[M1 Foundation Complete](dev/M1-FOUNDATION-COMPLETE.md)** - Core modular architecture completion
+- **[M2 Ecosystem Complete](dev/M2-ECOSYSTEM-COMPLETE.md)** - Plugin platform completion
+- **[Development Completions](dev/COMPLETIONS.md)** - Complete milestone achievement overview
 
-### Current Status
-- **M1 Foundation**: ✅ Complete (100%)
-- **M2 Interface**: ✅ Complete (100%)
-- **M3 Desktop**: 🚧 Next (Planning)
-- **M4 Automation**: 📋 Planned (Q1 2026)
-- **M5 Ecosystem**: 📋 Planned (Q2 2026)
+### Future Roadmaps
+- **[Future Roadmap](roadmaps/ROADMAP.md)** - Next phase development plans (M3+)
+- **[Ecosystem Future](roadmaps/ECOSYSTEM.md)** - Advanced ecosystem features
+- **[Desktop Integration](roadmaps/DESKTOP-INTEGRATION.md)** - Desktop environment plans
+- **[Workflow Roadmap](roadmaps/WORKFLOW-ROADMAP.md)** - Advanced workflow features
+
+### Current Status (v1.1.0)
+- **M1 Foundation**: ✅ Complete - Modular command interface
+- **M2 Ecosystem**: ✅ Complete - Plugin management platform
+- **M3 Advanced Features**: 🔮 Future - Enhanced modules and capabilities
+- **M4 Enterprise**: 🔮 Future - Enterprise deployment features
+
+---
+
+## 🌐 Ecosystem Platform
+
+### Plugin System
+- **[ECOSYSTEM.md](ECOSYSTEM.md)** - Complete ecosystem documentation
+- **[Plugin Development Guide](examples/plugins/)** - Plugin development examples
+- **[Node.js Integration](dev/NODEJS-INTEGRATION.md)** - Node.js enhancement guide
+
+### Features
+- **Plugin Management**: Install, remove, list, run, and info commands
+- **Dual-Mode Operation**: Universal shell + optional Node.js enhancement
+- **Auto-Detection**: Seamless Node.js integration when available
+- **TinyCore Support**: Native Node.js TCZ package installation
+- **Universal Compatibility**: Works on any POSIX-compatible system
 
 ---
 

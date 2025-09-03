@@ -1,0 +1,8 @@
+name=Data Backup
+id=data-backup
+version=1.0.0
+type=local
+author=Local User
+created=2025-09-04
+description=Local plugin: Data Backup
+main=plugin.sh

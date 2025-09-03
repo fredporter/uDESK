@@ -1,6 +1,22 @@
-# uDESK - Universal Device Operating System for TinyCore
+# uDESK - ## ✨ Integration Features
 
-[![Version](https://img.shields.io/badge/version-1.0.5-blue.svg)](#current-status)
+🎯 **Hybrid Distribution**: GitHub, TCZ package, and offline installation methods  
+⚡ **Boot Integration**: ASCII art branding and automatic environment setup  
+🔐 **Role Hierarchy**: M1 CLI foundation + M2 8-role system (GHOST to WIZARD)  
+🖥️ **VNC Desktop**: Full desktop environment with copy-paste functionality  
+🚀 **Complete Automation**: Hands-off installation and configuration  
+📦 **TinyCore Native**: Leverages TCZ packages and boot automation  
+
+## 🌐 Ecosystem Platform
+
+🔌 **Plugin System**: Install, manage, and run plugins with simple commands  
+🔄 **Dual-Mode Operation**: Shell-based plugins (universal) + Node.js plugins (enhanced)  
+🎯 **Auto-Detection**: Seamlessly uses Node.js when available, graceful fallback  
+📦 **TinyCore Integration**: Native Node.js installation via TCZ packages  
+🛠️ **Developer Tools**: Plugin templates, installation scripts, comprehensive docs  
+🔒 **Security Framework**: Permission system and trusted plugin sources  l Device Operating System for TinyCore
+
+[![Version](https://img.shields.io/badge/version-1.1.0-blue.svg)](#current-status)
 [![Status](https://img.shields.io/badge/status-Production%20Ready-green.svg)](#quick-start)
 [![Build](https://img.shields.io/badge/build-passgit clone https://github.com/fredporter/uDESK.git
 cd uDESK/vm/current
@@ -236,25 +252,62 @@ udos-detect-role --reset       # Reset role detection
 
 ## 🎯 Current Status
 
-✅ **M1 Complete**: Full CLI suite with role hierarchy  
-✅ **M2 Complete**: 8-role system (GHOST to WIZARD)  
+✅ **M1 Complete**: Modular command interface with external modules  
+✅ **M2 Complete**: Ecosystem platform with plugin management  
 ✅ **TinyCore Integration**: Native boot and desktop support  
-✅ **VNC Desktop**: Copy-paste functionality working  
-✅ **Hybrid Distribution**: GitHub/TCZ/offline installation  
-✅ **Production Ready**: Comprehensive automation and documentation  
+✅ **Node.js Integration**: Enhanced features with automatic installation  
+✅ **Universal Compatibility**: Works with or without dependencies  
+✅ **Production Ready**: Fast, modular, and well-documented  
 
-### Ready for Deployment!
-- **Installation**: One-command hybrid installer
-- **Integration**: Complete TinyCore boot automation
-- **Documentation**: Comprehensive guides and troubleshooting
-- **Compatibility**: Full POSIX shell compliance
+### Ready for Use!
+- **Installation**: One-command installer with ecosystem platform
+- **Plugin System**: Comprehensive plugin management commands  
+- **Modular Design**: Fast core with external modules
+- **Universal Compatibility**: POSIX shell with optional Node.js enhancement
 
 ## 📚 Documentation
 
-- **[Installation Guide](vm/current/README.md)** - Complete setup instructions
-- **[Boot Integration](vm/current/udos-boot-art.sh)** - ASCII art and branding
-- **[Archive](vm/archive/README.md)** - Development history and tools
-- **[uDOS Project](../uDOS/README.md)** - Main Universal Device Operating System
+- **[Installation Guide](docs/INSTALL.md)** - Complete setup instructions
+- **[Architecture](docs/ARCHITECTURE.md)** - System architecture and design
+- **[Ecosystem Guide](docs/ECOSYSTEM.md)** - Plugin platform documentation
+- **[Development](dev/README.md)** - Development scripts and tools
+
+### Development Documentation
+- **[M1 Foundation Complete](docs/dev/M1-FOUNDATION-COMPLETE.md)** - Core architecture completion
+- **[M2 Ecosystem Complete](docs/dev/M2-ECOSYSTEM-COMPLETE.md)** - Plugin platform completion
+- **[Future Roadmap](docs/roadmaps/ROADMAP.md)** - Next phase development plans
+
+## 📁 Repository Structure
+
+```
+uDESK/
+├── install.sh           # Main installer (user-facing)
+├── README.md             # Project overview and quick start
+├── docs/                 # Complete documentation
+│   ├── ARCHITECTURE.md   # System architecture
+│   ├── ECOSYSTEM.md      # Plugin platform guide
+│   ├── INSTALL.md        # Installation instructions
+│   └── roadmaps/         # Development roadmaps
+├── dev/                  # Development scripts (contributors)
+│   ├── build.sh          # Build script
+│   ├── test.sh           # Testing script
+│   ├── cleanup-repo.sh   # Repository maintenance
+│   └── README.md         # Development guide
+├── usr/                  # uDOS system files
+│   ├── bin/udos          # Main uDOS command
+│   └── share/udos/       # External modules and ecosystem
+└── etc/                  # Configuration files
+```
+
+### For Users
+- **Quick Start**: `./install.sh` (main installer)
+- **Documentation**: `/docs/` directory
+- **System Files**: `/usr/` directory (installed automatically)
+
+### For Developers  
+- **Development Scripts**: `/dev/` directory
+- **Build Tools**: `./dev/build.sh`
+- **Testing**: `./dev/test.sh`
 
 ## 🤝 Contributing
 
@@ -288,20 +341,20 @@ cd uDESK/vm/current/
 ```
 
 ### The Achievement
-- **Complete uDOS Integration**: Full CLI suite in TinyCore
-- **8-Role Hierarchy**: Progressive capability system
-- **Hybrid Distribution**: Multiple installation methods
-- **Boot Automation**: ASCII art branding and environment setup
+- **Complete Ecosystem Platform**: Full plugin management system
+- **Modular Architecture**: 75% script size reduction with enhanced features
+- **Universal Compatibility**: Works on any POSIX system
+- **Node.js Integration**: Enhanced features with automatic TinyCore installation
 - **Production Ready**: Comprehensive testing and documentation
 
 ### Next Steps
-1. Run the hybrid installer
-2. Configure role hierarchy
-3. Setup desktop environment
-4. Start using the Universal Device Operating System!
+1. Run the installer: `./install.sh`
+2. Explore ecosystem: `udos ecosystem list`
+3. Install plugins: `udos ecosystem install <plugin>`
+4. Start using the modular uDOS system!
 
-*Welcome to uDESK - TinyCore integration for Universal Device Operating System! 🚀*
+*Welcome to uDESK - Modular uDOS with ecosystem platform! 🚀*
 
 ---
 
-> **uDESK v1.0.5** - Bringing the power of Universal Device Operating System to TinyCore Linux with complete automation, role hierarchy, and seamless integration.
+> **uDESK v1.1.0** - Modular Universal Device Operating System with comprehensive ecosystem platform and plugin management.
