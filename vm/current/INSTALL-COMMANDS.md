@@ -32,8 +32,8 @@ chmod +x vm/current/install-clean-udos.sh
 ### Step 3: Load PATH and test
 ```bash
 source ~/.profile
-udos version
-udos help
+udos version    # Test main command
+udos help       # Show all commands
 ```
 
 ## 🏗️ **CLEAN ARCHITECTURE:**
@@ -59,38 +59,43 @@ udos help
 
 ### Main Commands:
 ```bash
-udos help            # Show all commands
-udos init            # Initialize environment
-udos info            # System information
-udos version         # Show version
+# Display Format          # Actual Command
+UDOS HELP                  udos help
+UDOS INIT                  udos init  
+UDOS INFO                  udos info
+UDOS VERSION               udos version
 ```
 
 ### Role Management:
 ```bash
-udos role detect     # Detect capabilities and assign role
-udos role info       # Show current role information
+# Display Format          # Actual Command
+UDOS ROLE DETECT           udos role detect
+UDOS ROLE INFO             udos role info
 ```
 
 ### Variable Management:
 ```bash
-udos var set KEY=VAL # Set environment variable
-udos var get KEY     # Get environment variable
-udos var list        # List all variables
-uvar set KEY=VAL     # Wrapper command
+# Display Format          # Actual Command
+UDOS VAR SET KEY=VALUE     udos var set KEY=VALUE
+UDOS VAR GET KEY           udos var get KEY
+UDOS VAR LIST              udos var list
+UVAR SET KEY=VALUE         uvar set KEY=VALUE
 ```
 
 ### Template Management:
 ```bash
-udos tpl list        # List available templates
-udos tpl create NAME # Create file from template
-utpl list            # Wrapper command
+# Display Format          # Actual Command
+UDOS TPL LIST              udos tpl list
+UDOS TPL CREATE NAME       udos tpl create NAME
+UTPL LIST                  utpl list
 ```
 
 ### Data Management:
 ```bash
-udos data list       # List data files
-udos data backup     # Backup user data
-udata list           # Wrapper command
+# Display Format          # Actual Command
+UDOS DATA LIST             udos data list
+UDOS DATA BACKUP           udos data backup
+UDATA LIST                 udata list
 ```
 
 ## 🛠️ **MANUAL INSTALLATION (if git fails):**
@@ -117,25 +122,26 @@ source ~/.profile
 
 ### Check installation:
 ```bash
-ls -la /usr/local/bin/udos*
-which udos
-echo $PATH
+ls -la /usr/local/bin/udos*    # Check executable files
+which udos                     # Find udos location
+echo $PATH                     # Check PATH variable
 ```
 
 ### Test direct execution:
 ```bash
-/usr/local/bin/udos version
+/usr/local/bin/udos version    # Run with full path
 ```
 
 ### Role Hierarchy:
 ```
-GHOST → APPRENTICE → SCRIBE → SCHOLAR → SAGE → MASTER → ARCHITECT → WIZARD
+👻 GHOST → ⚰️ TOMB → 🤖 DRONE → � CRYPT → 😈 IMP → ⚔️ KNIGHT → 🧙‍♂️ SORCERER → 🧙‍♀️ WIZARD
 ```
 
 ### Get Help:
 ```bash
-udos help           # General help
-udos help var       # Variable help
-udos help role      # Role help
-udos help tpl       # Template help
+# Display Format          # Actual Command
+UDOS HELP                  udos help          # General help
+UDOS HELP VAR              udos help var      # Variable help  
+UDOS HELP ROLE             udos help role     # Role help
+UDOS HELP TPL              udos help tpl      # Template help
 ```
