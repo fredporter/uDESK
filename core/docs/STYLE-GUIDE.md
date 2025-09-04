@@ -21,55 +21,83 @@ Extensions:      Mode-aware extension system
 ```
 
 ### ⌨️ **Command Syntax (uCODE v1.0.7)**
+
+#### **CLI Context (Terminal/uSCRIPT)**
 ```ucode
-# uCODE shortcode default
-[HELP]                    ~ System help
-[MEMORY|SEARCH*term]      ~ Memory operations
-[GRID|INIT*80/30]        ~ Grid initialization
-[TEMPLATE|PROCESS*file.md]   ~ Template processing
-
-# Full command mode (uSCRIPT functions)
-[HELP]
-[MEMORY|SEARCH*term]
-[GRID|INIT*80/30]
-[TEMPLATE|PROCESS*file.md]
-
-# v1.0.7 Examples:
-[BUILD|USER]                   ~ Build user mode
-[MODE|SET*DEV]                 ~ Switch to developer mode
-[EXT|INSTALL*NAME]             ~ Install extension
-[CONF|GET*KEY]                 ~ Get configuration value
+# Direct commands - case insensitive input, UPPERCASE output
+help                          ~ Show general help
+HELP                          ~ System responds in UPPERCASE
+backup create full            ~ Create full backup
+MEMORY SEARCH term            ~ Search for files
+CONFIG SET THEME DARK         ~ Set theme to dark mode
 ```
 
-### 🔧 **Variable Naming**
+#### **Documentation Context (Markdown/Shortcodes)**
+```ucode
+# Shortcodes with brackets for embedding in .md files
+[HELP]                        ~ System help shortcode
+[MEMORY|SEARCH*term]          ~ Memory search with parameter
+[CONFIG|SET*THEME*DARK]       ~ Configuration with multiple parameters
+[BACKUP|CREATE*{PROJECT-NAME}] ~ Using variables in shortcodes
+
+# v1.0.7 Examples:
+[BUILD|USER]                  ~ Build user mode
+[MODE|SET*DEVELOPER]          ~ Switch to developer mode  
+[EXT|INSTALL*{EXTENSION-NAME}] ~ Install extension with variable
+[CONFIG|GET*THEME]            ~ Get configuration value
+```
+
+#### **UPPERCASE Rules**
+```ucode
+# Commands, options, variables, functions: ALL CAPS
+HELP BACKUP                   ~ Commands in UPPERCASE
+CONFIG SET {THEME-NAME} DARK  ~ Variables and options in CAPS
+RUN <BACKUP-SCRIPT|FULL>      ~ Functions in CAPS with parameters
+EXIT CONFIG ROLE THEME        ~ Shell commands also in CAPS for consistency
+
+# Regular text: Sentence case
+To create a backup, use the BACKUP command.
+Press ENTER to continue with the operation.
+Your current role is {ROLE} in the system.
+Type EXIT to quit the application.
+```
+
+### 🔧 **Variable Naming (v1.0.7)**
 ```bash
 # Shell variables: CAPS-DASH-NUMBERS
 USER-INPUT=""
 SYSTEM-STATUS="active"
-GRID-WIDTH=80
 BUILD-MODE="developer"
 PLATFORM-TYPE="macOS"
 
 # Template variables: CAPS-DASH-NUMBERS
-{USER-NAME}
-{GRID-SIZE}
-{SYSTEM-STATUS}
-{BUILD-MODE}
-{PLATFORM-TYPE}
+{USER-NAME}                   ~ Current system user
+{BUILD-MODE}                  ~ Active build configuration  
+{SYSTEM-STATUS}               ~ Current system state
+{PROJECT-PATH}                ~ Current project directory
+{BACKUP-COUNT}                ~ Number of available backups
+
+# Function variables: CAPS-DASH-NUMBERS with pipe parameters
+<BACKUP-SCRIPT|FULL>          ~ Execute full backup function
+<DEPLOY-SITE|PRODUCTION>      ~ Deploy to production environment
+<ANALYZE-LOGS|ERROR-LEVEL>    ~ Analyze logs at error level
 ```
 
 ### Commands: CAPS-DASH-NUMBERS (v1.0.7)
 ```
 # Core Commands
 HELP     STATUS   INFO     BUILD    MODE
-EXT      CONF     THEME    BACKUP   RESTORE
-REPAIR   STAGE    APP      
+EXT      CONFIG   THEME    BACKUP   RESTORE  
+MEMORY   SEARCH   
+
+# Shell Commands
+EXIT     QUIT     ROLE     
 
 # System Control  
-RESTART  RESET    UNDO     REDO
+RESTART  RESET    
 
 # Development
-DEV      TEST     DEBUG    DEPLOY
+DEBUG    DEPLOY   TEST
 ```
 
 ### Roles: Correct 8-Tier Hierarchy (v1.0.7)
@@ -80,27 +108,24 @@ DEV      TEST     DEBUG    DEPLOY
 
 ### 🔤 **uDESK Syntax Characters (v1.0.7)**
 ```ucode
-# Variable references: Single curly brackets
-{VARIABLE}
-{USER-NAME}
-{GRID-SIZE}
-{BUILD-MODE}
-{PLATFORM-TYPE}
+# Variable references: Single curly brackets  
+{VARIABLE}                    ~ System variables
+{USER-NAME}                   ~ Current user
+{BUILD-MODE}                  ~ Build configuration
+{PROJECT-PATH}                ~ Project directory
 
-# Commands: Square brackets
-[COMMAND]
-[HELP]
-[MEMORY|SEARCH*term]
-[BUILD|USER]
-[MODE|SET*DEV]
-[EXT|INSTALL*NAME]
+# Commands: Square brackets (shortcodes) or direct (CLI)
+[COMMAND]                     ~ Shortcode format for documentation
+COMMAND                       ~ Direct CLI format (case insensitive)
+[HELP]                        ~ Help shortcode
+HELP                          ~ Help command (input)
+HELP                          ~ Help response (UPPERCASE output)
 
-# Functions: Angle brackets
-<FUNCTION>
-<INIT>
-<PROCESS>
-<BUILD>
-<DEPLOY>
+# Functions: Angle brackets with parameters
+<FUNCTION>                    ~ Function reference
+<BACKUP-SCRIPT>               ~ Simple function call
+<DEPLOY-SITE|PRODUCTION>      ~ Function with single parameter
+<BACKUP-PROJECT|{PROJECT-NAME}|INCREMENTAL> ~ Function with variables
 
 ~ Operators:
 |  ~ Pipe for command actions
@@ -109,10 +134,10 @@ DEV      TEST     DEBUG    DEPLOY
 
 ~ Comments: Both # and ~ are REM in uCODE
 # This is a full line comment
-[HELP]                    ~ End-of-line comment
+HELP                          ~ End-of-line comment
 ~ uCODE avoids these characters: '"`&%$
 
-# Character Usage in Regular Text:
+# Character usage in regular text:
 ~ Avoid uCODE special characters in regular operations: []{}<>~/\|
 ~ Example: "Press [Enter]" could confuse with system shortcode
 ~ Preferred: "Press ENTER to continue" (all caps, no brackets)
@@ -136,23 +161,33 @@ DEV      TEST     DEBUG    DEPLOY
 ### Examples (v1.0.7)
 ```bash
 # ✅ Correct uDESK v1.0.7 formatting
-Usage: udesk [COMMAND] [OPTIONS]   # Commands in caps
-Help:  udesk HELP [COMMAND]        # Commands in caps
-  BUILD        Build system - user, wizard-plus, developer, iso modes
-  MODE         Mode management - get current mode, switch modes
-  EXT          Extension system - install, remove, list extensions
-  CONF         Configuration - get, set, list, reset configurations
+Usage: udesk COMMAND OPTIONS                   ~ Commands in UPPERCASE
+Help:  udesk HELP COMMAND                      ~ Commands in UPPERCASE
+
+Commands:
+  BUILD        Build system in specified mode
+  MODE         Manage current operational mode  
+  EXT          Extension system operations
+  CONFIG       Configuration management
+
+Variables:
+  {USER-NAME}       Current system user
+  {BUILD-MODE}      Active build configuration
+  {PROJECT-PATH}    Current project directory
 
 Examples:
-  udesk build user                 # Command caps, examples lowercase
-  udesk mode set dev               # Command caps, examples lowercase
-  udesk ext install monitor       # Command caps, examples lowercase
-  udesk conf get build-mode       # Command caps, examples lowercase
+  udesk build user                    ~ Build user mode
+  udesk config set theme dark         ~ Set dark theme
+  udesk ext install {EXTENSION-NAME}  ~ Install extension
 
-# ❌ Incorrect formatting  
-Usage: udesk [command] [options]   # Should be: udesk [COMMAND] [OPTIONS]
-  build        BUILD SYSTEM       # Should be: BUILD with sentence case description
-udesk BUILD USER                   # Should be: lowercase examples
+# ❌ Incorrect formatting
+Usage: udesk command options          ~ Should be: COMMAND OPTIONS
+Help:  udesk help command            ~ Should be: HELP COMMAND
+Variables: {user-name}               ~ Should be: {USER-NAME}
+
+# Don't use quotes unnecessarily  
+"Press ENTER to continue"            ~ Should be: Press ENTER to continue
+Use "CONFIG SET" command             ~ Should be: Use CONFIG SET command
 ```
 
 ## Code Style Guidelines (v1.0.7)

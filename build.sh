@@ -468,6 +468,7 @@ case $BUILD_MODE in
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
+#include <ctype.h>
 
 void show_welcome_art() {
     const char* theme = getenv("UDESK_COLORS");
@@ -536,19 +537,44 @@ int validate_user_path(const char* path) {
 }
 
 int execute_user_ucode(const char* command) {
-    if (strncmp(command, "[BACKUP]", 8) == 0) {
+    // Convert input to uppercase for processing  
+    char upper_cmd[256];
+    char original_cmd[256];
+    strncpy(original_cmd, command, 255);
+    original_cmd[255] = '\0';
+    
+    // Handle both [COMMAND] shortcode and direct command formats
+    const char* clean_cmd = command;
+    if (command[0] == '[' && command[strlen(command)-1] == ']') {
+        // Remove brackets for shortcode format
+        strncpy(upper_cmd, command + 1, strlen(command) - 2);
+        upper_cmd[strlen(command) - 2] = '\0';
+        clean_cmd = upper_cmd;
+    } else {
+        strncpy(upper_cmd, command, 255);
+        upper_cmd[255] = '\0';
+        clean_cmd = upper_cmd;
+    }
+    
+    // Convert to uppercase for consistent processing
+    for (int i = 0; clean_cmd[i] && i < 255; i++) {
+        upper_cmd[i] = toupper(clean_cmd[i]);
+    }
+    upper_cmd[strlen(clean_cmd)] = '\0';
+    
+    if (strncmp(upper_cmd, "BACKUP", 6) == 0) {
         printf("📦 Creating user backup...\n");
         system("mkdir -p ~/.udesk/backups && tar -czf ~/.udesk/backups/user-$(date +%Y%m%d-%H%M).tar.gz ~/workspace/ ~/.udesk/ 2>/dev/null");
         printf("✅ Backup saved to ~/.udesk/backups/\n");
         return 0;
     }
-    if (strncmp(command, "[RESTORE]", 9) == 0) {
+    if (strncmp(upper_cmd, "RESTORE", 7) == 0) {
         printf("📥 Available backups:\n");
         system("ls -la ~/.udesk/backups/user-*.tar.gz 2>/dev/null | head -5 || echo '   No backups found'");
         printf("💡 To restore: tar -xzf ~/.udesk/backups/user-YYYYMMDD-HHMM.tar.gz -C ~/\n");
         return 0;
     }
-    if (strncmp(command, "[INFO]", 6) == 0) {
+    if (strncmp(upper_cmd, "INFO", 4) == 0) {
         printf("ℹ️  uDESK v1.0.7 - User Mode\n");
         printf("   Role: %s\n", getenv("UDESK_ROLE") ?: "GHOST");
         printf("   Theme: %s\n", getenv("UDESK_COLORS") ?: "default");
@@ -558,30 +584,30 @@ int execute_user_ucode(const char* command) {
         printf("   Platform: %s\n", getenv("UDESK_MODE") ?: "user");
         return 0;
     }
-    if (strncmp(command, "[HELP]", 6) == 0) {
+    if (strncmp(upper_cmd, "HELP", 4) == 0) {
         printf("📖 uDESK v1.0.7 User Commands\n\n");
         printf("USER uCODE COMMANDS:\n");
-        printf("  [BACKUP]  - Backup your files and config\n");
-        printf("  [RESTORE] - Show available backups\n");
-        printf("  [INFO]    - System information\n");
-        printf("  [HELP]    - This help\n\n");
+        printf("  BACKUP   - Backup your files and config\n");
+        printf("  RESTORE  - Show available backups\n");
+        printf("  INFO     - System information\n");
+        printf("  HELP     - This help\n\n");
         printf("ROLE PROGRESSION:\n");
         printf("  👻 GHOST → ⚰️ TOMB → 🤖 DRONE → 🔐 CRYPT → 😈 IMP → ⚔️ KNIGHT → 🔮 SORCERER → 🧙‍♂️ WIZARD\n\n");
         printf("SHELL COMMANDS:\n");
-        printf("  exit, quit - Leave uDESK\n");
-        printf("  config     - Show configuration\n");
-        printf("  role       - Show role information\n");
-        printf("  theme      - Show theme settings\n");
+        printf("  EXIT, QUIT - Leave uDESK\n");
+        printf("  CONFIG     - Show configuration\n");
+        printf("  ROLE       - Show role information\n");
+        printf("  THEME      - Show theme settings\n");
         return 0;
     }
-    if (strcmp(command, "config") == 0) {
+    if (strncmp(upper_cmd, "CONFIG", 6) == 0) {
         printf("📋 Configuration:\n");
         system("cat ~/.udesk/config 2>/dev/null || echo '   No config file found'");
         return 0;
     }
-    if (strcmp(command, "role") == 0) {
+    if (strncmp(upper_cmd, "ROLE", 4) == 0) {
         const char* role = getenv("UDESK_ROLE") ?: "GHOST";
-        printf("👤 Current Role: %s\n", role);
+        printf("👤 Current role: %s\n", role);
         if (strcmp(role, "GHOST") == 0) {
             printf("   👻 GHOST - Basic system monitoring\n");
             printf("   Next: ⚰️ TOMB (Archive management)\n");
@@ -591,14 +617,15 @@ int execute_user_ucode(const char* command) {
         }
         return 0;
     }
-    if (strcmp(command, "theme") == 0) {
+    if (strncmp(upper_cmd, "THEME", 5) == 0) {
         printf("🎨 Theme: %s\n", getenv("UDESK_COLORS") ?: "default");
         printf("   Prompt: %s\n", get_prompt());
         printf("   Available: default, retro, dark, light\n");
         return 0;
     }
-    printf("❌ Unknown command: %s\n", command);
-    printf("   Use [HELP] for available commands\n");
+    
+    printf("❌ Unknown command: %s\n", original_cmd);
+    printf("   Use HELP for available commands\n");
     return 1;
 }
 
@@ -609,7 +636,8 @@ int main(int argc, char *argv[]) {
     show_welcome_art();
     
     printf("Role: %s | Theme: %s\n", role, theme);
-    printf("Commands: [BACKUP], [RESTORE], [INFO], [HELP], config, exit\n\n");
+    printf("Commands: BACKUP, RESTORE, INFO, HELP, CONFIG, EXIT\n");
+    printf("Format: Direct commands or [SHORTCODE] syntax\n\n");
     
     char input[256];
     while (1) {
@@ -618,7 +646,8 @@ int main(int argc, char *argv[]) {
         
         input[strcspn(input, "\n")] = 0;
         
-        if (strcmp(input, "exit") == 0 || strcmp(input, "quit") == 0) {
+        if (strcmp(input, "exit") == 0 || strcmp(input, "quit") == 0 || 
+            strcmp(input, "EXIT") == 0 || strcmp(input, "QUIT") == 0) {
             printf("👋 Goodbye! Thanks for using uDESK v1.0.7\n");
             break;
         }
@@ -747,7 +776,7 @@ int main(int argc, char *argv[]) {
     printf("🧙‍♀️ uDESK v1.0.7 - Wizard+ Mode\n");
     printf("Role: %s\n", role);
     printf("Type [PLUS-MODE] to enable Plus Mode capabilities\n");
-    printf("Commands: [PLUS-MODE], [PLUS-STATUS], [CREATE-EXT], [BUILD-TCZ], [HELP], exit\n\n");
+    printf("Commands: [PLUS-MODE], [PLUS-STATUS], [CREATE-EXT], [BUILD-TCZ], [HELP], EXIT\n\n");
     
     char input[256];
     while (1) {
@@ -756,7 +785,8 @@ int main(int argc, char *argv[]) {
         
         input[strcspn(input, "\n")] = 0;
         
-        if (strcmp(input, "exit") == 0 || strcmp(input, "quit") == 0) {
+        if (strcmp(input, "exit") == 0 || strcmp(input, "quit") == 0 || 
+            strcmp(input, "EXIT") == 0 || strcmp(input, "QUIT") == 0) {
             printf("Goodbye, Wizard!\n");
             break;
         }
@@ -826,7 +856,7 @@ int execute_developer_ucode(const char* command) {
 int main(int argc, char *argv[]) {
     printf("🔧 uDESK v1.0.7 - Developer Mode\n");
     printf("⚠️  WARNING: Full system access enabled\n");
-    printf("Commands: [BUILD-CORE], [BUILD-ISO], [SYSTEM-INFO], [HELP], exit\n\n");
+    printf("Commands: [BUILD-CORE], [BUILD-ISO], [SYSTEM-INFO], [HELP], EXIT\n\n");
     
     char input[256];
     while (1) {
@@ -835,7 +865,8 @@ int main(int argc, char *argv[]) {
         
         input[strcspn(input, "\n")] = 0;
         
-        if (strcmp(input, "exit") == 0 || strcmp(input, "quit") == 0) {
+        if (strcmp(input, "exit") == 0 || strcmp(input, "quit") == 0 || 
+            strcmp(input, "EXIT") == 0 || strcmp(input, "QUIT") == 0) {
             printf("Developer session ended\n");
             break;
         }

@@ -4,121 +4,165 @@
 ### Overview
 uCODE (Universal Command Operations & Development Environment) is the integrated command language for uDESK v1.0.7. It provides a structured syntax for cross-platform system operations, development tasks, and unified build management.
 
-### Command Syntax
+### Command Contexts (v1.0.7)
+
+#### **CLI Context (Terminal/uSCRIPT)**
+Direct commands - case insensitive input, UPPERCASE output:
+```
+HELP                          ~ Show general help
+BACKUP                        ~ Create backup
+MEMORY SEARCH TERM            ~ Search for files
+CONFIG SET THEME DARK         ~ Set theme to dark mode
+```
+
+#### **Documentation Context (Markdown/Shortcodes)**
+Shortcodes with brackets for embedding in .md files:
+```
+[HELP]                        ~ System help shortcode
+[MEMORY|SEARCH*term]          ~ Memory search with parameter
+[CONFIG|SET*THEME*DARK]       ~ Configuration with multiple parameters
+[BACKUP|CREATE*{PROJECT-NAME}] ~ Using variables in shortcodes
+```
+
+### Command Syntax Rules
+
+**CLI Format (Terminal):**
+```
+COMMAND [OPTION] [PARAMETER]
+```
+
+**Shortcode Format (Documentation):**
 ```
 [COMMAND|OPTION*PARAMETER]
 ```
 
 **Components:**
-- `COMMAND`: Primary operation (required)
-- `OPTION`: Command modifier (optional)
-- `PARAMETER`: Command argument (optional)
+- `COMMAND`: Primary operation (required) - UPPERCASE display
+- `OPTION`: Command modifier (optional) - UPPERCASE display  
+- `PARAMETER`: Command argument (optional) - varies by context
 
 **Examples:**
 ```
-[HELP]                    # Show help
-[STATUS]                  # System status
-[BUILD|MODE*USER]        # Build in user mode
-[EXT|INSTALL*NAME]       # Install extension
-[MODE|SET*DEV]           # Switch to developer mode
+# CLI Context
+HELP                          ~ Show help
+BACKUP FULL                   ~ Complete backup
+BUILD USER                    ~ Build in user mode
+EXT INSTALL NAME              ~ Install extension
+MODE SET DEVELOPER            ~ Switch to developer mode
+
+# Documentation Context  
+[HELP]                        ~ Show help shortcode
+[BACKUP|FULL]                 ~ Complete backup shortcode
+[BUILD|USER]                  ~ Build user mode shortcode
+[EXT|INSTALL*NAME]            ~ Install extension shortcode
+[MODE|SET*DEVELOPER]          ~ Switch to developer mode shortcode
 ```
 
 ---
 
-## Core Commands (uDESK v1.0.7 Clean Architecture)
+## Core Commands (uDESK v1.0.7)
 
 ### System Management
-| Command | Description | Platform Function |
-|---------|-------------|-------------------|
-| [BACKUP] | Create system backup | Cross-platform backup system |
-| [BACKUP|FULL] | Complete system backup | Includes all user data and configs |
-| [RESTORE] | Restore from backup | Platform-aware restore |
-| [RESTORE|SELECT*PATH] | Restore specific backup | Custom restore path |
+| CLI Command | Shortcode | Description | Platform Function |
+|-------------|-----------|-------------|-------------------|
+| BACKUP | [BACKUP] | Create system backup | Cross-platform backup system |
+| BACKUP FULL | [BACKUP\|FULL] | Complete system backup | Includes all user data and configs |
+| RESTORE | [RESTORE] | Restore from backup | Platform-aware restore |
+| RESTORE SELECT PATH | [RESTORE\|SELECT*PATH] | Restore specific backup | Custom restore path |
 
 ### Build System
-| Command | Description | Function |
-|---------|-------------|----------|
-| [BUILD|USER] | Build user mode | Essential features only |
-| [BUILD|WIZARD-PLUS] | Build wizard+ mode | Advanced features |
-| [BUILD|DEV] | Build developer mode | Full development toolkit |
-| [BUILD|ISO] | Build bootable ISO | Bootable system image |
+| CLI Command | Shortcode | Description | Function |
+|-------------|-----------|-------------|----------|
+| BUILD USER | [BUILD\|USER] | Build user mode | Essential features only |
+| BUILD WIZARD-PLUS | [BUILD\|WIZARD-PLUS] | Build wizard+ mode | Advanced features |
+| BUILD DEVELOPER | [BUILD\|DEVELOPER] | Build developer mode | Full development toolkit |
+| BUILD ISO | [BUILD\|ISO] | Build bootable ISO | Bootable system image |
 
 ### Mode Management
-| Command | Description | Function |
-|---------|-------------|----------|
-| [MODE|GET] | Show current mode | Display active mode |
-| [MODE|SET*USER] | Switch to user mode | Basic functionality |
-| [MODE|SET*WIZARD-PLUS] | Switch to wizard+ mode | Advanced features |
-| [MODE|SET*DEV] | Switch to developer mode | Full development access |
+| CLI Command | Shortcode | Description | Function |
+|-------------|-----------|-------------|----------|
+| MODE GET | [MODE\|GET] | Show current mode | Display active mode |
+| MODE SET USER | [MODE\|SET*USER] | Switch to user mode | Basic functionality |
+| MODE SET WIZARD-PLUS | [MODE\|SET*WIZARD-PLUS] | Switch to wizard+ mode | Advanced features |
+| MODE SET DEVELOPER | [MODE\|SET*DEVELOPER] | Switch to developer mode | Full development access |
 
 ### System Control
-| Command | Description | Platform Function |
-|---------|-------------|-------------------|
-| [RESTART] | Restart system | Cross-platform restart |
-| [RESTART|FORCE] | Force restart | Emergency restart |
-| [RESET] | Reset to clean state | Remove user data, keep base |
-| [RESET|COMPLETE] | Full system reset | Factory reset equivalent |
+| CLI Command | Shortcode | Description | Platform Function |
+|-------------|-----------|-------------|-------------------|
+| RESTART | [RESTART] | Restart system | Cross-platform restart |
+| RESTART FORCE | [RESTART\|FORCE] | Force restart | Emergency restart |
+| RESET | [RESET] | Reset to clean state | Remove user data, keep base |
+| RESET COMPLETE | [RESET\|COMPLETE] | Full system reset | Factory reset equivalent |
 
 ### System Repair
-| Command | Description | Function |
-|---------|-------------|----------|
-| [REPAIR] | Basic system repair | Auto-detect and fix common issues |
-| [REPAIR|FILESYSTEM] | Filesystem check | Platform-specific filesystem check |
-| [REPAIR|EXT] | Rebuild extensions | Reinstall system extensions |
-| [REPAIR|DEPENDENCIES] | Fix dependencies | Resolve dependency conflicts |
+| CLI Command | Shortcode | Description | Function |
+|-------------|-----------|-------------|----------|
+| REPAIR | [REPAIR] | Basic system repair | Auto-detect and fix common issues |
+| REPAIR FILESYSTEM | [REPAIR\|FILESYSTEM] | Filesystem check | Platform-specific filesystem check |
+| REPAIR EXT | [REPAIR\|EXT] | Rebuild extensions | Reinstall system extensions |
+| REPAIR DEPENDENCIES | [REPAIR\|DEPENDENCIES] | Fix dependencies | Resolve dependency conflicts |
+
+### Shell Commands  
+| CLI Command | Shortcode | Description | Function |
+|-------------|-----------|-------------|----------|
+| EXIT | [EXIT] | Exit uDESK | Leave current session |
+| QUIT | [QUIT] | Quit uDESK | Leave current session |
+| CONFIG | [CONFIG] | Show configuration | Display current settings |
+| ROLE | [ROLE] | Show role information | Display current role |
+| THEME | [THEME] | Show theme settings | Display current theme |
 
 ### Undo/Redo System
-| Command | Description | Implementation |
-|---------|-------------|----------------|
-| [UNDO] | Undo last operation | Restore from automatic backup |
-| [UNDO|STEPS*N] | Undo N operations | Multi-step undo |
-| [REDO] | Redo last undone | Apply from redo stack |
-| [REDO|STEPS*N] | Redo N operations | Multi-step redo |
+| CLI Command | Shortcode | Description | Implementation |
+|-------------|-----------|-------------|----------------|
+| UNDO | [UNDO] | Undo last operation | Restore from automatic backup |
+| UNDO STEPS N | [UNDO\|STEPS*N] | Undo N operations | Multi-step undo |
+| REDO | [REDO] | Redo last undone | Apply from redo stack |
+| REDO STEPS N | [REDO\|STEPS*N] | Redo N operations | Multi-step redo |
 
 ---
 
 ## Development Commands
 
 ### Desktop Application
-| Command | Description |
-|---------|-------------|
-| [APP|START] | Start desktop application |
-| [APP|STOP] | Stop desktop application |
-| [APP|STATUS] | Check application status |
-| [APP|REBUILD] | Rebuild desktop application |
+| CLI Command | Shortcode | Description |
+|-------------|-----------|-------------|
+| APP START | [APP\|START] | Start desktop application |
+| APP STOP | [APP\|STOP] | Stop desktop application |
+| APP STATUS | [APP\|STATUS] | Check application status |
+| APP REBUILD | [APP\|REBUILD] | Rebuild desktop application |
 
 ### Cross-Platform Development
-| Command | Description |
-|---------|-------------|
-| [STAGE|DETECT] | Detect current platform |
-| [STAGE|DEPS] | Install platform dependencies |
-| [STAGE|TEST] | Test cross-platform compatibility |
+| CLI Command | Shortcode | Description |
+|-------------|-----------|-------------|
+| STAGE DETECT | [STAGE\|DETECT] | Detect current platform |
+| STAGE DEPS | [STAGE\|DEPS] | Install platform dependencies |
+| STAGE TEST | [STAGE\|TEST] | Test cross-platform compatibility |
 
 ### Extension System
-| Command | Description |
-|---------|-------------|
-| [EXT|LIST] | List available extensions |
-| [EXT|INSTALL*NAME] | Install extension |
-| [EXT|REMOVE*NAME] | Remove extension |
-| [EXT|BUILD*PATH] | Build custom extension |
-| [EXT|ENABLE*NAME] | Enable extension |
-| [EXT|DISABLE*NAME] | Disable extension |
+| CLI Command | Shortcode | Description |
+|-------------|-----------|-------------|
+| EXT LIST | [EXT\|LIST] | List available extensions |
+| EXT INSTALL NAME | [EXT\|INSTALL*NAME] | Install extension |
+| EXT REMOVE NAME | [EXT\|REMOVE*NAME] | Remove extension |
+| EXT BUILD PATH | [EXT\|BUILD*PATH] | Build custom extension |
+| EXT ENABLE NAME | [EXT\|ENABLE*NAME] | Enable extension |
+| EXT DISABLE NAME | [EXT\|DISABLE*NAME] | Disable extension |
 
 ### Configuration Management
-| Command | Description |
-|---------|-------------|
-| [CONF|GET*KEY] | Get configuration value |
-| [CONF|SET*KEY*VALUE] | Set configuration value |
-| [CONF|LIST] | List all configurations |
-| [CONF|RESET] | Reset to default configuration |
+| CLI Command | Shortcode | Description |
+|-------------|-----------|-------------|
+| CONFIG GET KEY | [CONFIG\|GET*KEY] | Get configuration value |
+| CONFIG SET KEY VALUE | [CONFIG\|SET*KEY*VALUE] | Set configuration value |
+| CONFIG LIST | [CONFIG\|LIST] | List all configurations |
+| CONFIG RESET | [CONFIG\|RESET] | Reset to default configuration |
 
 ### Theme Management
-| Command | Description |
-|---------|-------------|
-| [THEME|LIST] | List available themes |
-| [THEME|SET*NAME] | Switch to theme |
-| [THEME|RESET] | Reset to default theme |
-| [THEME|CREATE*NAME] | Create custom theme |
+| CLI Command | Shortcode | Description |
+|-------------|-----------|-------------|
+| THEME LIST | [THEME\|LIST] | List available themes |
+| THEME SET NAME | [THEME\|SET*NAME] | Switch to theme |
+| THEME RESET | [THEME\|RESET] | Reset to default theme |
+| THEME CREATE NAME | [THEME\|CREATE*NAME] | Create custom theme |
 
 **Available Themes:**
 - `DEFAULT` (clean modern)
@@ -131,23 +175,69 @@ uCODE (Universal Command Operations & Development Environment) is the integrated
 ## Information Commands
 
 ### System Information
-| Command | Description |
-|---------|-------------|
-| [STATUS] | Overall system status |
-| [INFO] | uDESK version and details |
-| [HARD] | Hardware information |
-| [NET] | Network status |
-| [STAGE] | Platform information |
-| [DASH] | System performance metrics |
+| CLI Command | Shortcode | Description |
+|-------------|-----------|-------------|
+| STATUS | [STATUS] | Overall system status |
+| INFO | [INFO] | uDESK version and details |
+| HARDWARE | [HARDWARE] | Hardware information |
+| NETWORK | [NETWORK] | Network status |
+| PLATFORM | [PLATFORM] | Platform information |
+| DASHBOARD | [DASHBOARD] | System performance metrics |
 
 ### Help System
-| Command | Description |
-|---------|-------------|
-| [HELP] | General help |
-| [HELP|COMMAND*NAME] | Help for specific command |
-| [MX] | Full manual (this document) |
-| [EX] | Command examples |
-| [RX] | Quick reference card |
+| CLI Command | Shortcode | Description |
+|-------------|-----------|-------------|
+| HELP | [HELP] | General help |
+| HELP COMMAND NAME | [HELP\|COMMAND*NAME] | Help for specific command |
+| MANUAL | [MANUAL] | Full manual (this document) |
+| EXAMPLES | [EXAMPLES] | Command examples |
+| REFERENCE | [REFERENCE] | Quick reference card |
+
+---
+
+## Character Usage Rules (v1.0.7)
+
+### uCODE Special Characters
+```
+~ Operators:
+|  ~ Pipe for command actions
+*  ~ Asterisk for parameters
+/  ~ Slash for multiple parameters
+
+~ Comments: Both # and ~ are REM in uCODE
+# This is a full line comment
+HELP                          ~ End-of-line comment
+
+~ Variable and Function Syntax:
+{VARIABLE}                    ~ System variables
+<FUNCTION>                    ~ Function calls
+```
+
+### Character Avoidance Rules
+```
+~ uCODE avoids these characters: '"`&%$
+
+# Character usage in regular text:
+~ Avoid uCODE special characters in regular operations: []{}<>~/\|
+~ Example: "Press [Enter]" could confuse with system shortcode
+~ Preferred: "Press ENTER to continue" (all caps, no brackets)
+~ Minimize quotes: "Press ENTER" → Press ENTER
+```
+
+### Formatting Rules
+```
+# Commands, options, variables, functions: ALL CAPS
+HELP BACKUP                   ~ Commands in UPPERCASE
+CONFIG SET {THEME-NAME} DARK  ~ Variables and options in CAPS
+RUN <BACKUP-SCRIPT|FULL>      ~ Functions in CAPS with parameters
+EXIT CONFIG ROLE THEME        ~ Shell commands also in CAPS for consistency
+
+# Regular text: Sentence case
+To create a backup, use the BACKUP command.
+Press ENTER to continue with the operation.
+Your current role is {ROLE} in the system.
+Type EXIT to quit the application.
+```
 
 ---
 
@@ -204,39 +294,71 @@ uDESK v1.0.7 supports:
 
 ### Most Common Commands
 ```bash
-[HELP]                   # Get help
-[STATUS]                 # Check system
-[INFO]                   # System information
-[MODE|GET]               # Check current mode
-[BUILD|USER]             # Build user mode
-[EXT|LIST]               # See extensions
-[BACKUP]                 # Save current state
-[CONF|GET*KEY]           # Get configuration
+# CLI Context (Terminal)
+HELP                         ~ Get help
+STATUS                       ~ Check system
+INFO                         ~ System information
+ROLE                         ~ Check current role
+BUILD USER                   ~ Build user mode
+EXT LIST                     ~ See extensions
+BACKUP                       ~ Save current state
+CONFIG GET KEY               ~ Get configuration
+
+# Documentation Context (Shortcodes)
+[HELP]                       ~ Get help shortcode
+[STATUS]                     ~ Check system shortcode
+[INFO]                       ~ System information shortcode
+[ROLE]                       ~ Check current role shortcode
+[BUILD|USER]                 ~ Build user mode shortcode
+[EXT|LIST]                   ~ See extensions shortcode
+[BACKUP]                     ~ Save current state shortcode
+[CONFIG|GET*KEY]             ~ Get configuration shortcode
 ```
 
 ### Mode-Specific Commands
 ```bash
-# User Mode
-[BUILD|USER]             # Build for basic use
-[EXT|LIST]               # View user extensions
+# User Mode - CLI
+BUILD USER                   ~ Build for basic use
+EXT LIST                     ~ View user extensions
 
-# Wizard+ Mode  
-[BUILD|WIZARD-PLUS]      # Build advanced features
-[CONF|SET*KEY*VALUE]     # Advanced configuration
+# User Mode - Shortcodes
+[BUILD|USER]                 ~ Build for basic use shortcode
+[EXT|LIST]                   ~ View user extensions shortcode
 
-# Developer Mode
-[BUILD|DEV]              # Build development toolkit
-[APP|START]              # Launch desktop app
-[STAGE|TEST]             # Test cross-platform
+# Wizard+ Mode - CLI
+BUILD WIZARD-PLUS            ~ Build advanced features
+CONFIG SET KEY VALUE         ~ Advanced configuration
+
+# Wizard+ Mode - Shortcodes
+[BUILD|WIZARD-PLUS]          ~ Build advanced features shortcode
+[CONFIG|SET*KEY*VALUE]       ~ Advanced configuration shortcode
+
+# Developer Mode - CLI
+BUILD DEVELOPER              ~ Build development toolkit
+APP START                    ~ Launch desktop app
+STAGE TEST                   ~ Test cross-platform
+
+# Developer Mode - Shortcodes
+[BUILD|DEVELOPER]            ~ Build development toolkit shortcode
+[APP|START]                  ~ Launch desktop app shortcode
+[STAGE|TEST]                 ~ Test cross-platform shortcode
 ```
 
 ### Emergency Commands
 ```bash
-[REPAIR]                 # Auto-fix problems
-[REPAIR|FILESYSTEM]      # Fix file system
-[RESTORE]                # Restore from backup
-[RESET]                  # Reset to clean state
-[RESTART|FORCE]          # Force restart
+# CLI Context
+REPAIR                       ~ Auto-fix problems
+REPAIR FILESYSTEM           ~ Fix file system
+RESTORE                      ~ Restore from backup
+RESET                        ~ Reset to clean state
+RESTART FORCE                ~ Force restart
+
+# Shortcode Context
+[REPAIR]                     ~ Auto-fix problems shortcode
+[REPAIR|FILESYSTEM]          ~ Fix file system shortcode
+[RESTORE]                    ~ Restore from backup shortcode
+[RESET]                      ~ Reset to clean state shortcode
+[RESTART|FORCE]              ~ Force restart shortcode
 ```
 
 ---
