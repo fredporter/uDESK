@@ -20,13 +20,13 @@ if ! command -v gcc &> /dev/null; then
 fi
 
 # Set environment
-export UDOS_ROLE="GHOST"
-export UDOS_MODE="USER"
+export UDESK_ROLE="GHOST"
+export UDESK_MODE="USER"
 
 echo "🚀 Starting uDESK..."
 echo "   Platform: macOS $(sw_vers -productVersion)"
 echo "   Architecture: $(uname -m)"
-echo "   Role: $UDOS_ROLE"
+echo "   Role: $UDESK_ROLE"
 
 # Build and run
 ./build.sh user
@@ -36,7 +36,7 @@ echo "✅ uDESK ready!"
 echo ""
 echo "🎯 Quick Commands:"
 echo "   User Mode:     ./build/user/udos"
-echo "   Wizard+ Mode:  UDOS_ROLE=WIZARD ./build/wizard-plus/udos-wizard-plus"
+echo "   Wizard+ Mode:  UDESK_ROLE=WIZARD ./build/wizard-plus/udos-wizard-plus"
 echo "   Developer:     ./build/developer/udos-developer"
 echo ""
 echo "📱 Tauri App:     cd app/udesk-app && npm run tauri dev"

@@ -1,6 +1,6 @@
 # uDESK v1.0.7 Style Guide
 
-## uDOS Capitalization Standards
+## uDESK Capitalization Standards
 
 ### System Components
 ```
@@ -20,31 +20,41 @@ Desktop App:     Tauri-based cross-platform application
 Extensions:      Mode-aware extension system
 ```
 
-### Command Syntax (uCODE v1.0.7)
+### ⌨️ **Command Syntax (uCODE v1.0.7)**
 ```ucode
-[COMMAND|OPTION*PARAMETER]     ~ Universal shortcode syntax
-{VARIABLE-NAME}                ~ Variables: CAPS-DASH-NUMBERS
-<FUNCTION>                     ~ Functions: angle brackets
+# uCODE shortcode default
+[HELP]                    ~ System help
+[MEMORY|SEARCH*term]      ~ Memory operations
+[GRID|INIT*80/30]        ~ Grid initialization
+[TEMPLATE|PROCESS*file.md]   ~ Template processing
+
+# Full command mode (uSCRIPT functions)
+[HELP]
+[MEMORY|SEARCH*term]
+[GRID|INIT*80/30]
+[TEMPLATE|PROCESS*file.md]
 
 # v1.0.7 Examples:
 [BUILD|USER]                   ~ Build user mode
-[MODE|SET*DEVELOPER]           ~ Switch to developer mode
-[EXTENSION|INSTALL*NAME]       ~ Install extension
-[CONFIG|GET*KEY]               ~ Get configuration value
+[MODE|SET*DEV]                 ~ Switch to developer mode
+[EXT|INSTALL*NAME]             ~ Install extension
+[CONF|GET*KEY]                 ~ Get configuration value
 ```
 
-### Variable Naming
+### 🔧 **Variable Naming**
 ```bash
-# Shell/Template variables: CAPS-DASH-NUMBERS
+# Shell variables: CAPS-DASH-NUMBERS
 USER-INPUT=""
 SYSTEM-STATUS="active"
+GRID-WIDTH=80
 BUILD-MODE="developer"
 PLATFORM-TYPE="macOS"
 
 # Template variables: CAPS-DASH-NUMBERS
 {USER-NAME}
-{BUILD-MODE}
+{GRID-SIZE}
 {SYSTEM-STATUS}
+{BUILD-MODE}
 {PLATFORM-TYPE}
 ```
 
@@ -52,14 +62,14 @@ PLATFORM-TYPE="macOS"
 ```
 # Core Commands
 HELP     STATUS   INFO     BUILD    MODE
-EXTENSION CONFIG  THEME    BACKUP   RESTORE
-REPAIR   PLATFORM APP      
+EXT      CONF     THEME    BACKUP   RESTORE
+REPAIR   STAGE    APP      
 
 # System Control  
 RESTART  RESET    UNDO     REDO
 
 # Development
-DEVELOP  TEST     DEBUG    DEPLOY
+DEV      TEST     DEBUG    DEPLOY
 ```
 
 ### Roles: Correct 8-Tier Hierarchy (v1.0.7)
@@ -68,24 +78,27 @@ DEVELOP  TEST     DEBUG    DEPLOY
 😈 IMP       ⚔️ KNIGHT    🔮 SORCERER  🧙‍♂️ WIZARD
 ```
 
-### uCODE Syntax Characters (v1.0.7)
+### 🔤 **uDESK Syntax Characters (v1.0.7)**
 ```ucode
 # Variable references: Single curly brackets
 {VARIABLE}
 {USER-NAME}
+{GRID-SIZE}
 {BUILD-MODE}
 {PLATFORM-TYPE}
 
 # Commands: Square brackets
 [COMMAND]
 [HELP]
+[MEMORY|SEARCH*term]
 [BUILD|USER]
-[MODE|SET*DEVELOPER]
-[EXTENSION|INSTALL*NAME]
+[MODE|SET*DEV]
+[EXT|INSTALL*NAME]
 
 # Functions: Angle brackets
 <FUNCTION>
 <INIT>
+<PROCESS>
 <BUILD>
 <DEPLOY>
 
@@ -96,30 +109,50 @@ DEVELOP  TEST     DEBUG    DEPLOY
 
 ~ Comments: Both # and ~ are REM in uCODE
 # This is a full line comment
-[BUILD|USER]              ~ Build in user mode
+[HELP]                    ~ End-of-line comment
 ~ uCODE avoids these characters: '"`&%$
+
+# Character Usage in Regular Text:
+~ Avoid uCODE special characters in regular operations: []{}<>~/\|
+~ Example: "Press [Enter]" could confuse with system shortcode
+~ Preferred: "Press ENTER to continue" (all caps, no brackets)
+~ uCODE avoids these characters altogether: '"`&%$
+~ Minimize quotes: "Press ENTER" → Press ENTER
+```
+
+### 🌈 **Terminal Color Palettes (8 Available)**
+```css
+/* Polaroid Colors (System Default) - High-contrast photo-inspired */
+--red:     #FF1744    /* tput 196 - Bold Red */
+--green:   #00E676    /* tput 46  - Bright Green */
+--yellow:  #FFEB3B    /* tput 226 - Yellow Burst */
+--blue:    #2196F3    /* tput 21  - Deep Blue */
+--purple:  #E91E63    /* tput 201 - Magenta Pink */
+--cyan:    #00E5FF    /* tput 51  - Cyan Flash */
+--white:   #FFFFFF    /* tput 15  - Pure White */
+--black:   #000000    /* tput 16  - Pure Black */
 ```
 
 ### Examples (v1.0.7)
 ```bash
-# ✅ Correct uDOS v1.0.7 formatting
-Usage: udos [COMMAND] [OPTIONS]   # Commands in caps
-Help:  udos HELP [COMMAND]        # Commands in caps
+# ✅ Correct uDESK v1.0.7 formatting
+Usage: udesk [COMMAND] [OPTIONS]   # Commands in caps
+Help:  udesk HELP [COMMAND]        # Commands in caps
   BUILD        Build system - user, wizard-plus, developer, iso modes
   MODE         Mode management - get current mode, switch modes
-  EXTENSION    Extension system - install, remove, list extensions
-  CONFIG       Configuration - get, set, list, reset configurations
+  EXT          Extension system - install, remove, list extensions
+  CONF         Configuration - get, set, list, reset configurations
 
 Examples:
-  udos build user                 # Command caps, examples lowercase
-  udos mode set developer         # Command caps, examples lowercase
-  udos extension install monitor  # Command caps, examples lowercase
-  udos config get build-mode      # Command caps, examples lowercase
+  udesk build user                 # Command caps, examples lowercase
+  udesk mode set dev               # Command caps, examples lowercase
+  udesk ext install monitor       # Command caps, examples lowercase
+  udesk conf get build-mode       # Command caps, examples lowercase
 
 # ❌ Incorrect formatting  
-Usage: udos [command] [options]   # Should be: udos [COMMAND] [OPTIONS]
+Usage: udesk [command] [options]   # Should be: udesk [COMMAND] [OPTIONS]
   build        BUILD SYSTEM       # Should be: BUILD with sentence case description
-udos BUILD USER                   # Should be: lowercase examples
+udesk BUILD USER                   # Should be: lowercase examples
 ```
 
 ## Code Style Guidelines (v1.0.7)
@@ -153,7 +186,7 @@ esac
 - Shell scripts: lowercase with hyphens (`build-system.sh`, platform launchers)
 - Documentation: uppercase with hyphens (`README.md`, `BUILD.md`, `USER-CODE-MANUAL.md`)
 - Rust/Tauri files: snake_case (`main.rs`, `tauri.conf.json`)
-- JavaScript modules: lowercase with hyphens (`udos-workflow.js`)
+- JavaScript modules: lowercase with hyphens (`udesk-workflow.js`)
 - Configuration files: lowercase (`config.json`, `.gitignore`)
 - Platform launchers: descriptive with extensions (`.command`, `.sh`, `.bat`)
 
@@ -161,6 +194,7 @@ esac
 - Use clear, concise headers
 - Include examples for all commands
 - Document cross-platform differences
+- **Depunctuation**: Remove unnecessary backticks around command syntax in tables for cleaner readability
 - Maintain consistent emoji usage:
   - ✅ Success/completed
   - ❌ Error/failed

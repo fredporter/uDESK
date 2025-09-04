@@ -11,13 +11,13 @@ uDESK/
 ├── Launch-uDOS-Windows.bat     # Windows launcher
 ├── README.md                   # Project overview
 ├── LICENSE                     # GNU GPL v3
-├── core/                       # uDOS system core
+├── core/                       # uDESK system core
 │   ├── docs/                   # Core documentation
 │   │   ├── dev/               # Development notes
 │   │   ├── ARCHITECTURE.md    # System architecture
 │   │   ├── BUILD.md          # Build instructions
 │   │   └── CONTRIBUTING.md   # This file
-│   └── tinycore-integration/  # TinyCore patches
+│   └── tc/                    # TinyCore patches
 ├── uCORE/                     # Core runtime
 ├── uMEMORY/                   # Memory system
 ├── uNETWORK/                  # Network system
@@ -50,7 +50,7 @@ uDESK/
 - Build artifacts (executables, packages) are **NOT** committed
 - Generated directories (build/, dist/, target/) are ignored
 - Clean builds must work from fresh checkout
-- Use unified `./build.sh [mode]` for all builds
+- Use unified `./build.sh MODE` for all builds
 
 ### 4. **Naming Conventions**
 - Scripts: `kebab-case.sh`
@@ -138,7 +138,7 @@ npm run tauri dev
 ## 🚫 What NOT to Commit
 
 ### Files That Should Never Be Committed
-- Build executables (`udos`, `udesk-app` binaries)
+- Build executables (`udesk`, `udesk-app` binaries)
 - `target/` directory (Rust/Tauri builds)
 - `dist/` directory (frontend builds)
 - `build/` directory (build artifacts)

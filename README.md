@@ -106,7 +106,7 @@ uDESK/
 │   └── package.json        # Node.js dependencies
 ├── core/                   # Core uDESK system
 │   ├── docs/               # Documentation
-│   └── tinycore-integration/
+│   └── tc/                 # TinyCore integration
 ├── build/                  # Build outputs
 │   ├── user/               # User mode binaries
 │   ├── wizard-plus/        # Wizard+ mode binaries

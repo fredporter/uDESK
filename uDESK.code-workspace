@@ -1,25 +1,89 @@
 {
     "folders": [
         {
+            "name": "uDESK v1.0.7",
             "path": "."
         }
     ],
     "settings": {
         "terminal.integrated.profiles.osx": {
-            "UTM TinyCore VM": {
-                "path": "/usr/bin/ssh",
-                "args": ["tc@192.168.64.2"],
-                "icon": "vm"
+            "uDESK Build": {
+                "path": "/bin/zsh",
+                "args": ["-c", "cd ${workspaceFolder} && exec zsh"],
+                "icon": "gear"
             }
         },
-        "terminal.integrated.defaultProfile.osx": "zsh"
+        "terminal.integrated.defaultProfile.osx": "zsh",
+        "files.associations": {
+            "*.ucode": "shellscript",
+            "*.tcz": "xml",
+            "build.sh": "shellscript",
+            "*.desktop": "ini"
+        },
+        "editor.rulers": [80, 120],
+        "editor.tabSize": 4,
+        "editor.insertSpaces": true,
+        "markdown.preview.breaks": true,
+        "markdown.preview.linkify": true
     },
     "extensions": {
         "recommendations": [
-            "ms-vscode-remote.remote-ssh",
-            "ms-vscode-remote.remote-ssh-edit",
             "yzhang.markdown-all-in-one",
-            "ms-vscode.vscode-json"
+            "ms-vscode.vscode-json",
+            "tauri-apps.tauri-vscode",
+            "rust-lang.rust-analyzer",
+            "bradlc.vscode-tailwindcss",
+            "esbenp.prettier-vscode"
+        ]
+    },
+    "tasks": {
+        "version": "2.0.0",
+        "tasks": [
+            {
+                "label": "Build User Mode",
+                "type": "shell",
+                "command": "./build.sh",
+                "args": ["user"],
+                "group": "build",
+                "presentation": {
+                    "echo": true,
+                    "reveal": "always",
+                    "focus": false,
+                    "panel": "shared"
+                }
+            },
+            {
+                "label": "Build Developer Mode",
+                "type": "shell",
+                "command": "./build.sh",
+                "args": ["developer"],
+                "group": {
+                    "kind": "build",
+                    "isDefault": true
+                },
+                "presentation": {
+                    "echo": true,
+                    "reveal": "always",
+                    "focus": false,
+                    "panel": "shared"
+                }
+            },
+            {
+                "label": "Start Tauri Dev",
+                "type": "shell",
+                "command": "npm",
+                "args": ["run", "tauri", "dev"],
+                "options": {
+                    "cwd": "${workspaceFolder}/app/udesk-app"
+                },
+                "group": "build",
+                "presentation": {
+                    "echo": true,
+                    "reveal": "always",
+                    "focus": false,
+                    "panel": "shared"
+                }
+            }
         ]
     }
 }

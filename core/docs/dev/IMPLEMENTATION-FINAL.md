@@ -30,7 +30,7 @@ uDESK/
 ├── core/                    # Core system components
 │   ├── docs/                # All documentation
 │   ├── setup/               # Setup scripts
-│   └── tinycore-integration/ # TinyCore packages
+│   └── tc/                  # TinyCore packages
 ├── src/                     # Source code (organized by mode)
 └── build/                   # Build artifacts
 ```

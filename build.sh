@@ -71,7 +71,7 @@ int execute_user_ucode(const char* command) {
     }
     if (strncmp(command, "[INFO]", 6) == 0) {
         printf("ℹ️  uDESK v1.0.7 - User Mode\n");
-        printf("   Role: %s\n", getenv("UDOS_ROLE") ?: "GHOST");
+        printf("   Role: %s\n", getenv("UDESK_ROLE") ?: "GHOST");
         printf("   Workspace: ~/workspace/\n");
         printf("   Home: %s\n", getenv("HOME") ?: "/home/user");
         return 0;
@@ -84,7 +84,7 @@ int execute_user_ucode(const char* command) {
         printf("  [INFO]    - System information\n");
         printf("  [HELP]    - This help\n\n");
         printf("ROLE PROGRESSION:\n");
-        printf("  GHOST → TOMB → CRYPT → DRONE → KNIGHT → IMP → SORCERER → WIZARD\n\n");
+        printf("  GHOST → TOMB → DRONE → CRYPT → IMP → KNIGHT → SORCERER → WIZARD\n\n");
         printf("WIZARD UPGRADE:\n");
         printf("  Reach WIZARD role to unlock Wizard+ Mode\n");
         return 0;
@@ -96,12 +96,12 @@ int execute_user_ucode(const char* command) {
 
 int main(int argc, char *argv[]) {
     printf("👤 uDESK v1.0.7 - User Mode\n");
-    printf("Role: %s\n", getenv("UDOS_ROLE") ?: "GHOST");
+    printf("Role: %s\n", getenv("UDESK_ROLE") ?: "GHOST");
     printf("Commands: [BACKUP], [RESTORE], [INFO], [HELP], exit\n\n");
     
     char input[256];
     while (1) {
-        printf("uDOS> ");
+        printf("uDESK> ");
         if (!fgets(input, sizeof(input), stdin)) break;
         
         input[strcspn(input, "\n")] = 0;
@@ -139,7 +139,7 @@ EOF
 int plus_mode_enabled = 0;
 
 int execute_wizard_plus_ucode(const char* command) {
-    const char* role = getenv("UDOS_ROLE");
+    const char* role = getenv("UDESK_ROLE");
     if (!role || strcmp(role, "WIZARD") != 0) {
         printf("❌ WIZARD role required for Wizard+ commands\n");
         printf("   Current role: %s\n", role ?: "NONE");
@@ -148,7 +148,7 @@ int execute_wizard_plus_ucode(const char* command) {
     
     if (strncmp(command, "[PLUS-MODE]", 11) == 0) {
         plus_mode_enabled = 1;
-        setenv("UDOS_PLUS_MODE", "1", 1);
+        setenv("UDESK_PLUS_MODE", "1", 1);
         printf("🧙‍♀️ Plus Mode ENABLED\n");
         printf("   Extension development: ACTIVE\n");
         printf("   TCZ creation: ACTIVE\n");
@@ -158,7 +158,7 @@ int execute_wizard_plus_ucode(const char* command) {
     
     if (strncmp(command, "[PLUS-STATUS]", 13) == 0) {
         printf("🧙‍♀️ WIZARD+ Status\n");
-        printf("   Role: %s\n", getenv("UDOS_ROLE"));
+        printf("   Role: %s\n", getenv("UDESK_ROLE"));
         printf("   Plus Mode: %s\n", plus_mode_enabled ? "ENABLED" : "DISABLED");
         printf("   Extensions: Available for development\n");
         return 0;
@@ -197,7 +197,7 @@ int execute_wizard_plus_ucode(const char* command) {
     
     if (strncmp(command, "[INFO]", 6) == 0) {
         printf("ℹ️  uDESK v1.0.7 - Wizard+ Mode\n");
-        printf("   Role: %s\n", getenv("UDOS_ROLE"));
+        printf("   Role: %s\n", getenv("UDESK_ROLE"));
         printf("   Plus Mode: %s\n", plus_mode_enabled ? "ENABLED" : "DISABLED");
         printf("   Capabilities: Extension development, TCZ creation\n");
         return 0;
@@ -224,11 +224,11 @@ int execute_wizard_plus_ucode(const char* command) {
 }
 
 int main(int argc, char *argv[]) {
-    const char* role = getenv("UDOS_ROLE");
+    const char* role = getenv("UDESK_ROLE");
     if (!role || strcmp(role, "WIZARD") != 0) {
         printf("❌ WIZARD role required for Wizard+ Mode\n");
         printf("   Current role: %s\n", role ?: "NONE");
-        printf("   Use regular udos for user mode\n");
+        printf("   Use regular udesk for user mode\n");
         return 1;
     }
     
@@ -257,7 +257,7 @@ EOF
         
         gcc -o "build/wizard-plus/udos-wizard-plus" "build/wizard-plus/udos-wizard-plus.c"
         echo "✅ Wizard+ mode build complete"
-        echo "🧙‍♀️ Run: UDOS_ROLE=WIZARD ./build/wizard-plus/udos-wizard-plus"
+        echo "🧙‍♀️ Run: UDESK_ROLE=WIZARD ./build/wizard-plus/udos-wizard-plus"
         ;;
         
     "developer")
@@ -379,7 +379,7 @@ EOF
         
         echo "Testing Wizard+ Mode..."
         if [ -f "build/wizard-plus/udos-wizard-plus" ]; then
-            echo "[PLUS-STATUS]" | UDOS_ROLE=WIZARD ./build/wizard-plus/udos-wizard-plus
+            echo "[PLUS-STATUS]" | UDESK_ROLE=WIZARD ./build/wizard-plus/udos-wizard-plus
         fi
         
         echo "Testing Developer Mode..."
@@ -397,13 +397,13 @@ EOF
     *)
         echo "❌ Unknown build mode: $BUILD_MODE"
         echo ""
-        echo "Usage: $0 [mode] [platform]"
+        echo "Usage: $0 MODE [PLATFORM]"
         echo ""
         echo "Build modes:"
         echo "  user        - User mode (standard users)"
         echo "  wizard-plus - Wizard+ mode (WIZARD role + Plus Mode)"
         echo "  developer   - Developer mode (core developers)"
-        echo "  iso         - Bootable ISO image (TinyCore only)"
+        echo "  iso         - Bootable ISO image"
         echo "  test        - Test all builds"
         echo "  clean       - Clean build artifacts"
         echo ""
@@ -423,7 +423,7 @@ echo "📁 Artifacts in: build/${BUILD_MODE}/"
 #include <string.h>
 
 int main(int argc, char *argv[]) {
-    printf("uDOS v1.0.7 Development (TinyCore)\n");
+    printf("uDESK v1.0.7 Development (TinyCore)\n");
     printf("Commands: [INFO], [STATUS], [BACKUP], [RESTORE], [HELP]\n");
     
     if (argc > 1 && strcmp(argv[1], "--background") == 0) {
@@ -467,7 +467,7 @@ EOF
                     tinycore/tinycore:latest \
                     /bin/sh -c "cd /workspace && gcc -o build/dev/udos -x c - << 'EOF'
 #include <stdio.h>
-int main() { printf(\"uDOS v1.0.7 Container Dev\\n\"); return 0; }
+int main() { printf(\"uDESK v1.0.7 Container Dev\\n\"); return 0; }
 EOF"
                 ;;
             "host"|"minimal")
@@ -478,13 +478,13 @@ EOF"
 #include <string.h>
 
 int main(int argc, char *argv[]) {
-    printf("uDOS v1.0.7 Development (Host)\n");
+    printf("uDESK v1.0.7 Development (Host)\n");
     printf("Lightweight development mode\n");
     printf("Commands: [INFO], [STATUS], [HELP], exit\n");
     
     char input[256];
     while (1) {
-        printf("uDOS> ");
+        printf("uDESK> ");
         if (!fgets(input, sizeof(input), stdin)) break;
         
         input[strcspn(input, "\n")] = 0;
@@ -524,7 +524,7 @@ EOF
                     gcc -O2 -o "../../build/release/udos" -x c - << 'EOF'
 #include <stdio.h>
 int main() { 
-    printf("uDOS v1.0.7 Release (TinyCore)\n"); 
+    printf("uDESK v1.0.7 Release (TinyCore)\n"); 
     printf("Production ready\n");
     return 0; 
 }
@@ -544,7 +544,7 @@ EOF
             *)
                 gcc -O2 -o "build/release/udos" -x c - << 'EOF'
 #include <stdio.h>
-int main() { printf("uDOS v1.0.7 Release\n"); return 0; }
+int main() { printf("uDESK v1.0.7 Release\n"); return 0; }
 EOF
                 ;;
         esac
@@ -605,19 +605,19 @@ EOF
     *)
         echo "❌ Unknown build mode: $BUILD_MODE"
         echo ""
-        echo "Usage: $0 [mode] [platform]"
+        echo "Usage: $0 MODE [PLATFORM]"
         echo ""
         echo "Build modes:"
-        echo "  dev      - Development build with debugging"
-        echo "  release  - Optimized release build"
-        echo "  iso      - Bootable ISO image (TinyCore only)"
-        echo "  clean    - Clean build artifacts"
-        echo "  test     - Test built components"
+        echo "  user         - User mode (essential features)"
+        echo "  wizard-plus  - Wizard+ mode (advanced features)"
+        echo "  developer    - Developer mode (full toolkit)"
+        echo "  iso          - Bootable ISO image"
         echo ""
         echo "Examples:"
-        echo "  $0 dev              # Development build"
-        echo "  $0 release          # Release build"
-        echo "  $0 iso              # Bootable ISO"
+        echo "  $0 user              # User mode build"
+        echo "  $0 wizard-plus       # Wizard+ mode build"
+        echo "  $0 developer         # Developer mode build"
+        echo "  $0 iso               # Bootable ISO"
         exit 1
         ;;
 esac

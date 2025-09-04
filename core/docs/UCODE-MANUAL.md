@@ -19,8 +19,8 @@ uCODE (Universal Command Operations & Development Environment) is the integrated
 [HELP]                    # Show help
 [STATUS]                  # System status
 [BUILD|MODE*USER]        # Build in user mode
-[EXTENSION|INSTALL*NAME] # Install extension
-[MODE|SET*DEVELOPER]     # Switch to developer mode
+[EXT|INSTALL*NAME]       # Install extension
+[MODE|SET*DEV]           # Switch to developer mode
 ```
 
 ---
@@ -30,50 +30,50 @@ uCODE (Universal Command Operations & Development Environment) is the integrated
 ### System Management
 | Command | Description | Platform Function |
 |---------|-------------|-------------------|
-| `[BACKUP]` | Create system backup | Cross-platform backup system |
-| `[BACKUP|FULL]` | Complete system backup | Includes all user data and configs |
-| `[RESTORE]` | Restore from backup | Platform-aware restore |
-| `[RESTORE|SELECT*PATH]` | Restore specific backup | Custom restore path |
+| [BACKUP] | Create system backup | Cross-platform backup system |
+| [BACKUP|FULL] | Complete system backup | Includes all user data and configs |
+| [RESTORE] | Restore from backup | Platform-aware restore |
+| [RESTORE|SELECT*PATH] | Restore specific backup | Custom restore path |
 
 ### Build System
 | Command | Description | Function |
 |---------|-------------|----------|
-| `[BUILD|USER]` | Build user mode | Essential features only |
-| `[BUILD|WIZARD-PLUS]` | Build wizard+ mode | Advanced features |
-| `[BUILD|DEVELOPER]` | Build developer mode | Full development toolkit |
-| `[BUILD|ISO]` | Build bootable ISO | Bootable system image |
+| [BUILD|USER] | Build user mode | Essential features only |
+| [BUILD|WIZARD-PLUS] | Build wizard+ mode | Advanced features |
+| [BUILD|DEV] | Build developer mode | Full development toolkit |
+| [BUILD|ISO] | Build bootable ISO | Bootable system image |
 
 ### Mode Management
 | Command | Description | Function |
 |---------|-------------|----------|
-| `[MODE|GET]` | Show current mode | Display active mode |
-| `[MODE|SET*USER]` | Switch to user mode | Basic functionality |
-| `[MODE|SET*WIZARD-PLUS]` | Switch to wizard+ mode | Advanced features |
-| `[MODE|SET*DEVELOPER]` | Switch to developer mode | Full development access |
+| [MODE|GET] | Show current mode | Display active mode |
+| [MODE|SET*USER] | Switch to user mode | Basic functionality |
+| [MODE|SET*WIZARD-PLUS] | Switch to wizard+ mode | Advanced features |
+| [MODE|SET*DEV] | Switch to developer mode | Full development access |
 
 ### System Control
 | Command | Description | Platform Function |
 |---------|-------------|-------------------|
-| `[RESTART]` | Restart system | Cross-platform restart |
-| `[RESTART|FORCE]` | Force restart | Emergency restart |
-| `[RESET]` | Reset to clean state | Remove user data, keep base |
-| `[RESET|COMPLETE]` | Full system reset | Factory reset equivalent |
+| [RESTART] | Restart system | Cross-platform restart |
+| [RESTART|FORCE] | Force restart | Emergency restart |
+| [RESET] | Reset to clean state | Remove user data, keep base |
+| [RESET|COMPLETE] | Full system reset | Factory reset equivalent |
 
 ### System Repair
 | Command | Description | Function |
 |---------|-------------|----------|
-| `[REPAIR]` | Basic system repair | Auto-detect and fix common issues |
-| `[REPAIR|FILESYSTEM]` | Filesystem check | Platform-specific filesystem check |
-| `[REPAIR|EXTENSIONS]` | Rebuild extensions | Reinstall system extensions |
-| `[REPAIR|DEPENDENCIES]` | Fix dependencies | Resolve dependency conflicts |
+| [REPAIR] | Basic system repair | Auto-detect and fix common issues |
+| [REPAIR|FILESYSTEM] | Filesystem check | Platform-specific filesystem check |
+| [REPAIR|EXT] | Rebuild extensions | Reinstall system extensions |
+| [REPAIR|DEPENDENCIES] | Fix dependencies | Resolve dependency conflicts |
 
 ### Undo/Redo System
 | Command | Description | Implementation |
 |---------|-------------|----------------|
-| `[UNDO]` | Undo last operation | Restore from automatic backup |
-| `[UNDO|STEPS*N]` | Undo N operations | Multi-step undo |
-| `[REDO]` | Redo last undone | Apply from redo stack |
-| `[REDO|STEPS*N]` | Redo N operations | Multi-step redo |
+| [UNDO] | Undo last operation | Restore from automatic backup |
+| [UNDO|STEPS*N] | Undo N operations | Multi-step undo |
+| [REDO] | Redo last undone | Apply from redo stack |
+| [REDO|STEPS*N] | Redo N operations | Multi-step redo |
 
 ---
 
@@ -82,43 +82,43 @@ uCODE (Universal Command Operations & Development Environment) is the integrated
 ### Desktop Application
 | Command | Description |
 |---------|-------------|
-| `[APP|START]` | Start desktop application |
-| `[APP|STOP]` | Stop desktop application |
-| `[APP|STATUS]` | Check application status |
-| `[APP|REBUILD]` | Rebuild desktop application |
+| [APP|START] | Start desktop application |
+| [APP|STOP] | Stop desktop application |
+| [APP|STATUS] | Check application status |
+| [APP|REBUILD] | Rebuild desktop application |
 
 ### Cross-Platform Development
 | Command | Description |
 |---------|-------------|
-| `[PLATFORM|DETECT]` | Detect current platform |
-| `[PLATFORM|DEPS]` | Install platform dependencies |
-| `[PLATFORM|TEST]` | Test cross-platform compatibility |
+| [STAGE|DETECT] | Detect current platform |
+| [STAGE|DEPS] | Install platform dependencies |
+| [STAGE|TEST] | Test cross-platform compatibility |
 
 ### Extension System
 | Command | Description |
 |---------|-------------|
-| `[EXTENSION|LIST]` | List available extensions |
-| `[EXTENSION|INSTALL*NAME]` | Install extension |
-| `[EXTENSION|REMOVE*NAME]` | Remove extension |
-| `[EXTENSION|BUILD*PATH]` | Build custom extension |
-| `[EXTENSION|ENABLE*NAME]` | Enable extension |
-| `[EXTENSION|DISABLE*NAME]` | Disable extension |
+| [EXT|LIST] | List available extensions |
+| [EXT|INSTALL*NAME] | Install extension |
+| [EXT|REMOVE*NAME] | Remove extension |
+| [EXT|BUILD*PATH] | Build custom extension |
+| [EXT|ENABLE*NAME] | Enable extension |
+| [EXT|DISABLE*NAME] | Disable extension |
 
 ### Configuration Management
 | Command | Description |
 |---------|-------------|
-| `[CONFIG|GET*KEY]` | Get configuration value |
-| `[CONFIG|SET*KEY*VALUE]` | Set configuration value |
-| `[CONFIG|LIST]` | List all configurations |
-| `[CONFIG|RESET]` | Reset to default configuration |
+| [CONF|GET*KEY] | Get configuration value |
+| [CONF|SET*KEY*VALUE] | Set configuration value |
+| [CONF|LIST] | List all configurations |
+| [CONF|RESET] | Reset to default configuration |
 
 ### Theme Management
 | Command | Description |
 |---------|-------------|
-| `[THEME|LIST]` | List available themes |
-| `[THEME|SET*NAME]` | Switch to theme |
-| `[THEME|RESET]` | Reset to default theme |
-| `[THEME|CREATE*NAME]` | Create custom theme |
+| [THEME|LIST] | List available themes |
+| [THEME|SET*NAME] | Switch to theme |
+| [THEME|RESET] | Reset to default theme |
+| [THEME|CREATE*NAME] | Create custom theme |
 
 **Available Themes:**
 - `DEFAULT` (clean modern)
@@ -133,21 +133,21 @@ uCODE (Universal Command Operations & Development Environment) is the integrated
 ### System Information
 | Command | Description |
 |---------|-------------|
-| `[STATUS]` | Overall system status |
-| `[INFO]` | uDESK version and details |
-| `[HARDWARE]` | Hardware information |
-| `[NETWORK]` | Network status |
-| `[PLATFORM]` | Platform information |
-| `[PERFORMANCE]` | System performance metrics |
+| [STATUS] | Overall system status |
+| [INFO] | uDESK version and details |
+| [HARD] | Hardware information |
+| [NET] | Network status |
+| [STAGE] | Platform information |
+| [DASH] | System performance metrics |
 
 ### Help System
 | Command | Description |
 |---------|-------------|
-| `[HELP]` | General help |
-| `[HELP|COMMAND*NAME]` | Help for specific command |
-| `[MANUAL]` | Full manual (this document) |
-| `[EXAMPLES]` | Command examples |
-| `[REFERENCE]` | Quick reference card |
+| [HELP] | General help |
+| [HELP|COMMAND*NAME] | Help for specific command |
+| [MX] | Full manual (this document) |
+| [EX] | Command examples |
+| [RX] | Quick reference card |
 
 ---
 
@@ -187,7 +187,7 @@ uDESK v1.0.7 automatically detects and adapts to:
 
 ### Backup Strategy
 1. **Automatic**: Before destructive operations
-2. **Manual**: `[BACKUP]` command
+2. **Manual**: [BACKUP] command
 3. **Incremental**: Only changed files
 4. **Cross-Platform**: Works on all supported platforms
 
@@ -209,25 +209,25 @@ uDESK v1.0.7 supports:
 [INFO]                   # System information
 [MODE|GET]               # Check current mode
 [BUILD|USER]             # Build user mode
-[EXTENSION|LIST]         # See extensions
+[EXT|LIST]               # See extensions
 [BACKUP]                 # Save current state
-[CONFIG|GET*KEY]         # Get configuration
+[CONF|GET*KEY]           # Get configuration
 ```
 
 ### Mode-Specific Commands
 ```bash
 # User Mode
 [BUILD|USER]             # Build for basic use
-[EXTENSION|LIST]         # View user extensions
+[EXT|LIST]               # View user extensions
 
 # Wizard+ Mode  
 [BUILD|WIZARD-PLUS]      # Build advanced features
-[CONFIG|SET*KEY*VALUE]   # Advanced configuration
+[CONF|SET*KEY*VALUE]     # Advanced configuration
 
 # Developer Mode
-[BUILD|DEVELOPER]        # Build development toolkit
+[BUILD|DEV]              # Build development toolkit
 [APP|START]              # Launch desktop app
-[PLATFORM|TEST]          # Test cross-platform
+[STAGE|TEST]             # Test cross-platform
 ```
 
 ### Emergency Commands
