@@ -210,9 +210,9 @@ run_setup_wizard() {
     
     # Theme selection
     echo ""
-    echo "� Select interface theme:"
+    echo "🎨 Select interface theme:"
     echo ""
-    echo "   1) �🎯 Default    - Clean modern interface"
+    echo "   1) 🎯 POLAROID   - Clean modern interface (default)"
     echo "   2) 📺 Retro      - Classic terminal styling"
     echo "   3) 🌙 Dark       - Dark mode interface"
     echo "   4) ☀️ Light      - Light mode interface"
@@ -237,7 +237,11 @@ run_setup_wizard() {
     echo "   Mode: ${UDESK_DEFAULT_MODE}"
     echo "   Auto-launch: ${UDESK_AUTO_LAUNCH}"
     echo "   Show tips: ${UDESK_SHOW_TIPS}"
-    echo "   Theme: ${UDESK_THEME}"
+    if [ "${UDESK_THEME}" = "default" ]; then
+        echo "   Theme: POLAROID (default)"
+    else
+        echo "   Theme: ${UDESK_THEME}"
+    fi
     echo ""
     read -p "Press Enter to continue..."
 }
@@ -351,23 +355,101 @@ show_tips() {
                 echo "   • Type [HELP] to see all available commands"
                 echo "   • Use [BACKUP] to save your work regularly"
                 echo "   • Progress through roles: GHOST → TOMB → DRONE → CRYPT → IMP → KNIGHT → SORCERER → WIZARD"
-                echo "   • Configuration saved in ~/.udesk/config"
+                echo "   • Configuration saved in .udesk/config"
+                echo "   • Repository synced automatically in uDESK/repository/"
+                echo "   • Workspace available in uMEMORY/"
                 ;;
             "wizard-plus")
                 echo "   • Type [PLUS-MODE] to unlock extension development features"
                 echo "   • Use [CREATE-EXT] to build your own extensions"
                 echo "   • Share your extensions with the community"
                 echo "   • WIZARD role required for full access"
+                echo "   • Latest code available in uDESK/repository/"
+                echo "   • Workspace available in uMEMORY/"
                 ;;
             "developer")
                 echo "   • Use [BUILD-CORE] to compile all system components"
                 echo "   • Test changes with [SYSTEM-INFO] before deployment"
                 echo "   • Remember: With great power comes great responsibility!"
                 echo "   • Access to full system modification capabilities"
+                echo "   • Repository automatically updated on each build"
+                echo "   • Workspace available in uMEMORY/"
                 ;;
         esac
         echo ""
     fi
+}
+
+# Show launch options after build
+show_launch_options() {
+    echo ""
+    echo "🚀 Launch Options:"
+    
+    # Core build launch
+    case "${BUILD_MODE}" in
+        "user")
+            echo "   Terminal:      ./build/user/udos"
+            echo "   Test:          echo \"HELP\" | ./build/user/udos"
+            ;;
+        "wizard-plus")
+            echo "   Terminal:      UDESK_ROLE=WIZARD ./build/wizard-plus/udos-wizard-plus"
+            echo "   Test:          echo \"[HELP]\" | UDESK_ROLE=WIZARD ./build/wizard-plus/udos-wizard-plus"
+            ;;
+        "developer")
+            echo "   Terminal:      ./build/developer/udos-developer"
+            echo "   Test:          echo \"[HELP]\" | ./build/developer/udos-developer"
+            ;;
+        "iso")
+            echo "   ISO Ready:     build/iso/udesk.tcz"
+            echo "   TinyCore:      Load udesk.tcz in TinyCore Linux"
+            ;;
+    esac
+    
+    # Tauri desktop app option
+    if [ -d "app/udesk-app" ]; then
+        echo ""
+        echo "📱 Desktop App (Tauri):"
+        if [ -f "app/udesk-app/package.json" ]; then
+            echo "   Development:   cd app/udesk-app && npm run tauri dev"
+            echo "   Production:    cd app/udesk-app && npm run tauri build"
+            echo "   Setup Guide:   ./setup-tauri.sh"
+        else
+            echo "   Setup Script:  ./setup-tauri.sh"
+            echo "   Manual Setup:  cd app/udesk-app && npm install"
+        fi
+    fi
+    
+    # TinyCore integration option
+    if [ -f "core/tc/build-tcz.sh" ] || [ "${BUILD_MODE}" = "iso" ]; then
+        echo ""
+        echo "💿 TinyCore Integration:"
+        if [ "${BUILD_MODE}" = "iso" ]; then
+            echo "   Ready:         build/iso/cde/optional/udesk.tcz"
+            echo "   Install:       tce-load -i udesk.tcz"
+        else
+            echo "   Setup Script:  ./setup-tinycore.sh"
+            echo "   Build TCZ:     cd core/tc && ./build-tcz.sh"
+            echo "   Full ISO:      ./build.sh iso"
+        fi
+        echo "   VM Guide:      ./setup-tinycore.sh (option 5)"
+        echo "   Docker Build:  ./setup-tinycore.sh (option 1)"
+    fi
+    
+    # Interactive setup option
+    echo ""
+    echo "⚙️  Setup Scripts:"
+    echo "   Tauri App:     ./setup-tauri.sh"
+    echo "   TinyCore:      ./setup-tinycore.sh"
+    echo "   Platform:      ./uDESK-macOS.sh (or ./uDESK-Ubuntu.sh)"
+    echo "   Configuration: ./build.sh setup"
+    echo "   All modes:     ./build.sh test"
+    
+    # Quick actions
+    echo ""
+    echo "⚡ Quick Actions:"
+    echo "   Next build:    ./build.sh [user|wizard-plus|developer|iso]"
+    echo "   Clean:         ./build.sh clean"
+    echo "   Help:          ./build.sh --help"
 }
 
 # Main execution starts here
@@ -395,7 +477,11 @@ echo "═══════════════"
 echo "📁 Project: ${PROJECT_ROOT}"
 echo "🏗️  Platform: ${TARGET_PLATFORM}"
 echo "👤 Role: ${UDESK_ROLE}"
-echo "🎨 Theme: ${UDESK_THEME}"
+if [ "${UDESK_THEME}" = "default" ]; then
+    echo "🎨 Theme: POLAROID (default)"
+else
+    echo "🎨 Theme: ${UDESK_THEME}"
+fi
 echo ""
 
 show_build_art "${BUILD_MODE}"
@@ -445,14 +531,124 @@ if [ -z "$BUILD_MODE" ] || [ "$1" = "--interactive" ] || [ "$1" = "-i" ]; then
     echo ""
 fi
 
+# Create workspace and directory structure
+setup_workspace() {
+    local workspace_dir="uMEMORY"
+    local config_dir=".udesk"
+    local home_dir="${HOME}/uDESK"
+    local memory_dir="${HOME}/uMEMORY"
+    local repo_url="https://github.com/fredporter/uDESK.git"
+    local repo_dir="${home_dir}/repository"
+    
+    echo "📁 Setting up uDESK workspace..."
+    
+    # Create ~/uDESK/ home directory structure
+    if [ ! -d "${home_dir}" ]; then
+        mkdir -p "${home_dir}"/{workspace,projects,docs,scripts}
+        echo "✅ Created uDESK/ home directory structure"
+        
+        # Clone repository on first setup
+        echo "🔄 Cloning uDESK repository for first-time setup..."
+        if command -v git >/dev/null 2>&1; then
+            cd "${home_dir}"
+            if git clone "${repo_url}" repository 2>/dev/null; then
+                echo "✅ Successfully cloned uDESK repository to uDESK/repository"
+                # Copy key files from repository to main directory
+                if [ -d "${repo_dir}" ]; then
+                    cp -r "${repo_dir}/docs" "${home_dir}/" 2>/dev/null || true
+                    cp "${repo_dir}/README.md" "${home_dir}/" 2>/dev/null || true
+                    cp "${repo_dir}/LICENSE" "${home_dir}/" 2>/dev/null || true
+                    echo "📋 Copied documentation and key files"
+                fi
+            else
+                echo "⚠️  Could not clone repository (offline or access issue)"
+            fi
+            cd - >/dev/null
+        else
+            echo "⚠️  Git not available - repository sync skipped"
+        fi
+    else
+        # Update existing repository if git is available
+        if [ -d "${repo_dir}/.git" ] && command -v git >/dev/null 2>&1; then
+            echo "🔄 Updating uDESK repository..."
+            cd "${repo_dir}"
+            if git pull origin main >/dev/null 2>&1; then
+                echo "✅ Repository updated to latest version"
+                # Update docs if they exist
+                if [ -d "${repo_dir}/docs" ]; then
+                    cp -r "${repo_dir}/docs" "${home_dir}/" 2>/dev/null || true
+                    echo "📋 Updated documentation"
+                fi
+            else
+                echo "⚠️  Could not update repository (offline or conflicts)"
+            fi
+            cd - >/dev/null
+        fi
+    fi
+    
+    # Create ~/uMEMORY/ workspace directory (separate from installation)
+    if [ ! -d "${memory_dir}" ]; then
+        mkdir -p "${memory_dir}"/{projects,docs,extensions,backups,restore}
+        echo "✅ Created uMEMORY/ workspace structure"
+        
+        # Create restore function template
+        cat > "${memory_dir}/restore/README.md" << 'EOF'
+# uDESK Restore & Repair Functions
+
+This directory contains restore and repair utilities for uDESK.
+
+## Available Functions
+
+### Restore Repository
+- Repairs corrupted git repository
+- Downloads fresh copy if needed
+- Preserves user data
+
+### Restore Workspace  
+- Recreates uMEMORY/ structure
+- Restores default configuration
+- Maintains project integrity
+
+### System Repair
+- Validates installation paths
+- Fixes permission issues
+- Rebuilds core components
+
+## Usage
+
+Run from uDESK build system:
+```bash
+./build.sh user
+# Then use [RESTORE] command
+```
+
+## Location
+
+Repository: uDESK/repository/
+Workspace: uMEMORY/
+Config: .udesk/
+EOF
+        echo "📋 Created restore function templates"
+    fi
+    
+    # Create config directory  
+    if [ ! -d "${HOME}/${config_dir}" ]; then
+        mkdir -p "${HOME}/${config_dir}"/{backups,themes,extensions}
+        echo "✅ Created .udesk configuration directory"
+    fi
+    
+    # Create build directories
+    mkdir -p build/{user,wizard-plus,developer,iso}
+    mkdir -p src/{user,wizard-plus,developer,shared}
+}
+
 # Apply theme settings
 apply_theme
 
 echo "🔍 Build environment: ${BUILD_ENV}"
 
-# Create build directories
-mkdir -p build/{user,wizard-plus,developer,iso}
-mkdir -p src/{user,wizard-plus,developer,shared}
+# Set up workspace and directories
+setup_workspace
 
 case $BUILD_MODE in
     "user")
@@ -577,10 +773,17 @@ int execute_user_ucode(const char* command) {
     if (strncmp(upper_cmd, "INFO", 4) == 0) {
         printf("ℹ️  uDESK v1.0.7 - User Mode\n");
         printf("   Role: %s\n", getenv("UDESK_ROLE") ?: "GHOST");
-        printf("   Theme: %s\n", getenv("UDESK_COLORS") ?: "default");
-        printf("   Workspace: ~/workspace/\n");
-        printf("   Config: ~/.udesk/\n");
-        printf("   Home: %s\n", getenv("HOME") ?: "/home/user");
+        
+        const char* theme = getenv("UDESK_COLORS") ?: "default";
+        if (strcmp(theme, "default") == 0) {
+            printf("   Theme: POLAROID (default)\n");
+        } else {
+            printf("   Theme: %s\n", theme);
+        }
+        
+        printf("   Workspace: uMEMORY/\n");
+        printf("   Config: .udesk/\n");
+        printf("   Home: uDESK/\n");
         printf("   Platform: %s\n", getenv("UDESK_MODE") ?: "user");
         return 0;
     }
@@ -618,9 +821,14 @@ int execute_user_ucode(const char* command) {
         return 0;
     }
     if (strncmp(upper_cmd, "THEME", 5) == 0) {
-        printf("🎨 Theme: %s\n", getenv("UDESK_COLORS") ?: "default");
+        const char* theme = getenv("UDESK_COLORS") ?: "default";
+        if (strcmp(theme, "default") == 0) {
+            printf("🎨 Theme: POLAROID (default)\n");
+        } else {
+            printf("🎨 Theme: %s\n", theme);
+        }
         printf("   Prompt: %s\n", get_prompt());
-        printf("   Available: default, retro, dark, light\n");
+        printf("   Available: POLAROID (default), retro, dark, light\n");
         return 0;
     }
     
@@ -635,7 +843,13 @@ int main(int argc, char *argv[]) {
     
     show_welcome_art();
     
-    printf("Role: %s | Theme: %s\n", role, theme);
+    // Display theme in POLAROID format if default
+    if (strcmp(theme, "default") == 0) {
+        printf("Role: %s | Theme: POLAROID (default)\n", role);
+    } else {
+        printf("Role: %s | Theme: %s\n", role, theme);
+    }
+    
     printf("Commands: BACKUP, RESTORE, INFO, HELP, CONFIG, EXIT\n");
     printf("Format: Direct commands or [SHORTCODE] syntax\n\n");
     
@@ -961,6 +1175,9 @@ esac
 echo ""
 echo "🎉 Build complete!"
 echo "📁 Artifacts in: build/${BUILD_MODE}/"
+
+# Show launch options
+show_launch_options
 
 # Show completion tips
 show_tips
