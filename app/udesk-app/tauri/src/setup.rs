@@ -122,11 +122,23 @@ fn check_command_version(command: &str, version_arg: &str) -> Option<String> {
 }
 
 fn check_command_exists(command: &str) -> bool {
-    Command::new("which")
-        .arg(command)
-        .output()
-        .map(|output| output.status.success())
-        .unwrap_or(false)
+    #[cfg(target_os = "windows")]
+    {
+        Command::new("where")
+            .arg(command)
+            .output()
+            .map(|output| output.status.success())
+            .unwrap_or(false)
+    }
+    
+    #[cfg(not(target_os = "windows"))]
+    {
+        Command::new("which")
+            .arg(command)
+            .output()
+            .map(|output| output.status.success())
+            .unwrap_or(false)
+    }
 }
 
 fn check_udesk_installation() -> bool {
@@ -156,38 +168,85 @@ async fn install_nodejs() -> Result<String, String> {
         }
     }
     
-    #[cfg(not(target_os = "macos"))]
+    #[cfg(target_os = "linux")]
     {
-        Err("Automated Node.js installation not supported on this platform. Please install manually.".to_string())
+        // Install Node.js via NodeSource repository for Ubuntu/Debian
+        let setup_output = Command::new("curl")
+            .args(&["-fsSL", "https://deb.nodesource.com/setup_lts.x"])
+            .output()
+            .map_err(|e| format!("Failed to download NodeSource setup: {}", e))?;
+        
+        if !setup_output.status.success() {
+            return Err("Failed to download NodeSource setup script".to_string());
+        }
+        
+        let setup_script = String::from_utf8_lossy(&setup_output.stdout);
+        
+        // Run the setup script
+        let output = Command::new("bash")
+            .arg("-c")
+            .arg(format!("echo '{}' | sudo bash -", setup_script))
+            .output()
+            .map_err(|e| format!("Failed to run NodeSource setup: {}", e))?;
+        
+        if !output.status.success() {
+            return Err("NodeSource setup failed".to_string());
+        }
+        
+        // Install Node.js
+        let install_output = Command::new("sudo")
+            .args(&["apt-get", "install", "-y", "nodejs"])
+            .output()
+            .map_err(|e| format!("Failed to install Node.js: {}", e))?;
+        
+        if install_output.status.success() {
+            Ok("Node.js installed successfully via NodeSource".to_string())
+        } else {
+            let error = String::from_utf8_lossy(&install_output.stderr);
+            Err(format!("Node.js installation failed: {}", error))
+        }
+    }
+    
+    #[cfg(target_os = "windows")]
+    {
+        Err("Automated Node.js installation not supported on Windows. Please download from: https://nodejs.org/".to_string())
     }
 }
 
 async fn install_rust() -> Result<String, String> {
-    let output = Command::new("curl")
-        .args(&[
-            "--proto", "=https",
-            "--tlsv1.2",
-            "-sSf",
-            "https://sh.rustup.rs",
-            "-o", "/tmp/rustup.sh"
-        ])
-        .output()
-        .map_err(|e| format!("Failed to download Rust installer: {}", e))?;
-    
-    if !output.status.success() {
-        return Err("Failed to download Rust installer".to_string());
+    #[cfg(not(target_os = "windows"))]
+    {
+        let output = Command::new("curl")
+            .args(&[
+                "--proto", "=https",
+                "--tlsv1.2",
+                "-sSf",
+                "https://sh.rustup.rs",
+                "-o", "/tmp/rustup.sh"
+            ])
+            .output()
+            .map_err(|e| format!("Failed to download Rust installer: {}", e))?;
+        
+        if !output.status.success() {
+            return Err("Failed to download Rust installer".to_string());
+        }
+        
+        let output = Command::new("sh")
+            .args(&["/tmp/rustup.sh", "-y"])
+            .output()
+            .map_err(|e| format!("Failed to install Rust: {}", e))?;
+        
+        if output.status.success() {
+            Ok("Rust installed successfully".to_string())
+        } else {
+            let error = String::from_utf8_lossy(&output.stderr);
+            Err(format!("Rust installation failed: {}", error))
+        }
     }
     
-    let output = Command::new("sh")
-        .args(&["/tmp/rustup.sh", "-y"])
-        .output()
-        .map_err(|e| format!("Failed to install Rust: {}", e))?;
-    
-    if output.status.success() {
-        Ok("Rust installed successfully".to_string())
-    } else {
-        let error = String::from_utf8_lossy(&output.stderr);
-        Err(format!("Rust installation failed: {}", error))
+    #[cfg(target_os = "windows")]
+    {
+        Err("Automated Rust installation not supported on Windows. Please download from: https://rustup.rs/".to_string())
     }
 }
 

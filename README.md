@@ -9,19 +9,28 @@ uDESK provides TinyCore Linux integration for **uDOS (Universal Device Operating
 ## 🚀 **Quick Start** (Choose Your Platform)
 
 ### **macOS** 🍎
+Double-click `Launch-uDESK-macOS.command` or run:
 ```bash
-./Launch-uDOS-macOS.command
+./Launch-uDESK-macOS.command
 ```
 
 ### **Ubuntu/Debian** 🐧  
 ```bash
-./Launch-uDOS-Ubuntu.sh
+./uDESK-Ubuntu.sh
 ```
 
 ### **Windows** 🪟
+Double-click `uDESK-Windows.bat` or run:
 ```cmd
-./Launch-uDOS-Windows.bat
+uDESK-Windows.bat
 ```
+
+> 💡 **All launchers now include:**
+> - Interactive startup menu with 6 options
+> - Modern Tauri GUI with automated setup
+> - Terminal interface for power users
+> - Built-in dependency installation
+> - Documentation and help system
 
 ## 🎯 **New Architecture**
 
