@@ -1,20 +1,404 @@
 #!/bin/bash
-# uDESK v1.0.7 Build System - Clear Mode Separation
+# uDESK v1.0.7 Build System - Enhanced Interactive Setup
 
 set -e
 
 UDESK_VERSION="1.0.7"
-BUILD_MODE=${1:-"user"}
+BUILD_MODE=${1:-""}
 TARGET_PLATFORM=${2:-$(uname -m)}
 PROJECT_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-echo "🔨 uDESK v${UDESK_VERSION} Build System"
+# Configuration file
+UDESK_CONFIG="${HOME}/.udesk/config"
+UDESK_DIR="${HOME}/.udesk"
+
+# Create config directory if it doesn't exist
+mkdir -p "${UDESK_DIR}"
+
+# ASCII Art Functions
+show_udesk_logo() {
+    # Polaroid palette colors
+    local cyan='\033[96m'      # Bright cyan
+    local magenta='\033[95m'   # Bright magenta  
+    local yellow='\033[93m'    # Bright yellow
+    local green='\033[92m'     # Bright green
+    local blue='\033[94m'      # Bright blue
+    local red='\033[91m'       # Bright red
+    local white='\033[97m'     # Bright white
+    local reset='\033[0m'      # Reset color
+    
+    echo ""
+    echo -e "    ${cyan}██╗   ██╗██████╗ ███████╗███████╗██╗  ██╗${reset}"
+    echo -e "    ${magenta}██║   ██║██╔══██╗██╔════╝██╔════╝██║ ██╔╝${reset}"
+    echo -e "    ${yellow}██║   ██║██║  ██║█████╗  ███████╗█████╔╝ ${reset}"
+    echo -e "    ${green}██║   ██║██║  ██║██╔══╝  ╚════██║██╔═██╗ ${reset}"
+    echo -e "    ${blue}╚██████╔╝██████╔╝███████╗███████║██║  ██╗${reset}"
+    echo -e "    ${red} ╚═════╝ ╚═════╝ ╚══════╝╚══════╝╚═╝  ╚═╝${reset}"
+    echo ""
+    echo -e "    ${white}Universal Desktop OS${reset}"
+    echo -e "    ${cyan}v${UDESK_VERSION}${reset}"
+    echo ""
+}
+
+show_build_art() {
+    local mode=$1
+    case "${mode}" in
+        "user")
+            echo "    👤 USER MODE"
+            echo "    ════════════"
+            echo "    Standard interface for all roles"
+            echo "    GHOST → TOMB → DRONE → CRYPT → IMP → KNIGHT → SORCERER → WIZARD"
+            ;;
+        "wizard-plus")
+            echo "    🧙‍♀️ WIZARD+ MODE"
+            echo "    ═══════════════"
+            echo "    Extension development for WIZARD role"
+            echo "    Plus Mode: Advanced capabilities unlocked"
+            ;;
+        "developer")
+            echo "    🔧 DEVELOPER MODE"
+            echo "    ═════════════════"
+            echo "    Core system development toolkit"
+            echo "    Full system access and modification"
+            ;;
+        "iso")
+            echo "    💿 ISO BUILD MODE"
+            echo "    ═════════════════"
+            echo "    Bootable TinyCore Linux image"
+            echo "    Complete standalone system"
+            ;;
+    esac
+    echo ""
+}
+
+show_role_art() {
+    local role=$1
+    case "${role}" in
+        "GHOST")
+            echo "    👻 GHOST - System Monitor"
+            echo "    Basic system information and monitoring"
+            ;;
+        "TOMB")
+            echo "    ⚰️ TOMB - Archive Manager"
+            echo "    File management and archive operations"
+            ;;
+        "DRONE")
+            echo "    🤖 DRONE - Automation Assistant"
+            echo "    Basic workflow automation and scripting"
+            ;;
+        "CRYPT")
+            echo "    🔐 CRYPT - Security Specialist"
+            echo "    Encryption, security tools, and protection"
+            ;;
+        "IMP")
+            echo "    😈 IMP - Script Master"
+            echo "    Full scripting environment and tools"
+            ;;
+        "KNIGHT")
+            echo "    ⚔️ KNIGHT - System Administrator"
+            echo "    System administration and network tools"
+            ;;
+        "SORCERER")
+            echo "    🔮 SORCERER - Smart Features"
+            echo "    Advanced automation and intelligence"
+            ;;
+        "WIZARD")
+            echo "    🧙‍♂️ WIZARD - Complete Access"
+            echo "    Full system control and development"
+            ;;
+    esac
+    echo ""
+}
+
+# Default configuration
+# Default configuration
+load_config() {
+    if [ -f "${UDESK_CONFIG}" ]; then
+        source "${UDESK_CONFIG}"
+    else
+        # Set defaults
+        UDESK_DEFAULT_ROLE="GHOST"
+        UDESK_DEFAULT_MODE="user"
+        UDESK_AUTO_LAUNCH="true"
+        UDESK_SHOW_TIPS="true"
+        UDESK_THEME="default"
+        save_config
+    fi
+}
+
+save_config() {
+    cat > "${UDESK_CONFIG}" << EOF
+# uDESK v1.0.7 Configuration
+UDESK_DEFAULT_ROLE="${UDESK_DEFAULT_ROLE:-GHOST}"
+UDESK_DEFAULT_MODE="${UDESK_DEFAULT_MODE:-user}"
+UDESK_AUTO_LAUNCH="${UDESK_AUTO_LAUNCH:-true}"
+UDESK_SHOW_TIPS="${UDESK_SHOW_TIPS:-true}"
+UDESK_THEME="${UDESK_THEME:-default}"
+EOF
+}
+
+# Setup wizard for first-time users
+run_setup_wizard() {
+    clear
+    show_udesk_logo
+    echo "🎯 First-Time Setup Wizard"
+    echo "══════════════════════════"
+    echo ""
+    echo "Welcome to uDESK! Let's configure your preferences."
+    echo ""
+    
+    # Role selection
+    echo "� Select your starting role:"
+    echo ""
+    echo "   1) 👻 GHOST     - Basic system monitoring (recommended for beginners)"
+    echo "   2) ⚰️ TOMB      - File management and archives"
+    echo "   3) 🤖 DRONE     - Basic workflow automation"
+    echo "   4) 🔐 CRYPT     - Security tools and encryption"
+    echo "   5) 😈 IMP       - Full scripting environment"
+    echo "   6) ⚔️ KNIGHT    - System administration"
+    echo "   7) 🔮 SORCERER  - Advanced smart features"
+    echo "   8) 🧙‍♂️ WIZARD    - Complete system access"
+    echo ""
+    read -p "Choose role (1-8) [1]: " role_choice
+    
+    case ${role_choice:-1} in
+        1) UDESK_DEFAULT_ROLE="GHOST" ;;
+        2) UDESK_DEFAULT_ROLE="TOMB" ;;
+        3) UDESK_DEFAULT_ROLE="DRONE" ;;
+        4) UDESK_DEFAULT_ROLE="CRYPT" ;;
+        5) UDESK_DEFAULT_ROLE="IMP" ;;
+        6) UDESK_DEFAULT_ROLE="KNIGHT" ;;
+        7) UDESK_DEFAULT_ROLE="SORCERER" ;;
+        8) UDESK_DEFAULT_ROLE="WIZARD" ;;
+        *) UDESK_DEFAULT_ROLE="GHOST" ;;
+    esac
+    
+    echo ""
+    show_role_art "${UDESK_DEFAULT_ROLE}"
+    
+    # Mode selection
+    echo "🎯 Select your preferred mode:"
+    echo ""
+    echo "   1) 👤 User Mode      - Standard interface (recommended)"
+    echo "   2) 🧙‍♀️ Wizard+ Mode   - Extension development (WIZARD role only)"
+    echo "   3) 🔧 Developer Mode - Core system development"
+    echo ""
+    read -p "Choose mode (1-3) [1]: " mode_choice
+    
+    case ${mode_choice:-1} in
+        1) UDESK_DEFAULT_MODE="user" ;;
+        2) UDESK_DEFAULT_MODE="wizard-plus" ;;
+        3) UDESK_DEFAULT_MODE="developer" ;;
+        *) UDESK_DEFAULT_MODE="user" ;;
+    esac
+    
+    # Auto-launch preference
+    echo ""
+    read -p "🚀 Auto-launch uDESK after build? (y/n) [y]: " auto_launch
+    case ${auto_launch:-y} in
+        [Yy]*) UDESK_AUTO_LAUNCH="true" ;;
+        *) UDESK_AUTO_LAUNCH="false" ;;
+    esac
+    
+    # Tips preference
+    echo ""
+    read -p "💡 Show helpful tips? (y/n) [y]: " show_tips
+    case ${show_tips:-y} in
+        [Yy]*) UDESK_SHOW_TIPS="true" ;;
+        *) UDESK_SHOW_TIPS="false" ;;
+    esac
+    
+    # Theme selection
+    echo ""
+    echo "� Select interface theme:"
+    echo ""
+    echo "   1) �🎯 Default    - Clean modern interface"
+    echo "   2) 📺 Retro      - Classic terminal styling"
+    echo "   3) 🌙 Dark       - Dark mode interface"
+    echo "   4) ☀️ Light      - Light mode interface"
+    echo ""
+    read -p "Choose theme (1-4) [1]: " theme_choice
+    
+    case ${theme_choice:-1} in
+        1) UDESK_THEME="default" ;;
+        2) UDESK_THEME="retro" ;;
+        3) UDESK_THEME="dark" ;;
+        4) UDESK_THEME="light" ;;
+        *) UDESK_THEME="default" ;;
+    esac
+    
+    save_config
+    
+    echo ""
+    echo "✅ Setup complete! Configuration saved to: ${UDESK_CONFIG}"
+    echo ""
+    echo "📋 Your Settings:"
+    echo "   Role: ${UDESK_DEFAULT_ROLE}"
+    echo "   Mode: ${UDESK_DEFAULT_MODE}"
+    echo "   Auto-launch: ${UDESK_AUTO_LAUNCH}"
+    echo "   Show tips: ${UDESK_SHOW_TIPS}"
+    echo "   Theme: ${UDESK_THEME}"
+    echo ""
+    read -p "Press Enter to continue..."
+}
+
+# Interactive mode selection
+interactive_mode_selection() {
+    clear
+    show_udesk_logo
+    echo "� Interactive Mode Selection"
+    echo "═════════════════════════════"
+    echo ""
+    echo "Available build modes:"
+    echo ""
+    echo "   1) 👤 User Mode      - Standard users (all roles)"
+    echo "                         Access: User workspace only"
+    echo "                         Commands: [BACKUP], [RESTORE], [INFO], [HELP]"
+    echo ""
+    echo "   2) 🧙‍♀️ Wizard+ Mode   - WIZARD role users"
+    echo "                         Access: User space + Plus Mode capabilities"
+    echo "                         Commands: [PLUS-MODE], [CREATE-EXT], [BUILD-TCZ]"
+    echo ""
+    echo "   3) 🔧 Developer Mode - Core system developers"
+    echo "                         Access: Full system modification"
+    echo "                         Commands: [BUILD-CORE], [BUILD-ISO], [SYSTEM-INFO]"
+    echo ""
+    echo "   4) 💿 ISO Build      - Bootable TinyCore image"
+    echo "   5) 🧪 Test All       - Test all build modes"
+    echo "   6) 🧹 Clean          - Clean build artifacts"
+    echo "   7) ⚙️ Setup          - Run setup wizard"
+    echo "   8) 📋 Config         - Show current configuration"
+    echo ""
+    
+    # Show current config
+    load_config
+    echo "📋 Current Settings: 👤 Role=${UDESK_DEFAULT_ROLE}, 🎯 Mode=${UDESK_DEFAULT_MODE}, 🎨 Theme=${UDESK_THEME}"
+    echo ""
+    
+    read -p "Select mode (1-8) or press Enter for default [${UDESK_DEFAULT_MODE}]: " choice
+    
+    case ${choice} in
+        1) BUILD_MODE="user" ;;
+        2) BUILD_MODE="wizard-plus" ;;
+        3) BUILD_MODE="developer" ;;
+        4) BUILD_MODE="iso" ;;
+        5) BUILD_MODE="test" ;;
+        6) BUILD_MODE="clean" ;;
+        7) run_setup_wizard; BUILD_MODE="${UDESK_DEFAULT_MODE}" ;;
+        8) show_config; interactive_mode_selection; return ;;
+        "") BUILD_MODE="${UDESK_DEFAULT_MODE}" ;;
+        *) echo "❌ Invalid choice"; sleep 1; interactive_mode_selection; return ;;
+    esac
+}
+
+# Show current configuration
+show_config() {
+    clear
+    load_config
+    show_udesk_logo
+    echo "📋 Configuration"
+    echo "════════════════"
+    echo ""
+    echo "Config file: ${UDESK_CONFIG}"
+    echo ""
+    echo "Settings:"
+    echo "   Default Role:    ${UDESK_DEFAULT_ROLE}"
+    echo "   Default Mode:    ${UDESK_DEFAULT_MODE}"
+    echo "   Auto-launch:     ${UDESK_AUTO_LAUNCH}"
+    echo "   Show tips:       ${UDESK_SHOW_TIPS}"
+    echo "   Theme:           ${UDESK_THEME}"
+    echo ""
+    echo "Environment:"
+    echo "   Current Role:    ${UDESK_ROLE:-${UDESK_DEFAULT_ROLE}}"
+    echo "   Current Mode:    ${UDESK_MODE:-user}"
+    echo "   Platform:        $(uname -s) $(uname -m)"
+    echo "   Home:            ${HOME}"
+    echo "   Project:         ${PROJECT_ROOT}"
+    echo ""
+    show_role_art "${UDESK_DEFAULT_ROLE}"
+    read -p "Press Enter to continue..."
+}
+
+# Apply theme
+apply_theme() {
+    case "${UDESK_THEME}" in
+        "retro")
+            export UDESK_PS1="[uDESK:${UDESK_ROLE:-GHOST}]$ "
+            export UDESK_COLORS="retro"
+            ;;
+        "dark")
+            export UDESK_PS1="🌙 uDESK> "
+            export UDESK_COLORS="dark"
+            ;;
+        "light")
+            export UDESK_PS1="☀️ uDESK> "
+            export UDESK_COLORS="light"
+            ;;
+        *)
+            export UDESK_PS1="uDESK> "
+            export UDESK_COLORS="default"
+            ;;
+    esac
+}
+
+# Show helpful tips
+show_tips() {
+    if [ "${UDESK_SHOW_TIPS}" = "true" ]; then
+        echo ""
+        echo "💡 Tips for uDESK v1.0.7:"
+        case "${BUILD_MODE}" in
+            "user")
+                echo "   • Type [HELP] to see all available commands"
+                echo "   • Use [BACKUP] to save your work regularly"
+                echo "   • Progress through roles: GHOST → TOMB → DRONE → CRYPT → IMP → KNIGHT → SORCERER → WIZARD"
+                echo "   • Configuration saved in ~/.udesk/config"
+                ;;
+            "wizard-plus")
+                echo "   • Type [PLUS-MODE] to unlock extension development features"
+                echo "   • Use [CREATE-EXT] to build your own extensions"
+                echo "   • Share your extensions with the community"
+                echo "   • WIZARD role required for full access"
+                ;;
+            "developer")
+                echo "   • Use [BUILD-CORE] to compile all system components"
+                echo "   • Test changes with [SYSTEM-INFO] before deployment"
+                echo "   • Remember: With great power comes great responsibility!"
+                echo "   • Access to full system modification capabilities"
+                ;;
+        esac
+        echo ""
+    fi
+}
+
+# Main execution starts here
+load_config
+
+# Check if this is first run
+if [ ! -f "${UDESK_CONFIG}" ]; then
+    run_setup_wizard
+fi
+
+# If no mode specified, show interactive selection
+if [ -z "${BUILD_MODE}" ]; then
+    interactive_mode_selection
+fi
+
+# Set environment variables
+export UDESK_ROLE="${UDESK_ROLE:-${UDESK_DEFAULT_ROLE}}"
+export UDESK_MODE="${BUILD_MODE}"
+apply_theme
+
+clear
+show_udesk_logo
+echo "🔨 Build System"
+echo "═══════════════"
 echo "📁 Project: ${PROJECT_ROOT}"
-echo "🎯 Mode: ${BUILD_MODE}"
 echo "🏗️  Platform: ${TARGET_PLATFORM}"
+echo "👤 Role: ${UDESK_ROLE}"
+echo "🎨 Theme: ${UDESK_THEME}"
 echo ""
 
-# Detect build environment
+show_build_art "${BUILD_MODE}"
 detect_build_env() {
     if [ -f /opt/bootlocal.sh ]; then
         echo "tinycore"
@@ -28,6 +412,42 @@ detect_build_env() {
 }
 
 BUILD_ENV=$(detect_build_env)
+# Load configuration
+load_config
+
+# Show startup sequence
+show_udesk_logo
+show_build_art
+
+# Interactive mode if no arguments provided or if --interactive flag
+if [ -z "$BUILD_MODE" ] || [ "$1" = "--interactive" ] || [ "$1" = "-i" ]; then
+    run_setup_wizard
+    interactive_mode_selection
+    
+    # Get user selection
+    echo ""
+    read -p "Enter selection: " selection
+    
+    case $selection in
+        1) BUILD_MODE="user" ;;
+        2) BUILD_MODE="wizard-plus" ;;
+        3) BUILD_MODE="developer" ;;
+        4) BUILD_MODE="iso" ;;
+        5) BUILD_MODE="test" ;;
+        6) BUILD_MODE="clean" ;;
+        c|config) show_config; exit 0 ;;
+        q|quit|exit) echo "👋 Goodbye!"; exit 0 ;;
+        *) echo "❌ Invalid selection"; exit 1 ;;
+    esac
+    
+    echo ""
+    echo "✅ Selected: $BUILD_MODE"
+    echo ""
+fi
+
+# Apply theme settings
+apply_theme
+
 echo "🔍 Build environment: ${BUILD_ENV}"
 
 # Create build directories
@@ -42,12 +462,70 @@ case $BUILD_MODE in
         
         mkdir -p build/user
         
-        # Create user mode uCODE interpreter
+        # Create user mode uCODE interpreter with theme support
         cat > "build/user/udos.c" << 'EOF'
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
+
+void show_welcome_art() {
+    const char* theme = getenv("UDESK_COLORS");
+    const char* role = getenv("UDESK_ROLE");
+    
+    printf("\n");
+    if (theme && strcmp(theme, "retro") == 0) {
+        printf("    ┌─────────────────────────────────────┐\n");
+        printf("    │         uDESK v1.0.7 USER          │\n");
+        printf("    │    Universal Desktop OS             │\n");
+        printf("    └─────────────────────────────────────┘\n");
+    } else {
+        // Polaroid palette colors
+        printf("    \033[96m██╗   ██╗██████╗ ███████╗███████╗██╗  ██╗\033[0m\n");
+        printf("    \033[95m██║   ██║██╔══██╗██╔════╝██╔════╝██║ ██╔╝\033[0m\n");
+        printf("    \033[93m██║   ██║██║  ██║█████╗  ███████╗█████╔╝ \033[0m\n");
+        printf("    \033[92m██║   ██║██║  ██║██╔══╝  ╚════██║██╔═██╗ \033[0m\n");
+        printf("    \033[94m╚██████╔╝██████╔╝███████╗███████║██║  ██╗\033[0m\n");
+        printf("    \033[91m ╚═════╝ ╚═════╝ ╚══════╝╚══════╝╚═╝  ╚═╝\033[0m\n");
+        printf("            \033[97mUSER MODE v1.0.7\033[0m\n");
+    }
+    
+    if (role) {
+        if (strcmp(role, "GHOST") == 0) {
+            printf("    👻 GHOST - System Monitor\n");
+        } else if (strcmp(role, "TOMB") == 0) {
+            printf("    ⚰️ TOMB - Archive Manager\n");
+        } else if (strcmp(role, "DRONE") == 0) {
+            printf("    🤖 DRONE - Automation Assistant\n");
+        } else if (strcmp(role, "CRYPT") == 0) {
+            printf("    🔐 CRYPT - Security Specialist\n");
+        } else if (strcmp(role, "IMP") == 0) {
+            printf("    😈 IMP - Script Master\n");
+        } else if (strcmp(role, "KNIGHT") == 0) {
+            printf("    ⚔️ KNIGHT - System Administrator\n");
+        } else if (strcmp(role, "SORCERER") == 0) {
+            printf("    🔮 SORCERER - Smart Features\n");
+        } else if (strcmp(role, "WIZARD") == 0) {
+            printf("    🧙‍♂️ WIZARD - Complete Access\n");
+        }
+    }
+    printf("\n");
+}
+
+const char* get_prompt() {
+    const char* theme = getenv("UDESK_COLORS");
+    const char* ps1 = getenv("UDESK_PS1");
+    if (ps1) return ps1;
+    
+    if (theme && strcmp(theme, "retro") == 0) {
+        return "[uDESK:USER]$ ";
+    } else if (theme && strcmp(theme, "dark") == 0) {
+        return "🌙 uDESK> ";
+    } else if (theme && strcmp(theme, "light") == 0) {
+        return "☀️ uDESK> ";
+    }
+    return "uDESK> ";
+}
 
 int validate_user_path(const char* path) {
     char* home = getenv("HOME");
@@ -60,33 +538,63 @@ int validate_user_path(const char* path) {
 int execute_user_ucode(const char* command) {
     if (strncmp(command, "[BACKUP]", 8) == 0) {
         printf("📦 Creating user backup...\n");
-        system("mkdir -p ~/backups && tar -czf ~/backups/user-$(date +%Y%m%d).tar.gz ~/workspace/");
+        system("mkdir -p ~/.udesk/backups && tar -czf ~/.udesk/backups/user-$(date +%Y%m%d-%H%M).tar.gz ~/workspace/ ~/.udesk/ 2>/dev/null");
+        printf("✅ Backup saved to ~/.udesk/backups/\n");
         return 0;
     }
     if (strncmp(command, "[RESTORE]", 9) == 0) {
-        printf("📥 Restoring user files...\n");
-        printf("Available backups in ~/backups/\n");
-        system("ls -la ~/backups/user-*.tar.gz 2>/dev/null || echo 'No backups found'");
+        printf("📥 Available backups:\n");
+        system("ls -la ~/.udesk/backups/user-*.tar.gz 2>/dev/null | head -5 || echo '   No backups found'");
+        printf("💡 To restore: tar -xzf ~/.udesk/backups/user-YYYYMMDD-HHMM.tar.gz -C ~/\n");
         return 0;
     }
     if (strncmp(command, "[INFO]", 6) == 0) {
         printf("ℹ️  uDESK v1.0.7 - User Mode\n");
         printf("   Role: %s\n", getenv("UDESK_ROLE") ?: "GHOST");
+        printf("   Theme: %s\n", getenv("UDESK_COLORS") ?: "default");
         printf("   Workspace: ~/workspace/\n");
+        printf("   Config: ~/.udesk/\n");
         printf("   Home: %s\n", getenv("HOME") ?: "/home/user");
+        printf("   Platform: %s\n", getenv("UDESK_MODE") ?: "user");
         return 0;
     }
     if (strncmp(command, "[HELP]", 6) == 0) {
         printf("📖 uDESK v1.0.7 User Commands\n\n");
         printf("USER uCODE COMMANDS:\n");
-        printf("  [BACKUP]  - Backup your files\n");
-        printf("  [RESTORE] - Restore your files\n");
+        printf("  [BACKUP]  - Backup your files and config\n");
+        printf("  [RESTORE] - Show available backups\n");
         printf("  [INFO]    - System information\n");
         printf("  [HELP]    - This help\n\n");
         printf("ROLE PROGRESSION:\n");
-        printf("  GHOST → TOMB → DRONE → CRYPT → IMP → KNIGHT → SORCERER → WIZARD\n\n");
-        printf("WIZARD UPGRADE:\n");
-        printf("  Reach WIZARD role to unlock Wizard+ Mode\n");
+        printf("  👻 GHOST → ⚰️ TOMB → 🤖 DRONE → 🔐 CRYPT → 😈 IMP → ⚔️ KNIGHT → 🔮 SORCERER → 🧙‍♂️ WIZARD\n\n");
+        printf("SHELL COMMANDS:\n");
+        printf("  exit, quit - Leave uDESK\n");
+        printf("  config     - Show configuration\n");
+        printf("  role       - Show role information\n");
+        printf("  theme      - Show theme settings\n");
+        return 0;
+    }
+    if (strcmp(command, "config") == 0) {
+        printf("📋 Configuration:\n");
+        system("cat ~/.udesk/config 2>/dev/null || echo '   No config file found'");
+        return 0;
+    }
+    if (strcmp(command, "role") == 0) {
+        const char* role = getenv("UDESK_ROLE") ?: "GHOST";
+        printf("👤 Current Role: %s\n", role);
+        if (strcmp(role, "GHOST") == 0) {
+            printf("   👻 GHOST - Basic system monitoring\n");
+            printf("   Next: ⚰️ TOMB (Archive management)\n");
+        } else if (strcmp(role, "WIZARD") == 0) {
+            printf("   🧙‍♂️ WIZARD - Complete system access\n");
+            printf("   💡 Try: ./build.sh wizard-plus\n");
+        }
+        return 0;
+    }
+    if (strcmp(command, "theme") == 0) {
+        printf("🎨 Theme: %s\n", getenv("UDESK_COLORS") ?: "default");
+        printf("   Prompt: %s\n", get_prompt());
+        printf("   Available: default, retro, dark, light\n");
         return 0;
     }
     printf("❌ Unknown command: %s\n", command);
@@ -95,19 +603,23 @@ int execute_user_ucode(const char* command) {
 }
 
 int main(int argc, char *argv[]) {
-    printf("👤 uDESK v1.0.7 - User Mode\n");
-    printf("Role: %s\n", getenv("UDESK_ROLE") ?: "GHOST");
-    printf("Commands: [BACKUP], [RESTORE], [INFO], [HELP], exit\n\n");
+    const char* role = getenv("UDESK_ROLE") ?: "GHOST";
+    const char* theme = getenv("UDESK_COLORS") ?: "default";
+    
+    show_welcome_art();
+    
+    printf("Role: %s | Theme: %s\n", role, theme);
+    printf("Commands: [BACKUP], [RESTORE], [INFO], [HELP], config, exit\n\n");
     
     char input[256];
     while (1) {
-        printf("uDESK> ");
+        printf("%s", get_prompt());
         if (!fgets(input, sizeof(input), stdin)) break;
         
         input[strcspn(input, "\n")] = 0;
         
         if (strcmp(input, "exit") == 0 || strcmp(input, "quit") == 0) {
-            printf("Goodbye!\n");
+            printf("👋 Goodbye! Thanks for using uDESK v1.0.7\n");
             break;
         }
         
@@ -418,3 +930,9 @@ esac
 echo ""
 echo "🎉 Build complete!"
 echo "📁 Artifacts in: build/${BUILD_MODE}/"
+
+# Show completion tips
+show_tips
+
+# Save current configuration
+save_config
