@@ -1,0 +1,368 @@
+/* Setup Component Styles */
+.setup-container {
+  width: 100%;
+  height: 100vh;
+  padding: 2rem;
+  overflow-y: auto;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+}
+
+.setup-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.setup-header h1, .setup-header h2 {
+  margin: 0 0 0.5rem 0;
+  color: var(--accent-primary);
+}
+
+.setup-header p {
+  margin: 0;
+  opacity: 0.8;
+  font-size: 1.1rem;
+}
+
+/* Welcome Screen */
+.setup-welcome .feature-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+  margin: 2rem 0;
+}
+
+.feature-card {
+  background: var(--bg-secondary);
+  padding: 1.5rem;
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  text-align: center;
+}
+
+.feature-card h3 {
+  margin: 0 0 1rem 0;
+  color: var(--accent-primary);
+}
+
+.feature-card p {
+  margin: 0;
+  opacity: 0.8;
+  line-height: 1.5;
+}
+
+/* System Check */
+.system-info {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.info-grid {
+  display: grid;
+  gap: 1rem;
+  margin: 1.5rem 0;
+}
+
+.info-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  background: var(--bg-secondary);
+  border-radius: 6px;
+  border: 1px solid var(--border-color);
+}
+
+.info-item .label {
+  font-weight: 600;
+}
+
+.info-item .value {
+  font-family: 'Courier New', monospace;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  background: var(--bg-tertiary);
+}
+
+.info-item .value.success {
+  color: #4ade80;
+  background: rgba(74, 222, 128, 0.1);
+}
+
+.info-item .value.error {
+  color: #f87171;
+  background: rgba(248, 113, 113, 0.1);
+}
+
+/* Component Selection */
+.component-selection {
+  margin: 2rem 0;
+}
+
+.component-selection h3 {
+  margin: 0 0 1rem 0;
+  color: var(--accent-primary);
+}
+
+.checkbox-group {
+  display: grid;
+  gap: 1rem;
+}
+
+.checkbox-group label {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem;
+  background: var(--bg-secondary);
+  border-radius: 6px;
+  border: 1px solid var(--border-color);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.checkbox-group label:hover {
+  background: var(--bg-tertiary);
+  border-color: var(--accent-primary);
+}
+
+.checkbox-group input[type="checkbox"] {
+  width: 1.2rem;
+  height: 1.2rem;
+  accent-color: var(--accent-primary);
+}
+
+.already-installed {
+  margin-left: auto;
+  font-size: 0.9rem;
+  color: #4ade80;
+}
+
+/* Installation Progress */
+.install-progress {
+  max-width: 800px;
+  margin: 2rem auto;
+}
+
+.install-step {
+  margin-bottom: 1.5rem;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  background: var(--bg-secondary);
+  overflow: hidden;
+}
+
+.install-step.step-pending {
+  opacity: 0.7;
+}
+
+.install-step.step-running {
+  border-color: #fbbf24;
+  box-shadow: 0 0 10px rgba(251, 191, 36, 0.3);
+}
+
+.install-step.step-completed {
+  border-color: #4ade80;
+  box-shadow: 0 0 10px rgba(74, 222, 128, 0.3);
+}
+
+.install-step.step-error {
+  border-color: #f87171;
+  box-shadow: 0 0 10px rgba(248, 113, 113, 0.3);
+}
+
+.step-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.5rem;
+}
+
+.step-icon {
+  font-size: 1.5rem;
+  min-width: 2rem;
+  text-align: center;
+}
+
+.step-info h4 {
+  margin: 0 0 0.5rem 0;
+  color: var(--accent-primary);
+}
+
+.step-info p {
+  margin: 0;
+  opacity: 0.8;
+}
+
+.step-output {
+  border-top: 1px solid var(--border-color);
+  background: var(--bg-tertiary);
+  padding: 1rem 1.5rem;
+}
+
+.step-output pre {
+  margin: 0;
+  font-family: 'Courier New', monospace;
+  font-size: 0.9rem;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+/* Completion Screen */
+.completion-summary {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.success-message, .next-steps, .quick-actions {
+  background: var(--bg-secondary);
+  padding: 2rem;
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  margin-bottom: 2rem;
+}
+
+.success-message h3, .next-steps h3, .quick-actions h3 {
+  margin: 0 0 1rem 0;
+  color: var(--accent-primary);
+}
+
+.next-steps ul {
+  margin: 1rem 0 0 0;
+  padding-left: 1.5rem;
+}
+
+.next-steps li {
+  margin-bottom: 0.5rem;
+  line-height: 1.5;
+}
+
+/* Action Buttons */
+.setup-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  margin-top: 2rem;
+  flex-wrap: wrap;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.btn {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 120px;
+}
+
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btn-primary {
+  background: var(--accent-primary);
+  color: var(--bg-primary);
+}
+
+.btn-primary:hover:not(:disabled) {
+  background: var(--accent-secondary);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.btn-secondary {
+  background: var(--bg-tertiary);
+  color: var(--text-primary);
+  border: 1px solid var(--border-color);
+}
+
+.btn-secondary:hover:not(:disabled) {
+  background: var(--bg-secondary);
+  border-color: var(--accent-primary);
+  transform: translateY(-1px);
+}
+
+/* Installing Indicator */
+.installing-indicator {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: var(--accent-primary);
+  font-weight: 600;
+}
+
+.spinner {
+  width: 1.5rem;
+  height: 1.5rem;
+  border: 2px solid var(--border-color);
+  border-top: 2px solid var(--accent-primary);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Theme-specific overrides */
+.theme-polaroid .setup-container {
+  background: #f5f5dc;
+  color: #2d2d2d;
+}
+
+.theme-c64 .setup-container {
+  background: #40318d;
+  color: #7869c4;
+}
+
+.theme-macintosh .setup-container {
+  background: #eeeeee;
+  color: #000000;
+}
+
+.theme-mode7 .setup-container {
+  background: linear-gradient(45deg, #0066cc, #ff6600);
+  color: #ffffff;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .setup-container {
+    padding: 1rem;
+  }
+  
+  .feature-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .setup-actions, .action-buttons {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .btn {
+    width: 100%;
+  }
+  
+  .step-header {
+    padding: 1rem;
+  }
+  
+  .success-message, .next-steps, .quick-actions {
+    padding: 1.5rem;
+  }
+}
