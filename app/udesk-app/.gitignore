@@ -1,0 +1,57 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+node_modules
+dist
+dist-ssr
+*.local
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# uDESK Local Development Environment - DO NOT SYNC TO DISTRO
+# These paths contain local engines, extensions, and user data
+local/
+engines/
+extensions/runtime/
+workspace/user/
+containers/data/
+.udesk/
+user-data/
+session-cache/
+temp-extensions/
+local-builds/
+
+# TinyCore specific - local installations
+tce/
+mydata.tgz
+*.backup
+*.restore
+
+# uDOS command history and local state
+.udos-history
+.command-cache
+.session-state
+user-configs/
+local-themes/
+
+# Development artifacts that shouldn't be in distribution
+debug-output/
+test-containers/
+dev-workspace/
+build-cache/
+*.dev.log

@@ -1,0 +1,16 @@
+Title:          udesk.tcz
+Description:    uDESK v1.0.7 - Universal Development Environment & System Kit
+Version:        1.0.7
+Author:         uDESK Project
+Original-site:  https://github.com/fredporter/uDESK
+Copying-policy: Open Source
+Size:           16M
+Extension_by:   uDESK Project
+Tags:           development environment tinycore desktop
+Comments:       Modern development environment with TinyCore Linux integration
+                Provides containerized development with retro computing themes
+                Includes uCODE command language and extension system
+Change-log:     1.0.7 Added TinyCore system commands (BACKUP/RESTORE/REPAIR)
+                1.0.7 Improved local/distro environment separation
+                1.0.7 Enhanced uCODE command set integration
+Current:        1.0.7

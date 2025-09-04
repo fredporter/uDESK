@@ -1,8 +1,0 @@
-name=Network Monitor
-id=network-monitor
-version=1.0.0
-type=local
-author=Local User
-created=2025-09-04
-description=Local plugin: Network Monitor
-main=plugin.sh

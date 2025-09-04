@@ -14,14 +14,26 @@ Thumbs.db
 *.swp
 *.swo
 
-# Build Artifacts (NOT applicable - we use clean structure)
-# ---------------------------------------------------------
+# Build Artifacts & Dependencies
+# -------------------------------
+build/user/
+build/wizard-plus/
+build/developer/
+build/clean-udos/
+build/uDOS-core/
 *.tcz
 *.tce
 *.deb
 *.rpm
 *.tar.gz
 *.zip
+
+# Tauri Build Artifacts
+# ----------------------
+app/udesk-app/tauri/target/
+app/udesk-app/dist/
+app/udesk-app/node_modules/
+app/udesk-app/.vite-temp/
 
 # ISO Files & VM Images
 # ---------------------

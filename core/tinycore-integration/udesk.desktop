@@ -1,0 +1,30 @@
+[Desktop Entry]
+Version=1.0.7
+Type=Application
+Name=uDESK
+GenericName=Universal Development Environment
+Comment=uDESK v1.0.7 - Development environment with TinyCore integration
+Exec=/usr/local/bin/udesk
+Icon=udesk
+Terminal=false
+StartupNotify=true
+Categories=Development;IDE;System;
+Keywords=development;programming;tinycore;container;retro;
+MimeType=text/x-ucode;application/x-tcz;
+StartupWMClass=uDESK
+Actions=Terminal;Container;Themes;
+
+[Desktop Action Terminal]
+Name=uDOS Terminal
+Exec=/usr/local/bin/udesk --terminal
+Icon=terminal
+
+[Desktop Action Container]
+Name=Container Manager
+Exec=/usr/local/bin/udesk --container
+Icon=docker
+
+[Desktop Action Themes]
+Name=Theme Selector
+Exec=/usr/local/bin/udesk --themes
+Icon=preferences-desktop-theme
