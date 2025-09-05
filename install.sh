@@ -195,8 +195,14 @@ test_and_launch_udos() {
     echo ""
     echo "🔧 Testing installation..."
     
-    # Test and launch uDOS
-    if [ -f "$HOME/uDESK/build/user/udos" ]; then
+    # Test and launch uDOS (prefer wizard mode for first-time setup)
+    if [ -f "$HOME/uDESK/build/wizard/udos-wizard" ]; then
+        echo "✅ uDOS Wizard found - launching..."
+        echo ""
+        echo "=== Starting uDOS Wizard ==="
+        cd "$HOME/uDESK"
+        ./build/wizard/udos-wizard || echo "⚠️  uDOS exited"
+    elif [ -f "$HOME/uDESK/build/user/udos" ]; then
         echo "✅ uDOS found - launching..."
         echo ""
         echo "=== Starting uDOS ==="
@@ -205,18 +211,51 @@ test_and_launch_udos() {
     else
         echo "⚠️  uDOS binary not found, trying build..."
         if [ -f "$HOME/uDESK/dev/build.sh" ]; then
-            echo "🔨 Building uDOS..."
+            echo "🔨 Building uDOS (Wizard Mode for first-time setup)..."
             cd "$HOME/uDESK"
-            bash dev/build.sh user
-            if [ -f "build/user/udos" ]; then
-                echo "✅ Build successful - launching uDOS..."
+            bash dev/build.sh wizard
+            if [ -f "build/wizard/udos-wizard" ]; then
+                echo "✅ Build successful - launching Wizard Mode..."
                 echo ""
-                echo "=== Starting uDOS ==="
-                ./build/user/udos || echo "⚠️  uDOS exited"
+                echo "=== Starting uDOS Wizard ==="
+                ./build/wizard/udos-wizard || echo "⚠️  uDOS exited"
             fi
         else
             echo "⚠️  Build script not found in dev/ - binaries may need manual compilation"
         fi
+    fi
+}
+
+# Function to launch Tauri app
+launch_tauri_app() {
+    echo ""
+    echo "🎨 Launching Modern Tauri Interface..."
+    
+    if [ -d "$HOME/uDESK/app" ]; then
+        cd "$HOME/uDESK/app"
+        
+        # Check if node modules exist
+        if [ ! -d "node_modules" ]; then
+            echo "📦 Installing Tauri dependencies..."
+            if command -v npm &> /dev/null; then
+                npm install --silent
+            else
+                echo "⚠️  npm not found - install Node.js to use Tauri interface"
+                return 1
+            fi
+        fi
+        
+        # Launch Tauri app in development mode
+        echo "🚀 Starting Tauri desktop app..."
+        if command -v npm &> /dev/null; then
+            npm run tauri dev &
+            echo "✅ Tauri app launched in background"
+            echo "   A desktop window should open shortly..."
+        else
+            echo "⚠️  npm not found - install Node.js to use Tauri interface"
+        fi
+    else
+        echo "⚠️  Tauri app directory not found"
     fi
 }
 
@@ -297,20 +336,26 @@ echo "  uDESK/docs/             - Documentation"
 echo "  ~/uDESK/dev/            - Development tools"
 echo ""
 echo "🔧 Available Commands:"
-echo "  udos    - Main uDOS interface"
-echo "  uvar    - Variable management"
-echo "  udata   - Data management"
-echo "  utpl    - Template management"
+echo "  udos-wizard - Main uDOS Wizard interface (recommended)"
+echo "  udos        - Standard uDOS interface"
+echo "  uvar        - Variable management"
+echo "  udata       - Data management"
+echo "  utpl        - Template management"
 echo ""
 echo "🧪 Quick Tests:"
-echo "  cd ~/uDESK && udos version  - Check installation"
-echo "  cd ~/uDESK && udos test     - Full system test"
+echo "  cd ~/uDESK && ./build/wizard/udos-wizard  - Launch Wizard mode"
+echo "  cd ~/uDESK && ./build/user/udos version   - Check installation"
+echo ""
+echo "🎨 Modern Interface:"
+echo "  cd ~/uDESK/app && npm install && npm run tauri dev  - Launch Tauri GUI"
 
 # Test and launch uDOS (if not called from platform installer)
 if [ "$3" != "--skip-auto-launch" ]; then
     test_and_launch_udos
+    launch_tauri_app
     
     echo ""
     echo "📚 Documentation: https://github.com/fredporter/uDESK"
-    echo "🔧 To run uDOS again: cd ~/uDESK && ./build/user/udos"
+    echo "🔧 To run uDOS again: cd ~/uDESK && ./build/wizard/udos-wizard"
+    echo "🎨 To run Tauri GUI: cd ~/uDESK/app && npm run tauri dev"
 fi
