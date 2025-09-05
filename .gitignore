@@ -7,7 +7,7 @@ add-icon.sh
 assets/
 installers/
 scripts/
-system/
+system/core/docs/
 
 # System Files
 # -------------
