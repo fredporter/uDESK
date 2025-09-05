@@ -18,7 +18,12 @@ echo.
 
 REM If no uDESK directory exists, show continue prompt
 if not exist "%USERPROFILE%\uDESK" (
-    pause
+    echo Ready to install uDESK v1.0.7.2
+    set /p choice="Continue with installation? [Y]es/[N]o: "
+    if /i not "%choice%"=="y" if /i not "%choice%"=="yes" (
+        echo ❌ Installation cancelled
+        exit /b 1
+    )
 )
 
 REM Check if WSL is available for Linux compatibility

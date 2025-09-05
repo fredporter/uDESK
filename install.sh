@@ -4,27 +4,102 @@
 
 set -e
 
+# uCODE Standard Input Handling Functions
+# ======================================
+
+# Parse uCODE format input - case insensitive, supports shortcuts
+parse_ucode_input() {
+    local input="$1"
+    local options="$2"  # Format: "UPDATE|DESTROY|CANCEL" or "YES|NO"
+    
+    # Convert to uppercase for comparison
+    input=$(echo "$input" | tr '[:lower:]' '[:upper:]')
+    
+    # Split options by pipe
+    IFS='|' read -ra OPTS <<< "$options"
+    
+    # Check for exact match first
+    for opt in "${OPTS[@]}"; do
+        if [[ "$input" == "$opt" ]]; then
+            echo "$opt"
+            return 0
+        fi
+    done
+    
+    # Check for single character shortcuts
+    if [[ ${#input} -eq 1 ]]; then
+        for opt in "${OPTS[@]}"; do
+            if [[ "$input" == "${opt:0:1}" ]]; then
+                echo "$opt"
+                return 0
+            fi
+        done
+    fi
+    
+    echo "INVALID"
+    return 1
+}
+
+# Prompt with uCODE format and validation
+prompt_ucode() {
+    local prompt="$1"
+    local options="$2"  # Format: "UPDATE|DESTROY|CANCEL"
+    local default="$3"  # Optional default value
+    
+    # Build display options with shortcuts
+    IFS='|' read -ra OPTS <<< "$options"
+    local display_opts=""
+    for i in "${!OPTS[@]}"; do
+        local opt="${OPTS[$i]}"
+        local short="${opt:0:1}"
+        if [[ -n "$default" && "$opt" == "$default" ]]; then
+            display_opts+="[${short}]${opt:1}"
+        else
+            display_opts+="${short}|${opt:1}"
+        fi
+        if [[ $i -lt $((${#OPTS[@]} - 1)) ]]; then
+            display_opts+="|"
+        fi
+    done
+    
+    while true; do
+        if [[ -n "$default" ]]; then
+            read -p "$prompt [$display_opts]: " input
+            # Use default if empty
+            if [[ -z "$input" ]]; then
+                input="$default"
+            fi
+        else
+            read -p "$prompt [$display_opts]: " input
+        fi
+        
+        result=$(parse_ucode_input "$input" "$options")
+        if [[ "$result" != "INVALID" ]]; then
+            echo "$result"
+            return 0
+        else
+            echo "❌ Invalid input. Please enter one of: $display_opts"
+        fi
+    done
+}
+
 # Function to handle directory collision
 handle_existing_directory() {
     if [ -d "$HOME/uDESK" ]; then
         echo "⚠️  uDESK directory already exists at ~/uDESK"
         echo ""
-        echo "Options:"
-        echo "1) Update existing installation (git pull)"
-        echo "2) Destroy and start fresh (removes everything)"
-        echo "3) Cancel installation"
-        echo ""
-        read -p "Enter choice (1-3): " choice
+        
+        choice=$(prompt_ucode "Choose action" "UPDATE|DESTROY|CANCEL")
         
         case $choice in
-            1)
+            UPDATE)
                 echo "📦 Will update existing installation..."
                 return 0
                 ;;
-            2)
+            DESTROY)
                 echo "💥 Will destroy and start fresh..."
-                read -p "Are you sure? This will delete ~/uDESK completely (y/N): " confirm
-                if [[ $confirm =~ ^[Yy]$ ]]; then
+                confirm=$(prompt_ucode "Are you sure? This will delete ~/uDESK completely" "YES|NO" "NO")
+                if [[ "$confirm" == "YES" ]]; then
                     echo "🗑️  Removing existing uDESK directory..."
                     cd "$HOME"  # Change to safe directory before deletion
                     rm -rf "$HOME/uDESK"
@@ -35,12 +110,8 @@ handle_existing_directory() {
                     exit 1
                 fi
                 ;;
-            3)
+            CANCEL)
                 echo "❌ Installation cancelled"
-                exit 1
-                ;;
-            *)
-                echo "❌ Invalid choice. Installation cancelled"
                 exit 1
                 ;;
         esac

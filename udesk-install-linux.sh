@@ -20,21 +20,35 @@ echo ""
 
 # If no uDESK directory exists, show continue prompt
 if [ ! -d "$HOME/uDESK" ]; then
-    read -p "Press Enter to continue or Ctrl+C to cancel..."
+    echo "Ready to install uDESK v1.0.7.2"
+    read -p "Continue with installation? [Y|es/N|o]: " choice
+    choice=$(echo "$choice" | tr '[:lower:]' '[:upper:]')
+    if [[ ! "$choice" =~ ^(Y|YES)$ ]]; then
+        echo "❌ Installation cancelled"
+        exit 1
+    fi
 fi
 
 # Check for essential build tools first
 echo "🔧 Checking build tools..."
 if ! command -v gcc &> /dev/null; then
-    echo "⚠️  GCC not found - installing build essentials..."
-    if command -v apt-get &> /dev/null; then
-        sudo apt-get update && sudo apt-get install -y build-essential
-    elif command -v yum &> /dev/null; then
-        sudo yum groupinstall -y "Development Tools"
-    elif command -v pacman &> /dev/null; then
-        sudo pacman -S base-devel
-    elif command -v dnf &> /dev/null; then
-        sudo dnf groupinstall -y "Development Tools"
+    echo "⚠️  GCC not found - build essentials required for uDESK"
+    read -p "Install build tools automatically? [Y|es/N|o]: " choice
+    choice=$(echo "$choice" | tr '[:lower:]' '[:upper:]')
+    if [[ "$choice" =~ ^(Y|YES)$ ]]; then
+        echo "📦 Installing build essentials..."
+        if command -v apt-get &> /dev/null; then
+            sudo apt-get update && sudo apt-get install -y build-essential
+        elif command -v yum &> /dev/null; then
+            sudo yum groupinstall -y "Development Tools"
+        elif command -v pacman &> /dev/null; then
+            sudo pacman -S base-devel
+        elif command -v dnf &> /dev/null; then
+            sudo dnf groupinstall -y "Development Tools"
+        fi
+    else
+        echo "❌ Build tools required for uDESK. Installation cancelled."
+        exit 1
     fi
 fi
 
