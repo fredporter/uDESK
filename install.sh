@@ -160,7 +160,15 @@ setup_repository() {
     echo ""
     if [ -d "$HOME/uDESK/.git" ]; then
         echo "🔄 Updating existing uDESK installation..."
-        cd "$HOME/uDESK" && git pull
+        cd "$HOME/uDESK"
+        
+        # Reset any local changes to ensure clean update
+        echo "   Resetting local changes to ensure clean update..."
+        git fetch origin
+        git reset --hard origin/main
+        git clean -fd
+        
+        echo "✅ Repository updated to latest version"
     else
         echo "📦 Downloading uDESK complete system..."
         git clone https://github.com/fredporter/uDESK.git "$HOME/uDESK"
