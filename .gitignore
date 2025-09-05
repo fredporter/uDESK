@@ -1,6 +1,14 @@
 # uDESK - Clean Structure .gitignore
 # ===================================
 
+# Old/Legacy Directories (DO NOT TRACK)
+# -------------------------------------
+add-icon.sh
+assets/
+installers/
+scripts/
+system/
+
 # System Files
 # -------------
 .DS_Store
