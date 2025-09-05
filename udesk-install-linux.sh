@@ -21,7 +21,7 @@ echo ""
 # If no uDESK directory exists, show continue prompt
 if [ ! -d "$HOME/uDESK" ]; then
     echo "Ready to install uDESK v1.0.7.2"
-    read -p "Continue with installation? [Y|es/N|o]: " choice
+    read -p "Continue with installation? [YES|NO]: " choice
     choice=$(echo "$choice" | tr '[:lower:]' '[:upper:]')
     if [[ ! "$choice" =~ ^(Y|YES)$ ]]; then
         echo "❌ Installation cancelled"
@@ -33,7 +33,7 @@ fi
 echo "🔧 Checking build tools..."
 if ! command -v gcc &> /dev/null; then
     echo "⚠️  GCC not found - build essentials required for uDESK"
-    read -p "Install build tools automatically? [Y|es/N|o]: " choice
+    read -p "Install build tools automatically? [YES|NO]: " choice
     choice=$(echo "$choice" | tr '[:lower:]' '[:upper:]')
     if [[ "$choice" =~ ^(Y|YES)$ ]]; then
         echo "📦 Installing build essentials..."

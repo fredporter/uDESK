@@ -19,7 +19,7 @@ echo.
 REM If no uDESK directory exists, show continue prompt
 if not exist "%USERPROFILE%\uDESK" (
     echo Ready to install uDESK v1.0.7.2
-    set /p choice="Continue with installation? [Y]es/[N]o: "
+    set /p choice="Continue with installation? [YES|NO]: "
     if /i not "%choice%"=="y" if /i not "%choice%"=="yes" (
         echo ❌ Installation cancelled
         exit /b 1
