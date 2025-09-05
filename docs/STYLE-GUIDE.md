@@ -15,7 +15,7 @@ uSCRIPT  uKNOWLEDGE       # Core system modules
 ### System Architecture (v1.0.7.2)
 ```
 Build Modes:     user, wizard, developer, iso
-Platforms:       macOS, Ubuntu, Windows
+Platforms:       macOS, Linux, Windows
 Desktop App:     Tauri-based cross-platform application
 Extensions:      Mode-aware extension system
 ```
@@ -213,7 +213,7 @@ Mode Set To Developer                ~ Should be: MODE set to developer
 
 ### Cross-Platform Shell Scripts
 - Use `#!/bin/bash` for unified build system compatibility
-- Support macOS, Ubuntu, and Windows (via MSYS2/MinGW)
+- Support macOS, Linux, and Windows (via MSYS2/MinGW)
 - Use cross-platform commands when possible
 - Test on all supported platforms
 - Variables in UPPER_CASE for environment variables
@@ -228,7 +228,7 @@ case "$(uname)" in
         # macOS-specific code
         ;;
     "Linux")
-        # Ubuntu/Linux-specific code
+        # Linux-specific code
         ;;
     "MINGW"*|"MSYS"*)
         # Windows-specific code

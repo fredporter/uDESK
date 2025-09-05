@@ -1,7 +1,7 @@
 # uDESK Architecture: Universal Development Environment & System Kit
 
 ## Overview
-uDESK v1.0.7 provides TinyCore Linux integration for uDOS (Universal Device Operating System) with a clean, organized architecture featuring mode separation, cross-platform support, and modern Tauri application interface.
+uDESK v1.0.7.2 provides TinyCore Linux integration for uDOS (Universal Device Operating System) with a clean, organized architecture featuring mode separation, cross-platform support, and modern Tauri application interface.
 
 ## Core Architecture
 
@@ -9,17 +9,17 @@ uDESK v1.0.7 provides TinyCore Linux integration for uDOS (Universal Device Oper
 ```
 uDESK System/
 ├── Unified Build: build.sh (user/wizard/developer/iso modes)
-├── Platform Launchers: uDESK-{platform}.sh (auto-dependency installation)
+├── Platform Installers: udesk-install-{platform} (auto-dependency installation)
 ├── Modern Interface: Tauri application with uDOS branding
 ├── TinyCore Integration: 7 core uDOS system commands
 └── Role System: 8-level progressive hierarchy (GHOST → WIZARD)
 ```
 
 ### Distribution Methods
-- **Cross-Platform Builds**: Native macOS/Ubuntu/Windows support with zero dependencies
+- **Cross-Platform Builds**: Native macOS/Linux/Windows support with zero dependencies
 - **Tauri Application**: Modern web-based interface with React frontend
 - **TinyCore Integration**: Native system commands and ISO generation
-- **Mode Separation**: Clear User/Wizard+/Developer build distinction
+- **Mode Separation**: Clear User/Wizard/Developer build distinction
 
 ## Technical Components
 
@@ -27,7 +27,7 @@ uDESK System/
 **Unified Build Script**
 - Single build.sh handling all modes (user/wizard/developer/iso)
 - Fast GCC-only builds with 30-second setup time
-- Cross-platform compatibility (macOS/Ubuntu/Windows)
+- Cross-platform compatibility (macOS/Linux/Windows)
 - Zero external dependencies beyond GCC
 
 **Mode Architecture**
@@ -46,12 +46,12 @@ uDESK System/
 - `UNDO`: Reverse last operation
 - `REDO`: Replay last successful operation
 
-**Platform Launchers**
+**Platform Installers**
 ```
 Platform Support/
-├── uDESK-macOS.sh (auto-installs Xcode Command Line Tools)
-├── uDESK-Ubuntu.sh (auto-installs build-essential)
-└── uDESK-Windows.bat (MinGW/MSYS2 guidance)
+├── udesk-install.command (auto-installs Xcode Command Line Tools)
+├── udesk-install-linux.sh (auto-installs build-essential)
+└── udesk-install-windows.bat (MinGW/MSYS2 guidance)
 ```
 
 ### 3. Tauri Application Integration
@@ -66,15 +66,15 @@ Platform Support/
 ### Primary Installation
 ```bash
 # Platform-specific quickstart (recommended)
-./uDESK-macOS.sh      # macOS with auto-dependency installation
-./uDESK-Ubuntu.sh     # Ubuntu/Debian with build-essential
-./uDESK-Windows.bat   # Windows with MinGW guidance
+./udesk-install.command      # macOS with auto-dependency installation
+./udesk-install-linux.sh     # Linux with build-essential
+./udesk-install-windows.bat  # Windows with MinGW guidance
 
 # Manual build and install
 git clone https://github.com/fredporter/uDESK.git
 cd uDESK
 ./build.sh user       # Build user mode
-sudo ./installers/install.sh     # Install system-wide
+sudo ./install.sh     # Install system-wide
 ```
 
 ### Development Setup
@@ -104,10 +104,10 @@ Build Commands:
 ├── ./build.sh developer   - Developer mode build (core developers)
 └── ./build.sh iso         - TinyCore ISO generation
 
-Platform Launchers:
-├── ./uDESK-macOS.sh      - macOS quickstart with Xcode tools
-├── ./uDESK-Ubuntu.sh     - Ubuntu quickstart with build-essential
-└── ./uDESK-Windows.bat   - Windows quickstart with MinGW guidance
+Platform Installers:
+├── ./udesk-install.command  - macOS quickstart with Xcode tools
+├── ./udesk-install-linux.sh - Linux quickstart with build-essential
+└── ./udesk-install-windows.bat - Windows quickstart with MinGW guidance
 
 Testing Commands:
 ├── echo "[INFO]" | ./build/user/udos       - Test user mode
@@ -127,7 +127,7 @@ uCODE System Commands (TinyCore Integration):
 ### Design Principles
 - **Mode Separation**: Clear distinction between User/Wizard/Developer contexts
 - **Zero Dependencies**: Only requires GCC (auto-installed by platform launchers)
-- **Cross-Platform**: Native support for macOS/Ubuntu/Windows
+- **Cross-Platform**: Native support for macOS/Linux/Windows
 - **Fast Setup**: 30-second build time from download to executable
 - **Modern Interface**: Optional Tauri application for enhanced user experience
 
@@ -135,7 +135,7 @@ uCODE System Commands (TinyCore Integration):
 
 ### ✅ MILESTONE 1: Clean Architecture (Complete - v1.0.7)
 - ✅ Mode separation (User/Wizard/Developer)
-- ✅ Cross-platform support (macOS/Ubuntu/Windows)
+- ✅ Cross-platform support (macOS/Linux/Windows)
 - ✅ Zero dependency builds (GCC-only)
 - ✅ Platform launchers with auto-dependency installation
 - ✅ 8-role hierarchy system (GHOST → WIZARD)
@@ -240,4 +240,4 @@ Extensions can integrate with the Tauri desktop application and detect platform-
 
 ---
 
-*Updated: 2025-09-04 - Clean architecture v1.0.7 with cross-platform support*
+*Updated: 2025-09-05 - Clean architecture v1.0.7.2 with cross-platform support*
