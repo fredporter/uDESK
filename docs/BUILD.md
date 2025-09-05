@@ -10,9 +10,9 @@ git clone https://github.com/fredporter/uDESK.git
 cd uDESK
 
 # Platform-specific quickstart (recommended)
-./uDESK-macOS.sh      # macOS with auto-dependency installation
-./uDESK-Ubuntu.sh     # Ubuntu/Debian with build-essential
-./uDESK-Windows.bat   # Windows with MinGW guidance
+./udesk-install.command       # macOS with auto-dependency installation
+./udesk-install-linux.sh      # Ubuntu/Debian with build-essential
+./udesk-install-windows.bat   # Windows with MinGW guidance
 
 # Or build directly
 ./build.sh user       # User mode build (most users)
@@ -31,7 +31,7 @@ cd uDESK
 
 #### macOS
 ```bash
-# Xcode Command Line Tools (auto-installed by uDESK-macOS.sh)
+# Xcode Command Line Tools (auto-installed by udesk-install.command)
 # - GCC compiler
 # - Git
 # - Basic build tools
@@ -39,14 +39,14 @@ cd uDESK
 
 #### Ubuntu/Debian
 ```bash
-# build-essential package (auto-installed by uDESK-Ubuntu.sh)
+# build-essential package (auto-installed by udesk-install-linux.sh)
 sudo apt update
 sudo apt install build-essential git
 ```
 
 #### Windows
 ```bash
-# MinGW-w64 or MSYS2 (guidance provided by uDESK-Windows.bat)
+# MinGW-w64 or MSYS2 (guidance provided by udesk-install-windows.bat)
 # - GCC compiler
 # - Git for Windows
 # - Basic build environment
@@ -64,9 +64,9 @@ uDESK v1.0.7 uses a **unified build system** with a single `build.sh` script tha
 ```
 uDESK/
 ├── build.sh              # Unified build script
-├── Launch-uDOS-macOS.command   # macOS launcher
-├── Launch-uDOS-Ubuntu.sh       # Ubuntu launcher  
-├── Launch-uDOS-Windows.bat     # Windows launcher
+├── udesk-install.command      # macOS installer
+├── udesk-install-linux.sh     # Linux installer  
+├── udesk-install-windows.bat  # Windows installer
 ├── core/                       # uDOS system core
 ├── uCORE/                     # Core runtime
 ├── app/                       # Tauri desktop app
@@ -173,9 +173,9 @@ EOF
 ./build.sh developer && ./udos
 
 # Test cross-platform
-./Launch-uDOS-macOS.command
-./Launch-uDOS-Ubuntu.sh
-./Launch-uDOS-Windows.bat
+./udesk-install.command
+./udesk-install-linux.sh
+./udesk-install-windows.bat
 ```
 
 ### Tauri Desktop Testing
@@ -211,8 +211,10 @@ npm run tauri build
 # Ensure GCC is installed
 gcc --version
 
-# Run platform launcher first
-./Launch-uDOS-macOS.command  # or Ubuntu/Windows equivalent
+# Run platform installer first
+./udesk-install.command       # macOS
+./udesk-install-linux.sh      # Linux
+./udesk-install-windows.bat   # Windows
 ```
 
 **Missing dependencies**
@@ -234,7 +236,7 @@ sudo apt install build-essential
 ```bash
 # Ensure build script is executable
 chmod +x build.sh
-chmod +x Launch-uDOS-*.{command,sh,bat}
+chmod +x udesk-install*.{command,sh,bat}
 ```
 
 ### Debug Mode
@@ -312,4 +314,91 @@ export MAKEFLAGS="-j$(nproc)"
 
 ---
 
-*Building uDESK v1.0.7 is designed to be simple, fast, and fully cross-platform - completing setup in under 30 seconds on any supported system.*
+## Git Integration
+
+uDESK includes **one-way git repository synchronization** for setup and installation only. This ensures users always have access to the latest system templates and core files during installation.
+
+### How It Works
+
+#### Installation Process
+1. **Downloads latest uDESK** from GitHub during installation
+2. **Copies bundled templates** to user workspace
+3. **Creates user workspace** in `~/uMEMORY/`
+4. **One-time setup** - no ongoing git synchronization
+
+#### Key Principles
+- **Setup Only**: Git used only during initial installation and manual updates
+- **No Auto-Sync**: User environment never automatically updated  
+- **Separate Development**: User work isolated from core system
+- **User Control**: Updates only when user explicitly runs installer
+
+### Directory Structure
+
+```
+~/uDESK/                    # Main home directory
+├── repo/                   # Full git repository (during install)
+├── docs/                   # Documentation (copied from repo)
+├── README.md              # Project README (copied from repo)
+├── LICENSE                # License file (copied from repo)
+└── uMEMORY/              # Main workspace directory
+    ├── projects/          # Active projects
+    ├── sandbox/           # User workspace
+    ├── config/            # User configuration
+    └── .local/            # XDG-compliant user data
+        ├── logs/          # System logs
+        ├── backups/       # User backups
+        └── state/         # Application state
+```
+
+### Repository Management
+
+#### Automatic Features
+- **Smart Detection**: Checks if repository exists during build
+- **Offline Resilient**: Gracefully handles offline situations
+- **Conflict Safe**: Uses safe git operations with error handling
+- **Silent Operation**: Updates happen in background during builds
+
+#### Manual Updates
+```bash
+# Update repository manually
+cd ~/uDESK/repo && git pull
+
+# Force fresh install
+rm -rf ~/uDESK && ./udesk-install.command  # macOS
+rm -rf ~/uDESK && ./udesk-install-linux.sh  # Linux
+```
+
+### Security Considerations
+
+- Uses HTTPS for repository access (no credentials required)
+- Only pulls from official repository (no arbitrary code execution)  
+- Preserves user data in separate directories
+- Handles network failures gracefully
+- Does not modify user files outside uDESK directories
+
+### Troubleshooting
+
+#### Repository Issues
+```bash
+# Check repository status
+ls ~/uDESK/repo/.git
+
+# Verify git installation
+git --version
+
+# Test GitHub connectivity
+ping github.com
+```
+
+#### Permission Issues
+```bash
+# Check directory ownership
+ls -la ~/uDESK/
+
+# Fix permissions if needed
+chmod -R u+w ~/uDESK/
+```
+
+---
+
+*Building uDESK v1.0.7.2 is designed to be simple, fast, and fully cross-platform - completing setup in under 30 seconds on any supported system.*

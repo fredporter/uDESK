@@ -37,9 +37,9 @@ COMMAND [OPTION] [PARAMETER]
 ```
 
 **Components:**
-- `COMMAND`: Primary operation (required) - UPPERCASE display
-- `OPTION`: Command modifier (optional) - UPPERCASE display  
-- `PARAMETER`: Command argument (optional) - varies by context
+- COMMAND : Primary operation (required) - UPPERCASE display
+- OPTION : Command modifier (optional) - UPPERCASE display  
+- PARAMETER : Command argument (optional) - varies by context
 
 **Examples:**
 ```
@@ -165,10 +165,10 @@ MODE SET DEVELOPER            ~ Switch to developer mode
 | THEME CREATE NAME | [THEME\|CREATE*NAME] | Create custom theme |
 
 **Available Themes:**
-- `DEFAULT` (clean modern)
-- `RETRO` (vintage terminal)
-- `DARK` (dark mode)
-- `LIGHT` (light mode)
+- DEFAULT (clean modern)
+- RETRO (vintage terminal)
+- DARK (dark mode)
+- LIGHT (light mode)
 
 ---
 
