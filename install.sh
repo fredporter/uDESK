@@ -338,13 +338,6 @@ launch_tauri_app() {
         echo "⚠️  Tauri app directory not found at ~/uDESK/app"
         echo "   The modern desktop interface requires the app directory"
     fi
-            echo "   A desktop window should open shortly..."
-        else
-            echo "⚠️  npm not found - install Node.js to use Tauri interface"
-        fi
-    else
-        echo "⚠️  Tauri app directory not found"
-    fi
 }
 
 echo "🚀 uDESK Bootstrap Installer v1.0.7.2"
