@@ -1,0 +1,17 @@
+{
+  "name": "Default Project Template",
+  "version": "1.0.0",
+  "description": "Basic project structure for uDESK workspace",
+  "structure": {
+    "README.md": "# {{PROJECT_NAME}}\n\nProject description here.\n\n## Setup\n\n## Usage\n\n## Notes\n",
+    "src/": "directory",
+    "docs/": "directory",
+    "tests/": "directory"
+  },
+  "variables": {
+    "PROJECT_NAME": {
+      "description": "Name of the project",
+      "default": "New Project"
+    }
+  }
+}

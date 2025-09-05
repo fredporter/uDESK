@@ -1,8 +1,22 @@
-# uDESK v1.0.7 - Git Repository Integration
+# uDESK v1.0.7.2 - One-Way Git Setup Integration
 
 ## Overview
 
-uDESK v1.0.7 includes automatic git repository synchronization to ensure users always have access to the latest code and documentation.
+uDESK includes **one-way git repository synchronization** for setup and installation only. This ensures users always have access to the latest system templates and core files during installation, while keeping development and user environments completely separate.
+
+## How It Works
+
+### Installation Process
+1. **Downloads latest uDESK** from GitHub to `~/uDESK/repo/`
+2. **Copies bundled templates** from `~/uDESK/repo/uMEMORY/` to `~/uMEMORY/repo/`
+3. **Creates user workspace** in `~/uMEMORY/sandbox/` and `~/uMEMORY/.local/`
+4. **One-time setup** - no ongoing git synchronization
+
+### Key Principles
+- **Setup Only**: Git used only during initial installation and manual updates
+- **No Auto-Sync**: User environment never automatically updated
+- **Separate Development**: User work isolated from core system
+- **User Control**: Updates only when user explicitly runs installer
 
 ## How It Works
 

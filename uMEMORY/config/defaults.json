@@ -1,0 +1,13 @@
+{
+  "system": {
+    "version": "1.0.7.2",
+    "workspace": "~/uMEMORY/sandbox",
+    "templates": "~/uMEMORY/repo/templates",
+    "logs": "~/uMEMORY/.local/logs"
+  },
+  "user": {
+    "theme": "default",
+    "editor": "auto",
+    "project_template": "default"
+  }
+}

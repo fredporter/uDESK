@@ -20,23 +20,30 @@ else
     git clone https://github.com/fredporter/uDESK.git "$HOME/uDESK/repo"
 fi
 
-# Provision uMEMORY repository structure (XDG compliant)
-if [ -d "$HOME/uMEMORY/repo/.git" ]; then
-    echo "✓ uMEMORY repo found - updating..."
-    cd "$HOME/uMEMORY/repo" && git pull
+# Provision uMEMORY workspace from bundled structure
+if [ -d "$HOME/uMEMORY/repo" ]; then
+    echo "✓ uMEMORY workspace found - updating templates..."
+    # Copy latest templates from bundled structure
+    cp -r "$HOME/uDESK/repo/uMEMORY/templates" "$HOME/uMEMORY/repo/" 2>/dev/null || true
+    cp -r "$HOME/uDESK/repo/uMEMORY/config" "$HOME/uMEMORY/repo/" 2>/dev/null || true
 else
-    echo "📦 Creating uMEMORY structure..."
-    mkdir -p "$HOME/uMEMORY/repo/templates" "$HOME/uMEMORY/repo/config"
+    echo "📦 Creating uMEMORY workspace from bundled structure..."
+    mkdir -p "$HOME/uMEMORY/repo"
+    # Copy bundled structure to user workspace
+    cp -r "$HOME/uDESK/repo/uMEMORY/templates" "$HOME/uMEMORY/repo/" 2>/dev/null || true
+    cp -r "$HOME/uDESK/repo/uMEMORY/config" "$HOME/uMEMORY/repo/" 2>/dev/null || true
+    
+    # Create XDG-compliant directories
     mkdir -p "$HOME/uMEMORY/.local/logs" "$HOME/uMEMORY/.local/backups" "$HOME/uMEMORY/.local/state"
     mkdir -p "$HOME/uMEMORY/sandbox"
-    echo "⚠️  uMEMORY git repository will be available in future release"
+    echo "✅ uMEMORY workspace structure created"
 fi
 
 # Download TinyCore ISO with mirror fallback
 echo ""
 echo "📀 Checking TinyCore ISO..."
-if [ -f "$HOME/uDESK/repo/scripts/download-tinycore.sh" ]; then
-    bash "$HOME/uDESK/repo/scripts/download-tinycore.sh"
+if [ -f "$HOME/uDESK/repo/system/scripts/download-tinycore.sh" ]; then
+    bash "$HOME/uDESK/repo/system/scripts/download-tinycore.sh"
 else
     echo "⚠️  TinyCore downloader not found - will be available after repository setup"
 fi
@@ -44,8 +51,8 @@ fi
 # Run comprehensive health check and setup
 echo ""
 echo "🩺 Running health check and setup..."
-if [ -f "$HOME/uDESK/repo/scripts/setup.sh" ]; then
-    bash "$HOME/uDESK/repo/scripts/setup.sh"
+if [ -f "$HOME/uDESK/repo/system/scripts/setup.sh" ]; then
+    bash "$HOME/uDESK/repo/system/scripts/setup.sh"
 else
     echo "⚠️  Setup script not found - proceeding with legacy installation"
 fi

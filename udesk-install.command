@@ -63,7 +63,7 @@ mkdir -p "$HOME/uMEMORY/sandbox/projects" "$HOME/uMEMORY/sandbox/drafts" "$HOME/
 echo ""
 echo "🚀 Running main installer..."
 cd "$HOME/uDESK/repo"
-bash install.sh
+bash installers/install.sh
 
 echo ""
 echo "🎉 Installation Complete!"
