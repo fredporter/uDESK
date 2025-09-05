@@ -257,45 +257,41 @@ else
     echo "⚠️  Setup script not found - proceeding with legacy installation"
 fi
 
-# Legacy system installation (backward compatibility)
-INSTALL_PREFIX="${INSTALL_PREFIX:-/usr/local}"
-UDESK_CONFIG_DIR="${UDESK_CONFIG_DIR:-/etc/udesk}"
-
+# Modern repository-based installation (uDESK v1.0.7.2+)
 echo ""
-echo "� Installing legacy system components..."
-echo "Installing to: $INSTALL_PREFIX"
-echo "Config dir: $UDESK_CONFIG_DIR"
+echo "🏗️  Configuring uDESK system integration..."
 
-# Create system directories
-sudo mkdir -p "$INSTALL_PREFIX/bin"
-sudo mkdir -p "$INSTALL_PREFIX/share/udos"
-sudo mkdir -p "$UDESK_CONFIG_DIR"
-
-# Install binaries (if they exist)
-if [ -f "usr/bin/udos" ]; then
-    echo "📦 Installing binaries..."
-    sudo cp usr/bin/udos "$INSTALL_PREFIX/bin/"
-    sudo cp usr/bin/uvar "$INSTALL_PREFIX/bin/"
-    sudo cp usr/bin/udata "$INSTALL_PREFIX/bin/"
-    sudo cp usr/bin/utpl "$INSTALL_PREFIX/bin/"
-    sudo chmod +x "$INSTALL_PREFIX/bin/udos" "$INSTALL_PREFIX/bin/uvar" "$INSTALL_PREFIX/bin/udata" "$INSTALL_PREFIX/bin/utpl"
-    echo "✅ Legacy binaries installed"
+# Set up environment integration if requested
+setup_integration=$(prompt_ucode "Set up system integration (PATH, commands)" "YES|NO" "NO")
+if [[ "$setup_integration" == "YES" ]]; then
+    echo "📦 Setting up system integration..."
+    
+    # Use user-local installation to avoid sudo requirements
+    USER_LOCAL_BIN="$HOME/.local/bin"
+    USER_LOCAL_CONFIG="$HOME/.config/udesk"
+    
+    mkdir -p "$USER_LOCAL_BIN"
+    mkdir -p "$USER_LOCAL_CONFIG"
+    
+    # Create wrapper scripts for uDESK commands
+    echo "� Creating command wrappers..."
+    cat > "$USER_LOCAL_BIN/udos" << 'EOF'
+#!/bin/bash
+cd "$HOME/uDESK" && ./build/user/udos "$@"
+EOF
+    chmod +x "$USER_LOCAL_BIN/udos"
+    
+    # Add to PATH if not already there
+    if [[ ":$PATH:" != *":$USER_LOCAL_BIN:"* ]]; then
+        echo "📝 Adding $USER_LOCAL_BIN to PATH..."
+        echo 'export PATH="$HOME/.local/bin:$PATH"' >> "$HOME/.bashrc"
+        echo 'export PATH="$HOME/.local/bin:$PATH"' >> "$HOME/.zshrc" 2>/dev/null || true
+        echo "✅ System integration complete - restart shell or run: export PATH=\"\$HOME/.local/bin:\$PATH\""
+    fi
+    
+    echo "✅ uDESK commands available: udos, uvar, udata, utpl"
 else
-    echo "⚠️  Legacy binaries not found - repository-only installation"
-fi
-
-# Install shared components (if they exist)
-if [ -d "usr/share/udos" ]; then
-    echo "🔧 Installing shared components..."
-    sudo cp -r usr/share/udos/* "$INSTALL_PREFIX/share/udos/"
-    echo "✅ Shared components installed"
-fi
-
-# Install configuration (if it exists)
-if [ -d "etc/udesk" ]; then
-    echo "⚙️  Installing configuration..."
-    sudo cp etc/udesk/* "$UDESK_CONFIG_DIR/"
-    echo "✅ Configuration installed"
+    echo "📍 Skipped system integration - use commands from ~/uDESK/ directly"
 fi
 
 echo ""
