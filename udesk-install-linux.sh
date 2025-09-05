@@ -16,7 +16,46 @@ echo "• Set up embedded uMEMORY workspace"
 echo "• Download TinyCore Linux ISO"
 echo "• Configure the unified environment"
 echo ""
-read -p "Press Enter to continue or Ctrl+C to cancel..."
+
+# Check if uDESK directory already exists
+if [ -d "$HOME/uDESK" ]; then
+    echo "⚠️  uDESK directory already exists at ~/uDESK"
+    echo ""
+    echo "Options:"
+    echo "1) Update existing installation (git pull)"
+    echo "2) Destroy and start fresh (removes everything)"
+    echo "3) Cancel installation"
+    echo ""
+    read -p "Enter choice (1-3): " choice
+    
+    case $choice in
+        1)
+            echo "📦 Will update existing installation..."
+            ;;
+        2)
+            echo "💥 Will destroy and start fresh..."
+            read -p "Are you sure? This will delete ~/uDESK completely (y/N): " confirm
+            if [[ $confirm =~ ^[Yy]$ ]]; then
+                echo "🗑️  Removing existing uDESK directory..."
+                rm -rf "$HOME/uDESK"
+                echo "✅ Directory removed"
+            else
+                echo "❌ Installation cancelled"
+                exit 1
+            fi
+            ;;
+        3)
+            echo "❌ Installation cancelled"
+            exit 1
+            ;;
+        *)
+            echo "❌ Invalid choice. Installation cancelled"
+            exit 1
+            ;;
+    esac
+else
+    read -p "Press Enter to continue or Ctrl+C to cancel..."
+fi
 
 # Check prerequisites
 echo ""

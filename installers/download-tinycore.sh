@@ -15,6 +15,9 @@ MIRRORS=(
     "http://mirror.arizona.edu/tinycorelinux/15.x/x86/release/"
     "http://distro.ibiblio.org/tinycorelinux/15.x/x86/release/"
     "http://mirror.cs.princeton.edu/pub/mirrors/tinycorelinux/15.x/x86/release/"
+    "http://ftp.nluug.nl/os/Linux/distr/tinycorelinux/15.x/x86/release/"
+    "http://mirror.switch.ch/ftp/mirror/tinycorelinux/15.x/x86/release/"
+    "http://ftp.uni-kl.de/pub/linux/tinycorelinux/15.x/x86/release/"
 )
 
 ISO_NAME="TinyCore-current.iso"
@@ -52,22 +55,50 @@ for i in "${!MIRRORS[@]}"; do
         
         echo "  ✓ Checksum downloaded"
         
-        # Download ISO with progress bar
-        if curl -L --connect-timeout 10 --max-time 600 --fail \
+        # Download ISO with progress bar and better timeout
+        if curl -L --connect-timeout 15 --max-time 900 --fail \
+            --retry 2 --retry-delay 5 \
             --progress-bar "$mirror$ISO_NAME" -o "$ISO_DIR/$ISO_NAME.tmp"; then
             
             echo "  ✓ ISO downloaded - verifying..."
             
-            # Verify checksum
+            # Verify checksum with better error handling
             cd "$ISO_DIR"
-            if md5sum -c "$CHECKSUM_NAME.tmp" 2>/dev/null; then
-                mv "$CHECKSUM_NAME.tmp" "$CHECKSUM_NAME"
-                mv "$ISO_NAME.tmp" "$ISO_NAME"
-                echo "✅ TinyCore ISO downloaded and verified successfully!"
-                echo "📂 Location: $ISO_DIR/$ISO_NAME"
-                exit 0
+            if [ -s "$ISO_NAME.tmp" ] && [ -s "$CHECKSUM_NAME.tmp" ]; then
+                # Check if md5sum command exists
+                if command -v md5sum &> /dev/null; then
+                    if md5sum -c "$CHECKSUM_NAME.tmp" 2>/dev/null; then
+                        mv "$CHECKSUM_NAME.tmp" "$CHECKSUM_NAME"
+                        mv "$ISO_NAME.tmp" "$ISO_NAME"
+                        echo "✅ TinyCore ISO downloaded and verified successfully!"
+                        echo "📂 Location: $ISO_DIR/$ISO_NAME"
+                        exit 0
+                    else
+                        echo "  ❌ Checksum verification failed"
+                    fi
+                elif command -v md5 &> /dev/null; then
+                    # macOS alternative
+                    expected_checksum=$(cut -d' ' -f1 "$CHECKSUM_NAME.tmp")
+                    actual_checksum=$(md5 -q "$ISO_NAME.tmp")
+                    if [ "$expected_checksum" = "$actual_checksum" ]; then
+                        mv "$CHECKSUM_NAME.tmp" "$CHECKSUM_NAME"
+                        mv "$ISO_NAME.tmp" "$ISO_NAME"
+                        echo "✅ TinyCore ISO downloaded and verified successfully!"
+                        echo "📂 Location: $ISO_DIR/$ISO_NAME"
+                        exit 0
+                    else
+                        echo "  ❌ Checksum verification failed (macOS md5)"
+                    fi
+                else
+                    echo "  ⚠️  No checksum tool available, accepting download"
+                    mv "$CHECKSUM_NAME.tmp" "$CHECKSUM_NAME"
+                    mv "$ISO_NAME.tmp" "$ISO_NAME"
+                    echo "✅ TinyCore ISO downloaded (checksum verification skipped)!"
+                    echo "📂 Location: $ISO_DIR/$ISO_NAME"
+                    exit 0
+                fi
             else
-                echo "  ❌ Checksum verification failed"
+                echo "  ❌ Downloaded files are empty or corrupted"
                 rm -f "$ISO_NAME.tmp" "$CHECKSUM_NAME.tmp"
             fi
         else
@@ -84,9 +115,36 @@ done
 
 echo ""
 echo "💥 All mirrors failed - unable to download TinyCore ISO"
-echo "🔧 Troubleshooting:"
-echo "   - Check internet connection"
-echo "   - Verify firewall settings"
-echo "   - Try manual download from: http://tinycorelinux.net/"
-echo "   - Place ISO manually in: $ISO_DIR/$ISO_NAME"
-exit 1
+echo ""
+echo "Options:"
+echo "1) Continue without TinyCore ISO (uDESK will work without it)"
+echo "2) Retry download"  
+echo "3) Exit and manually download"
+echo ""
+echo "🔧 Manual download instructions:"
+echo "   - Download from: http://tinycorelinux.net/downloads.html"
+echo "   - Place file as: $ISO_DIR/$ISO_NAME"
+echo ""
+read -p "Enter choice (1-3): " choice
+
+case $choice in
+    1)
+        echo "⚠️  Continuing without TinyCore ISO..."
+        echo "📝 You can download it later and place it in: $ISO_DIR/"
+        exit 0
+        ;;
+    2)
+        echo "🔄 Retrying download..."
+        exec "$0" "$@"
+        ;;
+    3)
+        echo "📖 Manual download required"
+        echo "   URL: http://tinycorelinux.net/downloads.html"
+        echo "   Save as: $ISO_DIR/$ISO_NAME"
+        exit 1
+        ;;
+    *)
+        echo "❌ Invalid choice. Exiting."
+        exit 1
+        ;;
+esac
