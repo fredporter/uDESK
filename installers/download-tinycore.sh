@@ -31,7 +31,10 @@ echo "🔧 Manual download instructions:"
 echo "   - Download from: http://tinycorelinux.net/downloads.html"
 echo "   - Place file as: $ISO_DIR/TinyCore-current.iso"
 echo ""
-read -p "Enter choice (1-3): " choiceo/current"
+read -p "Enter choice (1-3): " choice
+
+# ISO storage paths
+ISO_DIR="$HOME/uDESK/iso/current"
 ARCHIVE_DIR="$HOME/uDESK/iso/archive"
 
 # Comprehensive TinyCore mirror list with geographic diversity
