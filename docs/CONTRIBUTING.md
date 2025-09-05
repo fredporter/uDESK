@@ -24,8 +24,7 @@ uDESK/
 ├── uSCRIPT/                   # Script system
 ├── uKNOWLEDGE/                # Knowledge system
 ├── app/                       # Desktop applications
-│   └── udesk-app/            # Tauri desktop app
-│       └── tauri/            # Tauri backend (was src-tauri)
+│   └── tauri/                # Tauri backend (Rust)
 └── build/                     # Build artifacts (ignored)
 ```
 
@@ -44,7 +43,7 @@ uDESK/
 - **NO** compiled binaries or build artifacts
 - **Core modules** in respective u* directories (uCORE/, uMEMORY/, etc.)
 - **Documentation** in core/docs/ with dev/ subdirectory
-- **Desktop app** in app/udesk-app/ with tauri/ backend
+- **Desktop app** in app/ with tauri/ backend
 
 ### 3. **Build Artifacts**
 - Build artifacts (executables, packages) are **NOT** committed
@@ -89,7 +88,7 @@ cd uDESK
 ./build.sh developer
 
 # 4. Test desktop app
-cd app/udesk-app
+cd app
 npm run tauri dev
 ```
 
@@ -102,7 +101,7 @@ npm run tauri dev
 
 2. **Make Changes Following Architecture**
    - Core system changes in respective u* modules
-   - Desktop app changes in app/udesk-app/
+   - Desktop app changes in app/
    - Documentation in core/docs/
    - Follow cross-platform requirements
 
@@ -110,11 +109,11 @@ npm run tauri dev
    ```bash
    # Test all build modes
    ./build.sh user
-   ./build.sh wizard-plus  
+   ./build.sh wizard  
    ./build.sh developer
    
    # Test desktop app
-   cd app/udesk-app
+   cd app
    npm run tauri build
    ```
 
@@ -150,7 +149,7 @@ npm run tauri dev
 - **Root directory**: Only essential launchers and build script
 - **core/**: System architecture and documentation
 - **u* modules**: Core runtime components only
-- **app/udesk-app/**: Desktop application source only
+- **app/**: Desktop application source only
 
 ## 🎯 Modern Development Integration
 
@@ -162,14 +161,17 @@ npm run tauri dev
 
 ### Development Tools Setup
 ```bash
+### Development Tools Setup
+```bash
 # Desktop app development
-cd app/udesk-app
+cd app
 npm install
 npm run tauri dev
 
 # Core system development  
 ./build.sh developer
 ./udos dev --help
+```
 ```
 
 ## 📚 Documentation Standards

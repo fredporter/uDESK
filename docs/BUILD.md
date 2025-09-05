@@ -69,7 +69,7 @@ uDESK/
 ├── Launch-uDOS-Windows.bat     # Windows launcher
 ├── core/                       # uDOS system core
 ├── uCORE/                     # Core runtime
-├── app/udesk-app/            # Tauri desktop app
+├── app/                       # Tauri desktop app
 └── build/                    # Build artifacts
 ```
 
@@ -82,7 +82,7 @@ The unified build system supports three deployment modes:
 ./build.sh user
 
 # Wizard Role (extension development)
-./build.sh wizard-plus
+./build.sh wizard
 
 # Developer Mode (full toolkit)
 ./build.sh developer
@@ -113,7 +113,7 @@ core/user.conf
 - Simplified interface
 
 # Wizard Role - Extension development  
-core/wizard-plus.conf
+core/wizard.conf
 - Developer tools
 - Advanced scripting
 - Extended command set
@@ -134,8 +134,8 @@ echo '#!/bin/bash' > uCORE/commands/my-command
 chmod +x uCORE/commands/my-command
 
 # Add to Tauri app
-cd app/udesk-app
-# Modify src-tauri/tauri.conf.json for new features
+cd app
+# Modify tauri/tauri.conf.json for new features
 ```
 
 ### System Templates
@@ -169,7 +169,7 @@ EOF
 ```bash
 # Test each build mode
 ./build.sh user && ./udos
-./build.sh wizard-plus && ./udos
+./build.sh wizard && ./udos
 ./build.sh developer && ./udos
 
 # Test cross-platform
@@ -182,7 +182,7 @@ EOF
 
 ```bash
 # Development mode
-cd app/udesk-app
+cd app
 npm run tauri dev
 
 # Production build testing
@@ -195,7 +195,7 @@ npm run tauri build
 # Verify user mode features
 ./udos help | grep -E "(basic|user)"
 
-# Verify wizard+ features  
+# Verify wizard features  
 ./udos wizard --list-advanced
 
 # Verify developer features

@@ -8,7 +8,7 @@ uDESK v1.0.7 provides TinyCore Linux integration for uDOS (Universal Device Oper
 ### Clean Build System Design
 ```
 uDESK System/
-├── Unified Build: build.sh (user/wizard-plus/developer/iso modes)
+├── Unified Build: build.sh (user/wizard/developer/iso modes)
 ├── Platform Launchers: uDESK-{platform}.sh (auto-dependency installation)
 ├── Modern Interface: Tauri application with uDOS branding
 ├── TinyCore Integration: 7 core uDOS system commands
@@ -25,14 +25,14 @@ uDESK System/
 
 ### 1. Build System (v1.0.7 - Complete)
 **Unified Build Script**
-- Single build.sh handling all modes (user/wizard-plus/developer/iso)
+- Single build.sh handling all modes (user/wizard/developer/iso)
 - Fast GCC-only builds with 30-second setup time
 - Cross-platform compatibility (macOS/Ubuntu/Windows)
 - Zero external dependencies beyond GCC
 
 **Mode Architecture**
 - **User Mode**: Standard users, all roles (GHOST → WIZARD)
-- **Wizard+ Mode**: WIZARD role with Plus Mode capabilities
+- **Wizard Mode**: WIZARD role with Dev Mode capabilities
 - **Developer Mode**: Core system developers with full access
 - **ISO Mode**: TinyCore ISO generation for specialized deployments
 
@@ -81,12 +81,12 @@ sudo ./installers/install.sh     # Install system-wide
 ```bash
 # Build specific modes
 ./build.sh user             # User mode build
-./build.sh wizard-plus      # Wizard+ mode build
+./build.sh wizard           # Wizard mode build
 ./build.sh developer        # Developer mode build
 ./build.sh iso              # TinyCore ISO generation
 
 # Tauri application development
-cd app/udesk-app
+cd app
 npm install
 npm run tauri dev           # Development interface
 npm run tauri build         # Production build
@@ -100,7 +100,7 @@ uDESK Build System:
 
 Build Commands:
 ├── ./build.sh user        - User mode build (all roles)
-├── ./build.sh wizard-plus - Wizard+ mode build (WIZARD role + Plus Mode)
+├── ./build.sh wizard      - Wizard mode build (WIZARD role + Dev Mode)
 ├── ./build.sh developer   - Developer mode build (core developers)
 └── ./build.sh iso         - TinyCore ISO generation
 
@@ -111,7 +111,7 @@ Platform Launchers:
 
 Testing Commands:
 ├── echo "[INFO]" | ./build/user/udos       - Test user mode
-├── echo "[INFO]" | ./build/wizard-plus/udos - Test wizard+ mode
+├── echo "[INFO]" | ./build/wizard/udos     - Test wizard mode
 └── echo "[INFO]" | ./build/developer/udos   - Test developer mode
 
 uCODE System Commands (TinyCore Integration):
@@ -125,7 +125,7 @@ uCODE System Commands (TinyCore Integration):
 ```
 
 ### Design Principles
-- **Mode Separation**: Clear distinction between User/Wizard+/Developer contexts
+- **Mode Separation**: Clear distinction between User/Wizard/Developer contexts
 - **Zero Dependencies**: Only requires GCC (auto-installed by platform launchers)
 - **Cross-Platform**: Native support for macOS/Ubuntu/Windows
 - **Fast Setup**: 30-second build time from download to executable
@@ -134,7 +134,7 @@ uCODE System Commands (TinyCore Integration):
 ## Development Status & Roadmap
 
 ### ✅ MILESTONE 1: Clean Architecture (Complete - v1.0.7)
-- ✅ Mode separation (User/Wizard+/Developer)
+- ✅ Mode separation (User/Wizard/Developer)
 - ✅ Cross-platform support (macOS/Ubuntu/Windows)
 - ✅ Zero dependency builds (GCC-only)
 - ✅ Platform launchers with auto-dependency installation
@@ -187,7 +187,7 @@ The uDOS System provides a streamlined extension framework that integrates with 
 
 ### Mode-Based Operation
 - **User Mode**: Essential tools and basic extensions
-- **Wizard+ Mode**: Advanced features and development tools  
+- **Wizard Mode**: Advanced features and development tools  
 - **Developer Mode**: Full extension development environment
 - **ISO Mode**: Bootable system with selected extensions
 

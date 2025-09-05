@@ -284,8 +284,8 @@ esac
 /uNETWORK           - Network operations
 /uSCRIPT            - Script execution
 /uKNOWLEDGE         - Knowledge management
-/app/udesk-app      - Tauri desktop application
-/app/udesk-app/tauri - Tauri backend (Rust)
+/app             - Tauri desktop application
+/app/tauri       - Tauri backend (Rust)
 /extensions         - Extension system
 /build              - Build artifacts
 /usr                - User data and configurations
