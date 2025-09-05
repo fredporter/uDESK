@@ -1,7 +1,8 @@
-# uDESK Architecture: Universal Development Environment & System Kit
+# uDESK Architecture v1.0.7.2
+*Universal Desktop OS built on TinyCore Linux*
 
 ## Overview
-uDESK v1.0.7.2 provides TinyCore Linux integration for uDOS (Universal Device Operating System) with a clean, organized architecture featuring mode separation, cross-platform support, and modern Tauri application interface.
+uDESK is built on TinyCore Linux as its foundation, providing universal development environment capabilities for uDOS (Universal Device Operating System) with a clean, organized architecture featuring mode separation, cross-platform support, and modern Tauri application interface.
 
 ## Core Architecture
 
@@ -11,7 +12,7 @@ uDESK System/
 ├── Unified Build: build.sh (user/wizard/developer/iso modes)
 ├── Platform Installers: udesk-install-{platform} (auto-dependency installation)
 ├── Modern Interface: Tauri application with uDOS branding
-├── TinyCore Integration: 7 core uDOS system commands
+├── TinyCore Foundation: 7 core uDOS system commands built on TinyCore Linux
 └── Role System: 8-level progressive hierarchy (GHOST → WIZARD)
 ```
 
@@ -23,7 +24,7 @@ uDESK System/
 
 ## Technical Components
 
-### 1. Build System (v1.0.7 - Complete)
+### 1. Build System (Complete)
 **Unified Build Script**
 - Single build.sh handling all modes (user/wizard/developer/iso)
 - Fast GCC-only builds with 30-second setup time
@@ -36,8 +37,8 @@ uDESK System/
 - **Developer Mode**: Core system developers with full access
 - **ISO Mode**: TinyCore ISO generation for specialized deployments
 
-### 2. TinyCore Integration (v1.0.7 - Complete)
-**Native System Commands**
+### 2. TinyCore Foundation (Complete)
+**Native System Commands Built on TinyCore Linux**
 - `BACKUP`: Create system backups using TinyCore filetool.sh
 - `RESTORE`: Restore from backup archives
 - `DESTROY`: Secure system cleanup
@@ -133,21 +134,21 @@ uCODE System Commands (TinyCore Integration):
 
 ## Development Status & Roadmap
 
-### ✅ MILESTONE 1: Clean Architecture (Complete - v1.0.7)
+### ✅ MILESTONE 1: Clean Architecture (Complete)
 - ✅ Mode separation (User/Wizard/Developer)
 - ✅ Cross-platform support (macOS/Linux/Windows)
 - ✅ Zero dependency builds (GCC-only)
 - ✅ Platform launchers with auto-dependency installation
 - ✅ 8-role hierarchy system (GHOST → WIZARD)
 
-### ✅ MILESTONE 2: TinyCore Integration (Complete - v1.0.7) 
+### ✅ MILESTONE 2: TinyCore Integration (Complete) 
 - ✅ 7 core uDOS system commands (BACKUP, RESTORE, etc.)
 - ✅ Native TinyCore functions (filetool.sh, tce-load, fsck)
 - ✅ ISO generation capabilities
 - ✅ TCZ package creation
 - ✅ Boot integration support
 
-### ✅ MILESTONE 3: Modern Interface (Complete - v1.0.7)
+### ✅ MILESTONE 3: Modern Interface (Complete)
 - ✅ Tauri application with React frontend
 - ✅ uDOS blue diamond branding
 - ✅ Container management interface
@@ -240,4 +241,4 @@ Extensions can integrate with the Tauri desktop application and detect platform-
 
 ---
 
-*Updated: 2025-09-05 - Clean architecture v1.0.7.2 with cross-platform support*
+*Updated: 2025-09-05 - Clean architecture with cross-platform support*

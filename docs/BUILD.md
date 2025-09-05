@@ -1,6 +1,6 @@
 # uDESK Build Guide
 
-> How to build uDESK v1.0.7 - Universal Development Environment & System Kit
+> How to build uDESK v1.0.7.2 - Universal Desktop OS built on TinyCore Linux
 
 ## Quick Start
 
@@ -53,11 +53,11 @@ sudo apt install build-essential git
 ```
 
 ### Zero Dependencies Philosophy
-uDESK v1.0.7 requires **only GCC** - everything else is handled automatically by platform launchers.
+uDESK is built on TinyCore Linux and requires **only GCC** - everything else is handled automatically by platform installers.
 
 ## Build System
 
-uDESK v1.0.7 uses a **unified build system** with a single `build.sh` script that handles all compilation and deployment for cross-platform builds.
+uDESK is built on TinyCore Linux and uses a **unified build system** with a single `build.sh` script that handles all compilation and deployment for cross-platform builds.
 
 ### Core Architecture
 
@@ -67,9 +67,10 @@ uDESK/
 ├── udesk-install.command      # macOS installer
 ├── udesk-install-linux.sh     # Linux installer  
 ├── udesk-install-windows.bat  # Windows installer
-├── core/                       # uDOS system core
-├── uCORE/                     # Core runtime
+├── src/                       # Source code
+├── uCORE/                     # Core runtime (TinyCore-based)
 ├── app/                       # Tauri desktop app
+├── system/                    # TinyCore system components
 └── build/                    # Build artifacts
 ```
 
@@ -401,4 +402,4 @@ chmod -R u+w ~/uDESK/
 
 ---
 
-*Building uDESK v1.0.7.2 is designed to be simple, fast, and fully cross-platform - completing setup in under 30 seconds on any supported system.*
+*Building uDESK is designed to be simple, fast, and fully cross-platform - completing setup in under 30 seconds on any supported system.*

@@ -1,8 +1,8 @@
-# uDESK v1.0.7 Documentation
+# uDESK v1.0.7.2 Documentation
 
 Welcome to the uDESK documentation hub. This directory contains all documentation organized for easy navigation and reference.
 
-## 📚 Core Documentation (v1.0.7)
+## 📚 Core Documentation
 
 ### Getting Started
 - **[README.md](../../README.md)** - Project overview and quick start
@@ -10,7 +10,7 @@ Welcome to the uDESK documentation hub. This directory contains all documentatio
 - **[UCODE-MANUAL.md](UCODE-MANUAL.md)** - Complete uCODE command language reference
 
 ### Architecture and Development
-- **[ARCHITECTURE.md](ARCHITECTURE.md)** - v1.0.7 clean system architecture  
+- **[ARCHITECTURE.md](ARCHITECTURE.md)** - Clean system architecture  
 - **[BUILD.md](BUILD.md)** - Unified build system documentation
 - **[CONTRIBUTING.md](CONTRIBUTING.md)** - Development guidelines and workflows
 - **[STYLE-GUIDE.md](STYLE-GUIDE.md)** - Code and documentation standards
@@ -29,7 +29,7 @@ Welcome to the uDESK documentation hub. This directory contains all documentatio
   - Legacy roadmaps and planning documents
   - Development process documentation
 
-### Current Status (v1.0.7)
+### Current Status
 - **✅ Cross-Platform Foundation**: Complete - macOS/Ubuntu/Windows support
 - **✅ Mode-Based Architecture**: Complete - User/Wizard+/Developer/ISO modes  
 - **✅ Clean Build System**: Complete - Single build.sh with 30-second setup
@@ -79,7 +79,7 @@ Welcome to the uDESK documentation hub. This directory contains all documentatio
 
 ## 📊 Documentation Statistics
 
-### Current State (v1.0.7)
+### Current State
 - **Core Files**: 7 focused documentation files
 - **Development Archive**: Complete historical reference in dev/
 - **Cross-Platform**: Full macOS/Ubuntu/Windows coverage
@@ -93,11 +93,11 @@ Welcome to the uDESK documentation hub. This directory contains all documentatio
 
 ---
 
-*uDESK v1.0.7 Documentation - Production Ready | Cross-Platform | Clean Architecture*
+*uDESK v1.0.7.2 Documentation - Universal Desktop OS | Production Ready | Cross-Platform | Clean Architecture*
 
 ---
 
-*Last Updated: September 4, 2025*
+*Last Updated: September 5, 2025*
 *Next Review: October 1, 2025*
 
 For questions or suggestions about documentation, see [CONTRIBUTING.md](CONTRIBUTING.md).

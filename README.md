@@ -1,4 +1,4 @@
-# uDESK - Universal Development Environment & System Kit
+# uDESK - Universal Desktop OS
 
 [![Version](https://img.shields.io/badge/version-1.0.7-blue.svg)](#current-status)
 [![Status](https://img.shields.io/badge/status-Production%20Ready-green.svg)](#quick-start)
@@ -335,5 +335,5 @@ echo "[INFO]" | ./build/user/udos
 
 ---
 
-**uDESK v1.0.7** | Universal Development Environment & System Kit  
+**uDESK v1.0.7.2** | Universal Desktop OS  
 *Production Ready* | *Cross-Platform* | *Zero Dependencies*

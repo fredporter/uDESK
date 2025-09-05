@@ -1,10 +1,10 @@
 # uCODE User Manual
-## uDESK v1.0.7 Command Language Reference
+## uDESK v1.0.7.2 Command Language Reference
 
 ### Overview
-uCODE (Universal Command Operations & Development Environment) is the integrated command language for uDESK v1.0.7. It provides a structured syntax for cross-platform system operations, development tasks, and unified build management.
+uCODE is the integrated command language for uDESK. It provides a structured syntax for cross-platform system operations, development tasks, and unified build management.
 
-### Command Contexts (v1.0.7)
+### Command Contexts
 
 #### **CLI Context (Terminal/uSCRIPT)**
 Direct commands - case insensitive input, UPPERCASE output:
@@ -60,7 +60,7 @@ MODE SET DEVELOPER            ~ Switch to developer mode
 
 ---
 
-## Core Commands (uDESK v1.0.7)
+## Core Commands
 
 ### System Management
 | CLI Command | Shortcode | Description | Platform Function |
@@ -195,7 +195,7 @@ MODE SET DEVELOPER            ~ Switch to developer mode
 
 ---
 
-## Character Usage Rules (v1.0.7)
+## Character Usage Rules
 
 ### uCODE Special Characters
 ```
@@ -263,7 +263,7 @@ uCODE commands respect the 8-tier role hierarchy:
 ## Cross-Platform Integration Notes
 
 ### Platform Detection
-uDESK v1.0.7 automatically detects and adapts to:
+uDESK automatically detects and adapts to:
 - **macOS**: Native integration with Homebrew and Xcode tools
 - **Ubuntu/Debian**: APT package management integration
 - **Windows**: MinGW-w64 and MSYS2 support
@@ -282,7 +282,7 @@ uDESK v1.0.7 automatically detects and adapts to:
 4. **Cross-Platform**: Works on all supported platforms
 
 ### Extension Compatibility
-uDESK v1.0.7 supports:
+uDESK supports:
 - Native shell-based extensions
 - Cross-platform executable extensions
 - Desktop application plugins (via Tauri)
@@ -365,7 +365,7 @@ RESTART FORCE                ~ Force restart
 
 ## Version History
 
-**v1.0.7 (Current)**
+**v1.0.7.2 (Current)**
 - Cross-platform command integration (macOS/Ubuntu/Windows)
 - Mode-based system architecture (user/wizard-plus/developer/iso)
 - Unified build system with single build.sh script
