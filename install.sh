@@ -172,20 +172,20 @@ setup_repository() {
 download_tinycore_iso() {
     echo ""
     echo "📀 Downloading TinyCore ISO (direct method)..."
-    mkdir -p "$HOME/uDESK/iso/current"
+    mkdir -p "$HOME/uDESK/build/iso"
     
     if curl -L --connect-timeout 15 --max-time 300 --fail --progress-bar \
         "http://tinycorelinux.net/15.x/x86/release/TinyCore-current.iso" \
-        -o "$HOME/uDESK/iso/current/TinyCore-current.iso.tmp"; then
+        -o "$HOME/uDESK/build/iso/TinyCore-current.iso.tmp"; then
         
         echo "✅ TinyCore ISO downloaded successfully!"
-        mv "$HOME/uDESK/iso/current/TinyCore-current.iso.tmp" "$HOME/uDESK/iso/current/TinyCore-current.iso"
-        echo "📂 Location: ~/uDESK/iso/current/TinyCore-current.iso"
+        mv "$HOME/uDESK/build/iso/TinyCore-current.iso.tmp" "$HOME/uDESK/build/iso/TinyCore-current.iso"
+        echo "📂 Location: ~/uDESK/build/iso/TinyCore-current.iso"
         return 0
     else
         echo "⚠️  TinyCore ISO download failed, but uDESK will work without it"
         echo "   You can download it manually later from: http://tinycorelinux.net/downloads.html"
-        rm -f "$HOME/uDESK/iso/current/TinyCore-current.iso.tmp"
+        rm -f "$HOME/uDESK/build/iso/TinyCore-current.iso.tmp"
         return 1
     fi
 }
@@ -241,8 +241,7 @@ mkdir -p "$HOME/uDESK/uMEMORY/sandbox"
 mkdir -p "$HOME/uDESK/uMEMORY/.local/logs"
 mkdir -p "$HOME/uDESK/uMEMORY/.local/backups" 
 mkdir -p "$HOME/uDESK/uMEMORY/.local/state"
-mkdir -p "$HOME/uDESK/iso/current"
-mkdir -p "$HOME/uDESK/iso/archive"
+mkdir -p "$HOME/uDESK/build/iso"
 
 # Download TinyCore ISO (if not called from platform installer)
 if [ "$2" != "--skip-iso-download" ]; then
@@ -293,7 +292,7 @@ echo "📂 Unified Directory Structure:"
 echo "  uDESK/                  - Complete system (root)"
 echo "  uDESK/uMEMORY/sandbox   - User workspace"
 echo "  uDESK/uMEMORY/.local/   - Logs, backups, state (XDG)"
-echo "  uDESK/iso/current/      - TinyCore ISO storage"
+echo "  uDESK/build/iso/        - TinyCore ISO storage"
 echo "  uDESK/docs/             - Documentation"
 echo "  ~/uDESK/dev/            - Development tools"
 echo ""
