@@ -118,4 +118,7 @@ mydata.tgz
 *.app
 *.dmg
 *.pkg
+
+# Allow installer scripts
+!udesk-install-windows.bat
 *.AppImage
