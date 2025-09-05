@@ -7,7 +7,7 @@ set -e
 # uCODE Standard Input Handling Functions
 # ======================================
 
-# Parse uCODE format input - case insensitive, supports shortcuts
+# Parse uCODE format input - case insensitive, supports shortcuts and partial matches
 parse_ucode_input() {
     local input="$1"
     local options="$2"  # Format: "UPDATE|DESTROY|CANCEL" or "YES|NO"
@@ -26,14 +26,24 @@ parse_ucode_input() {
         fi
     done
     
-    # Check for single character shortcuts
-    if [[ ${#input} -eq 1 ]]; then
-        for opt in "${OPTS[@]}"; do
-            if [[ "$input" == "${opt:0:1}" ]]; then
-                echo "$opt"
-                return 0
-            fi
-        done
+    # Check for partial matches (must be unique)
+    local matches=()
+    for opt in "${OPTS[@]}"; do
+        if [[ "$opt" == "$input"* ]]; then
+            matches+=("$opt")
+        fi
+    done
+    
+    # If exactly one match, use it
+    if [[ ${#matches[@]} -eq 1 ]]; then
+        echo "${matches[0]}"
+        return 0
+    fi
+    
+    # If multiple matches, it's ambiguous
+    if [[ ${#matches[@]} -gt 1 ]]; then
+        echo "AMBIGUOUS"
+        return 1
     fi
     
     echo "INVALID"
@@ -51,11 +61,10 @@ prompt_ucode() {
     local display_opts=""
     for i in "${!OPTS[@]}"; do
         local opt="${OPTS[$i]}"
-        local short="${opt:0:1}"
         if [[ -n "$default" && "$opt" == "$default" ]]; then
-            display_opts+="[${short}]${opt:1}"
+            display_opts+="[${opt}]"
         else
-            display_opts+="${short}|${opt:1}"
+            display_opts+="${opt}"
         fi
         if [[ $i -lt $((${#OPTS[@]} - 1)) ]]; then
             display_opts+="|"
@@ -74,12 +83,20 @@ prompt_ucode() {
         fi
         
         result=$(parse_ucode_input "$input" "$options")
-        if [[ "$result" != "INVALID" ]]; then
-            echo "$result"
-            return 0
-        else
-            echo "❌ Invalid input. Please enter one of: $display_opts"
-        fi
+        case "$result" in
+            "INVALID")
+                echo "❌ Invalid input. Please enter one of: $display_opts"
+                echo "   You can use partial matches like 'up' for UPDATE, 'dest' for DESTROY, etc."
+                ;;
+            "AMBIGUOUS")
+                echo "❌ Ambiguous input. Please be more specific."
+                echo "   Available options: $display_opts"
+                ;;
+            *)
+                echo "$result"
+                return 0
+                ;;
+        esac
     done
 }
 
