@@ -306,7 +306,7 @@ esac
 /app                - Tauri desktop application
 /app/tauri          - Tauri backend (Rust)
 /system             - System components
-/system/tc          - TinyCore integration
+/system/tinycore    - TinyCore integration
 /build              - Build artifacts
 ```
 

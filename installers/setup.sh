@@ -234,7 +234,7 @@ main() {
     echo "📍 System Locations:"
     echo "   Core: uDESK/"
     echo "   Data: uDESK/uMEMORY/"
-    echo "   ISOs: uDESK/system/tc/"
+    echo "   ISOs: uDESK/system/tinycore/"
     
     return $exit_code
 }

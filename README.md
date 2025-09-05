@@ -1,6 +1,6 @@
 # uDESK - Universal Desktop OS
 
-[![Version](https://img.shields.io/badge/version-1.0.7-blue.svg)](#current-status)
+[![Version](https://img.shields.io/badge/version-1.0.7.2-blue.svg)](#current-status)
 [![Status](https://img.shields.io/badge/status-Production%20Ready-green.svg)](#quick-start)
 [![Build](https://img.shields.io/badge/build-passing-brightgreen.svg)](#package-status)
 
@@ -9,20 +9,18 @@ uDESK provides TinyCore Linux integration for **uDOS (Universal Device Operating
 ## 🚀 **Quick Start** (Choose Your Platform)
 
 ### **macOS** 🍎
-Double-click `Launch-uDESK-macOS.command` or run:
 ```bash
-./Launch-uDESK-macOS.command
+./udesk-install.command
 ```
 
 ### **Ubuntu/Debian** 🐧  
 ```bash
-./uDESK-Ubuntu.sh
+./udesk-install-linux.sh
 ```
 
 ### **Windows** 🪟
-Double-click `uDESK-Windows.bat` or run:
-```cmd
-uDESK-Windows.bat
+```bash
+./udesk-install-windows.bat
 ```
 
 > 💡 **All launchers now include:**
@@ -66,13 +64,13 @@ uDESK-Windows.bat
 ### Automatic Platform Setup (Recommended)
 ```bash
 # macOS (with Xcode tools auto-install)
-./Launch-uDOS-macOS.command
+./udesk-install.command
 
 # Ubuntu/Debian (with build-essential auto-install)  
-./Launch-uDOS-Ubuntu.sh
+./udesk-install-linux.sh
 
 # Windows (with MinGW/MSYS2 guidance)
-./Launch-uDOS-Windows.bat
+./udesk-install-windows.bat
 ```
 
 ### Manual Build & Install
@@ -116,18 +114,17 @@ uDESK/
 │   ├── src/                # React frontend
 │   ├── tauri/              # Rust backend
 │   └── package.json        # Node.js dependencies
-├── core/                   # Core uDESK system
-│   ├── docs/               # Documentation
-│   └── tc/                 # TinyCore integration
+├── system/                 # System components
+│   └── tinycore/           # TinyCore integration
 ├── build/                  # Build outputs
 │   ├── user/               # User mode binaries
-│   ├── wizard/              # Wizard role binaries
-│   └── clean-udos/         # Clean uDOS system
+│   ├── wizard/             # Wizard role binaries
+│   └── developer/          # Developer mode binaries
 ├── build.sh                # Unified build system
 ├── install.sh              # System installer
-├── Launch-uDOS-macOS.command    # macOS launcher
-├── Launch-uDOS-Ubuntu.sh        # Ubuntu launcher  
-└── Launch-uDOS-Windows.bat      # Windows launcher
+├── udesk-install.command        # macOS installer
+├── udesk-install-linux.sh       # Linux installer  
+└── udesk-install-windows.bat    # Windows installer
 ```
 
 ## 🌟 Key Features

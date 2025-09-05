@@ -1,10 +1,10 @@
 #!/bin/bash
-# uDESK v1.0.7 TinyCore Extension Builder
+# uDESK v1.0.7.2 TinyCore Extension Builder
 # Builds proper .tcz package for TinyCore distribution
 
 set -e
 
-VERSION="1.0.7"
+VERSION="1.0.7.2"
 PACKAGE_NAME="udesk"
 BUILD_DIR="/tmp/udesk-build"
 TCZ_DIR="${BUILD_DIR}/${PACKAGE_NAME}"
@@ -24,7 +24,7 @@ mkdir -p "${TCZ_DIR}/usr/local/udesk/scripts"
 
 # Copy application files
 echo "Copying application files..."
-cp -r ../app/udesk-app/dist/* "${TCZ_DIR}/usr/local/udesk/"
+cp -r ../../app/udesk-app/dist/* "${TCZ_DIR}/usr/local/udesk/"
 
 # Copy integration files
 cp udesk.desktop "${TCZ_DIR}/usr/local/share/applications/"
@@ -33,10 +33,10 @@ cp udesk.png "${TCZ_DIR}/usr/local/share/pixmaps/" 2>/dev/null || echo "Warning:
 # Create launcher script
 cat > "${TCZ_DIR}/usr/local/bin/udesk" << 'EOF'
 #!/bin/bash
-# uDESK v1.0.7 Launcher
+# uDESK v1.0.7.2 Launcher
 
 UDESK_HOME="/usr/local/udesk"
-export UDESK_VERSION="1.0.7"
+export UDESK_VERSION="1.0.7.2"
 export UDESK_CONFIG_DIR="${HOME}/.udesk"
 
 # Create user config directory
@@ -65,7 +65,7 @@ cat > "${TCZ_DIR}/usr/local/bin/ucode" << 'EOF'
 COMMAND="$1"
 
 if [ -z "$COMMAND" ]; then
-    echo "uCODE v1.0.7 - Universal Command Operations"
+    echo "uCODE v1.0.7.2 - Universal Command Operations"
     echo "Usage: ucode [COMMAND|OPTION*PARAMETER]"
     echo "Example: ucode '[STATUS]'"
     echo "         ucode '[BACKUP|FULL]'"
@@ -122,8 +122,8 @@ cd "${BUILD_DIR}"
 mksquashfs "${PACKAGE_NAME}" "${PACKAGE_NAME}.tcz" -noappend
 
 # Copy metadata files
-cp "../${PACKAGE_NAME}.tcz.info" "${BUILD_DIR}/"
-cp "../${PACKAGE_NAME}.tcz.dep" "${BUILD_DIR}/"
+cp "../../${PACKAGE_NAME}.tcz.info" "${BUILD_DIR}/"
+cp "../../${PACKAGE_NAME}.tcz.dep" "${BUILD_DIR}/"
 
 # Create checksums
 cd "${BUILD_DIR}"

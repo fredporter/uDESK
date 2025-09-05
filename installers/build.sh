@@ -424,7 +424,7 @@ show_launch_options() {
     fi
     
     # TinyCore integration option
-    if [ -f "core/tc/build-tcz.sh" ] || [ "${BUILD_MODE}" = "iso" ]; then
+    if [ -f "system/tinycore/build-tcz.sh" ] || [ "${BUILD_MODE}" = "iso" ]; then
         echo ""
         echo "💿 TinyCore Integration:"
         if [ "${BUILD_MODE}" = "iso" ]; then
@@ -432,7 +432,7 @@ show_launch_options() {
             echo "   Install:       tce-load -i udesk.tcz"
         else
             echo "   Setup Script:  ./setup-tinycore.sh"
-            echo "   Build TCZ:     cd core/tc && ./build-tcz.sh"
+            echo "   Build TCZ:     cd system/tinycore && ./build-tcz.sh"
             echo "   Full ISO:      ./build.sh iso"
         fi
         echo "   VM Guide:      ./setup-tinycore.sh (option 5)"

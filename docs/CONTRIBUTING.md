@@ -17,7 +17,7 @@ uDESK/
 │   │   ├── ARCHITECTURE.md    # System architecture
 │   │   ├── BUILD.md          # Build instructions
 │   │   └── CONTRIBUTING.md   # This file
-│   └── tc/                    # TinyCore patches
+│   └── tinycore/              # TinyCore patches
 ├── uCORE/                     # Core runtime
 ├── uMEMORY/                   # Memory system
 ├── uNETWORK/                  # Network system

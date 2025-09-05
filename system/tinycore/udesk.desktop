@@ -1,9 +1,9 @@
 [Desktop Entry]
-Version=1.0.7
+Version=1.0.7.2
 Type=Application
 Name=uDESK
-GenericName=Universal Development Environment
-Comment=uDESK v1.0.7 - Development environment with TinyCore integration
+GenericName=Universal Desktop OS
+Comment=uDESK v1.0.7.2 - Universal Desktop OS with TinyCore integration
 Exec=/usr/local/bin/udesk
 Icon=udesk
 Terminal=false

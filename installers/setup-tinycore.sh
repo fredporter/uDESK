@@ -9,7 +9,7 @@ echo "============================================="
 echo ""
 echo "💡 Note: This setup automatically syncs with the latest uDESK repository"
 echo "   Repository location: uDESK/repository/"
-echo "   TinyCore files: uDESK/repository/core/tc/"
+echo "   TinyCore files: uDESK/repository/system/tinycore/"
 echo "   Workspace: uMEMORY/"
 echo ""
 

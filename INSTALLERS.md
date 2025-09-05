@@ -97,7 +97,7 @@ All installers include comprehensive health checks that:
 - Optional TinyCore Linux ISO download for embedded systems
 - Multiple mirror fallback system
 - Checksum verification
-- Stored in system/tc/ directory
+- Stored in system/tinycore/ directory
 
 ## Customization
 
