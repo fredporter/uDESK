@@ -36,19 +36,17 @@ uDESK-Windows.bat
 
 ### **Three Clear Modes:**
 - **👤 User Mode**: Standard users (all roles: GHOST → WIZARD)
-- **🧙‍♀️ Wizard Mode**: Unified wizard with Plus/Dev capabilities  
-- **🔧 Dev Mode**: Legacy developer mode (deprecated)
-
-### **Mode Commands:**
+- **🧙‍♀️ Wizard Role**: Highest user role with extension development  
+- **�️ Dev Mode**: Special development capabilities from ~/uDESK/dev/### **Mode Commands:**
 ```bash
 ./installers/build.sh user    # User Mode build
-./installers/build.sh wizard  # Wizard Mode build  
+./installers/build.sh wizard  # Wizard Role build  
 ./installers/build.sh dev     # Legacy dev mode build
 ./installers/build.sh iso     # TinyCore ISO generation
 ```
 
-### **Wizard Mode Features:**
-- **[PLUS-MODE]**: Extension development in `~/uDESK/uMEMORY/sandbox/`
+### **Wizard Role Features:**
+- **Extension Development**: Always available in `~/uDESK/uMEMORY/sandbox/`
 - **[DEV-MODE]**: Core system development in `~/uDESK/dev/` (restricted)
 - **Unified Interface**: Single wizard with role-based capabilities
 
@@ -85,17 +83,17 @@ cd uDESK
 
 # Build for your mode
 ./build.sh user          # Most users
-./build.sh wizard-plus   # WIZARD role with enhanced features
+./build.sh wizard        # WIZARD role with extension development
 ./build.sh developer     # Core development mode
 
 # Install system-wide
-sudo ./install.sh
+sudo ./installers/install.sh
 ```
 
 ### Modern Tauri App (Optional)
 ```bash
 # Development interface
-cd app/udesk-app
+cd app
 npm install
 npm run tauri dev
 
@@ -114,7 +112,7 @@ udos help                             # Show all commands (if installed)
 
 ```
 uDESK/
-├── app/udesk-app/          # Modern Tauri application
+├── app/          # Modern Tauri application
 │   ├── src/                # React frontend
 │   ├── tauri/              # Rust backend
 │   └── package.json        # Node.js dependencies
@@ -123,7 +121,7 @@ uDESK/
 │   └── tc/                 # TinyCore integration
 ├── build/                  # Build outputs
 │   ├── user/               # User mode binaries
-│   ├── wizard-plus/        # Wizard+ mode binaries
+│   ├── wizard/              # Wizard role binaries
 │   └── clean-udos/         # Clean uDOS system
 ├── build.sh                # Unified build system
 ├── install.sh              # System installer
@@ -141,7 +139,7 @@ uDESK/
 - **No Complex Toolchains**: Eliminated npm/Rust complexity
 
 ### 🏗️ **Clean Architecture**
-- **Mode Separation**: User/Wizard+/Developer builds
+- **Role Separation**: User/Wizard/Developer builds
 - **Tauri Integration**: Modern web-based interface option
 - **TinyCore Native**: 7 core uDOS system commands
 - **Role-Based Access**: GHOST to WIZARD hierarchy
@@ -166,8 +164,8 @@ REDO      - Replay last successful operation
 - Lightweight, fast execution
 - Production-ready
 
-### **🧙‍♀️ Wizard+ Mode** (Enhanced)
-- WIZARD role with Plus Mode capabilities
+### **🧙‍♀️ Wizard Role** (Highest User Role)
+- WIZARD role with extension development capabilities
 - Advanced system features
 - Enhanced command set
 - For power users
@@ -256,7 +254,7 @@ export UDOS_BOOT_ART="yes"
 ```bash
 # System Configuration
 export UDOS_ROLE="GHOST"        # Default role (GHOST to WIZARD)
-export UDOS_MODE="USER"         # Mode (USER/WIZARD+/DEVELOPER)
+export UDOS_MODE="USER"         # Mode (USER/WIZARD/DEVELOPER)
 
 # Development Environment  
 export UDESK_VERSION="1.0.7"    # Version tracking
@@ -280,7 +278,7 @@ echo "[HELP]" | ./build/user/udos
 ### **User Documentation**
 - **[Quick Start Guide](core/docs/QUICKSTART.md)** - Complete installation and setup (30 seconds)
 - **[uCODE Command Manual](core/docs/UCODE-MANUAL.md)** - Complete command language reference
-- **[Tauri App Guide](app/udesk-app/README.md)** - Modern desktop interface
+- **[Tauri App Guide](app/README.md)** - Modern desktop interface
 
 ### **Developer Documentation**
 - **[Architecture Guide](core/docs/ARCHITECTURE.md)** - v1.0.7 clean system architecture
@@ -302,7 +300,7 @@ cd uDESK
 ./build.sh developer
 
 # Tauri development
-cd app/udesk-app && npm run tauri dev
+cd app && npm run tauri dev
 ```
 
 ### **Testing & Validation**
@@ -313,7 +311,7 @@ echo "[INFO]" | ./build/wizard-plus/udos
 echo "[INFO]" | ./build/developer/udos
 
 # Validate installation
-sudo ./install.sh --test
+sudo ./installers/install.sh --test
 ```
 
 ## 🐛 **Troubleshooting**

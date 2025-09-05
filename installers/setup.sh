@@ -232,9 +232,9 @@ main() {
     
     echo ""
     echo "📍 System Locations:"
-    echo "   Core: ~/uDESK/repo/"
-    echo "   Data: ~/uMEMORY/"
-    echo "   ISOs: ~/uDESK/iso/"
+    echo "   Core: uDESK/"
+    echo "   Data: uDESK/uMEMORY/"
+    echo "   ISOs: uDESK/system/tc/"
     
     return $exit_code
 }

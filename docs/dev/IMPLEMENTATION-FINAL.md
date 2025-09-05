@@ -7,8 +7,8 @@ Successfully implemented all requested changes with a clean, organized structure
 ### **✅ 1. New Mode Structure Implemented**
 - **Developer Mode**: Core system developers (us)
 - **User Mode**: Standard users (all roles)
-- **Wizard+ Mode**: WIZARD role with Plus Mode capabilities
-- **Plus Mode**: Enhanced extension development (not "Dev Mode")
+- **Wizard Role**: WIZARD role with extension development capabilities
+- **Dev Mode**: Special development mode from ~/uDESK/dev/
 
 ### **✅ 2. VM Integration Removed** 
 - Removed `/vm/` folder and scripts
@@ -72,10 +72,10 @@ uDESK-Windows.bat
 ./build.sh user
 ./build/user/udos
 
-# Wizard+ Mode (WIZARD role only)
+# Wizard Role (WIZARD role only)
 ./build.sh wizard-plus  
 UDOS_ROLE=WIZARD ./build/wizard-plus/udos-wizard-plus
-# Then type: [PLUS-MODE] to enable Plus Mode capabilities
+# Extension development is always available to WIZARD users
 
 # Developer Mode (core developers)
 ./build.sh developer

@@ -101,7 +101,7 @@ case $choice in
             # Build uDESK components first
             echo "📦 Building uDESK components..."
             ./build.sh user
-            ./build.sh wizard-plus
+            ./build.sh wizard
             ./build.sh developer
             
             # Create TCZ structure
@@ -110,7 +110,7 @@ case $choice in
             
             # Copy binaries
             cp build/user/udos build/tcz/usr/local/bin/
-            cp build/wizard-plus/udos-wizard-plus build/tcz/usr/local/bin/
+            cp build/wizard/udos-wizard build/tcz/usr/local/bin/
             cp build/developer/udos-developer build/tcz/usr/local/bin/
             
             # Copy documentation

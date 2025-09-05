@@ -74,7 +74,7 @@ Platform Support/
 git clone https://github.com/fredporter/uDESK.git
 cd uDESK
 ./build.sh user       # Build user mode
-sudo ./install.sh     # Install system-wide
+sudo ./installers/install.sh     # Install system-wide
 ```
 
 ### Development Setup

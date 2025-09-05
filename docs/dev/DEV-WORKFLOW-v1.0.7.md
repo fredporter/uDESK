@@ -101,7 +101,7 @@ echo -e "[HELP]\n[SYSTEM-INFO]\nEXIT" | ./build/developer/udos-developer
 # ./uDESK-Windows.bat    # Test Windows (if available)
 
 # Validate dependencies
-./install.sh --test      # Test installation script
+./installers/install.sh --test      # Test installation script
 ```
 
 ### 3. ISO Build Testing (Optional)

@@ -22,7 +22,7 @@ if [ ! -f "build.sh" ] || [ ! -d "app" ]; then
 fi
 
 # Navigate to the Tauri app directory
-cd app/udesk-app
+cd app
 
 echo "🔍 Checking Tauri prerequisites..."
 
@@ -56,7 +56,7 @@ echo ""
 # Install dependencies
 echo "📦 Installing dependencies..."
 if [ ! -f "package.json" ]; then
-    echo "❌ package.json not found in app/udesk-app/"
+    echo "❌ package.json not found in app/"
     echo "   Creating basic Tauri project structure..."
     
     # Initialize basic Tauri project
@@ -112,17 +112,17 @@ case $choice in
         echo "📖 Tauri Launch Commands:"
         echo ""
         echo "Development Mode:"
-        echo "   cd app/udesk-app && npm run tauri dev"
+        echo "   cd app && npm run tauri dev"
         echo ""
         echo "Production Build:"
-        echo "   cd app/udesk-app && npm run tauri build"
-        echo "   ./app/udesk-app/src-tauri/target/release/udesk-app"
+        echo "   cd app && npm run tauri build"
+        echo "   ./app/src-tauri/target/release/udesk-app"
         echo ""
         echo "Configuration:"
-        echo "   cd app/udesk-app && npm run tauri info"
+        echo "   cd app && npm run tauri info"
         echo ""
         echo "Update Dependencies:"
-        echo "   cd app/udesk-app && npm update"
+        echo "   cd app && npm update"
         echo ""
         ;;
     5)
@@ -132,7 +132,7 @@ case $choice in
         echo "📁 Current directory: $(pwd)"
         echo ""
         echo "💡 To launch Tauri later:"
-        echo "   cd app/udesk-app && npm run tauri dev"
+        echo "   cd app && npm run tauri dev"
         ;;
     *)
         echo ""
@@ -145,7 +145,7 @@ echo ""
 echo "✅ Tauri setup complete!"
 echo ""
 echo "🎯 Next Steps:"
-echo "   • Development: cd app/udesk-app && npm run tauri dev"
-echo "   • Production:  cd app/udesk-app && npm run tauri build"
+echo "   • Development: cd app && npm run tauri dev"
+echo "   • Production:  cd app && npm run tauri build"
 echo "   • uDESK CLI:   ./build.sh user && ./build/user/udos"
 echo ""

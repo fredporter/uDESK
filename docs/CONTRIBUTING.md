@@ -33,7 +33,7 @@ uDESK/
 
 ### 1. **Clean Architecture Philosophy**
 - Unified build system with cross-platform support
-- Mode-based deployment (user/wizard-plus/developer/iso)
+- Role-based deployment (user/wizard/developer/iso)
 - Zero external dependencies beyond GCC
 - 30-second setup time target
 
@@ -211,7 +211,7 @@ npm run tauri dev
 ### Bug Reports Should Include
 - uDESK version (v1.0.7)
 - Host OS (macOS, Ubuntu, Windows)
-- Build mode (user, wizard-plus, developer)
+- Build mode (user, wizard, developer)
 - Steps to reproduce
 - Expected vs actual behavior
 - Relevant logs from build/ directory

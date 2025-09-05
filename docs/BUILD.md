@@ -81,7 +81,7 @@ The unified build system supports three deployment modes:
 # User Mode (default)
 ./build.sh user
 
-# Wizard+ Mode (advanced features)
+# Wizard Role (extension development)
 ./build.sh wizard-plus
 
 # Developer Mode (full toolkit)
@@ -112,7 +112,7 @@ core/user.conf
 - Essential tools
 - Simplified interface
 
-# Wizard+ Mode - Advanced features  
+# Wizard Role - Extension development  
 core/wizard-plus.conf
 - Developer tools
 - Advanced scripting

@@ -50,17 +50,17 @@ show_build_art() {
             echo "    GHOST → TOMB → DRONE → CRYPT → IMP → KNIGHT → SORCERER → WIZARD"
             ;;
         "wizard")
-            echo "    🧙‍♀️ WIZARD MODE"
-            echo "    ═══════════════"
-            echo "    Unified wizard with dev capabilities"
-            echo "    Plus Mode: Extension development"
-            echo "    Dev Mode: Core system development (restricted to ~/uDESK/dev)"
+            echo "    🧙‍♀️ WIZARD ROLE"
+            echo "    ══════════════"
+            echo "    Highest user role with extension development"
+            echo "    Extension development: Always available"
+            echo "    Dev Mode: Core system development (restricted to uDESK/dev)"
             ;;
         "dev")
             echo "    🔧 DEV MODE"
             echo "    ═══════════════"
             echo "    Legacy developer mode (deprecated)"
-            echo "    Use 'wizard' mode with [DEV-MODE] instead"
+            echo "    Use wizard role with [DEV-MODE] instead"
             ;;
         "iso")
             echo "    💿 ISO BUILD MODE"
@@ -104,7 +104,7 @@ show_role_art() {
             echo "    Advanced automation and intelligence"
             ;;
         "WIZARD")
-            echo "    🧙‍♂️ WIZARD - Complete Access"
+            echo "    🧙‍♂️ WIZARD - Highest User Role"
             echo "    Full system control and development"
             ;;
     esac
@@ -145,7 +145,7 @@ run_setup_wizard() {
     echo "🎯 First-Time Setup Wizard"
     echo "══════════════════════════"
     echo ""
-    echo "Welcome to uDESK! Let's configure your preferences."
+    echo "Welcome to uDESK! Let us configure your preferences."
     echo ""
     
     # Role selection
@@ -181,8 +181,8 @@ run_setup_wizard() {
     echo "🎯 Select your preferred mode:"
     echo ""
     echo "   1) 👤 User Mode      - Standard interface (recommended)"
-    echo "   2) 🧙‍♀️ Wizard Mode    - Unified wizard with dev capabilities"
-    echo "   3) 🔧 Dev Mode       - Legacy dev mode (use wizard mode instead)"
+    echo "   2) 🧙‍♀️ Wizard Role   - Highest user role with extension development"
+    echo "   3) 🔧 Dev Mode       - Legacy dev mode (use wizard role instead)"
     echo ""
     read -p "Choose mode (1-3) [1]: " mode_choice
     
@@ -260,9 +260,9 @@ interactive_mode_selection() {
     echo "                         Access: User workspace only"
     echo "                         Commands: [BACKUP], [RESTORE], [INFO], [HELP]"
     echo ""
-    echo "   2) 🧙‍♀️ Wizard Mode     - Unified wizard with dev capabilities"
-    echo "                         Access: User space + Plus/Dev Mode capabilities"
-    echo "                         Commands: [PLUS-MODE], [DEV-MODE], [CREATE-EXT], [BUILD-TCZ]"
+    echo "   2) 🧙‍♀️ Wizard Role     - Highest user role with extension development"
+    echo "                         Extension development: Always available"
+    echo "                         Commands: [CREATE-EXT], [BUILD-TCZ], [DEV-MODE]"
     echo ""
     echo "   3) 🔧 Dev Mode        - Legacy developer mode (deprecated)"
     echo "                         Access: Dev workspace only"
@@ -361,18 +361,18 @@ show_tips() {
                 echo "   • Workspace available in uMEMORY/"
                 ;;
             "wizard")
-                echo "   • Use [PLUS-MODE] for extension development in user workspace"
-                echo "   • Use [DEV-MODE] for core development (from ~/uDESK/dev only)"
+                echo "   • Extension development always available in user workspace"
+                echo "   • Use [DEV-MODE] for core development (from uDESK/dev only)"
                 echo "   • Type [CREATE-EXT] to build your own extensions"
                 echo "   • Share your extensions with the community"
                 echo "   • WIZARD role with flexible capabilities"
-                echo "   • User workspace: ~/uDESK/uMEMORY/sandbox/"
-                echo "   • Dev workspace: ~/uDESK/dev/"
+                echo "   • User workspace: uDESK/uMEMORY/sandbox/"
+                echo "   • Dev workspace: uDESK/dev/"
                 ;;
             "dev")
                 echo "   • Legacy developer mode (deprecated)"
-                echo "   • Use 'wizard' mode with [DEV-MODE] instead"
-                echo "   • Limited to dev workspace: ~/uDESK/dev/"
+                echo "   • Use wizard role with [DEV-MODE] instead"
+                echo "   • Limited to dev workspace: uDESK/dev/"
                 echo "   • Use [BUILD-CORE] to compile system components"
                 ;;
         esac
@@ -410,16 +410,16 @@ show_launch_options() {
     esac
     
     # Tauri desktop app option
-    if [ -d "app/udesk-app" ]; then
+    if [ -d "app" ]; then
         echo ""
         echo "📱 Desktop App (Tauri):"
-        if [ -f "app/udesk-app/package.json" ]; then
-            echo "   Development:   cd app/udesk-app && npm run tauri dev"
-            echo "   Production:    cd app/udesk-app && npm run tauri build"
+        if [ -f "app/package.json" ]; then
+            echo "   Development:   cd app && npm run tauri dev"
+            echo "   Production:    cd app && npm run tauri build"
             echo "   Setup Guide:   ./setup-tauri.sh"
         else
             echo "   Setup Script:  ./setup-tauri.sh"
-            echo "   Manual Setup:  cd app/udesk-app && npm install"
+            echo "   Manual Setup:  cd app && npm install"
         fi
     fi
     
@@ -451,7 +451,7 @@ show_launch_options() {
     # Quick actions
     echo ""
     echo "⚡ Quick Actions:"
-    echo "   Next build:    ./build.sh [user|wizard-plus|developer|iso]"
+    echo "   Next build:    ./build.sh [user|wizard|developer|iso]"
     echo "   Clean:         ./build.sh clean"
     echo "   Help:          ./build.sh --help"
 }
@@ -520,7 +520,7 @@ if [ -z "$BUILD_MODE" ] || [ "$1" = "--interactive" ] || [ "$1" = "-i" ]; then
     
     case $selection in
         1) BUILD_MODE="user" ;;
-        2) BUILD_MODE="wizard-plus" ;;
+        2) BUILD_MODE="wizard" ;;
         3) BUILD_MODE="developer" ;;
         4) BUILD_MODE="iso" ;;
         5) BUILD_MODE="test" ;;
@@ -642,8 +642,8 @@ EOF
     fi
     
     # Create build directories
-    mkdir -p build/{user,wizard-plus,developer,iso}
-    mkdir -p src/{user,wizard-plus,developer,shared}
+    mkdir -p build/{user,wizard,developer,iso}
+    mkdir -p src/{user,wizard,developer,shared}
 }
 
 # Apply theme settings
@@ -764,14 +764,14 @@ int execute_user_ucode(const char* command) {
     
     if (strncmp(upper_cmd, "BACKUP", 6) == 0) {
         printf("📦 Creating user backup...\n");
-        system("mkdir -p ~/.udesk/backups && tar -czf ~/.udesk/backups/user-$(date +%Y%m%d-%H%M).tar.gz ~/workspace/ ~/.udesk/ 2>/dev/null");
-        printf("✅ Backup saved to ~/.udesk/backups/\n");
+        system("mkdir -p ~/uDESK/uMEMORY/.local/backups && tar -czf ~/uDESK/uMEMORY/.local/backups/user-$(date +%Y%m%d-%H%M).tar.gz ~/uDESK/uMEMORY/sandbox/ ~/uDESK/uMEMORY/projects/ 2>/dev/null");
+        printf("✅ Backup saved to uDESK/uMEMORY/.local/backups/\n");
         return 0;
     }
     if (strncmp(upper_cmd, "RESTORE", 7) == 0) {
         printf("📥 Available backups:\n");
-        system("ls -la ~/.udesk/backups/user-*.tar.gz 2>/dev/null | head -5 || echo '   No backups found'");
-        printf("💡 To restore: tar -xzf ~/.udesk/backups/user-YYYYMMDD-HHMM.tar.gz -C ~/\n");
+        system("ls -la ~/uDESK/uMEMORY/.local/backups/user-*.tar.gz 2>/dev/null | head -5 || echo '   No backups found'");
+        printf("💡 To restore: tar -xzf uDESK/uMEMORY/.local/backups/user-YYYYMMDD-HHMM.tar.gz -C uDESK/\n");
         return 0;
     }
     if (strncmp(upper_cmd, "INFO", 4) == 0) {
@@ -809,7 +809,7 @@ int execute_user_ucode(const char* command) {
     }
     if (strncmp(upper_cmd, "CONFIG", 6) == 0) {
         printf("📋 Configuration:\n");
-        system("cat ~/.udesk/config 2>/dev/null || echo '   No config file found'");
+        system("cat ~/uDESK/uMEMORY/config/udesk.conf 2>/dev/null || echo '   No config file found'");
         return 0;
     }
     if (strncmp(upper_cmd, "ROLE", 4) == 0) {
@@ -820,7 +820,7 @@ int execute_user_ucode(const char* command) {
             printf("   Next: ⚰️ TOMB (Archive management)\n");
         } else if (strcmp(role, "WIZARD") == 0) {
             printf("   🧙‍♂️ WIZARD - Complete system access\n");
-            printf("   💡 Try: ./build.sh wizard-plus\n");
+            printf("   💡 Try: ./build.sh wizard\n");
         }
         return 0;
     }
@@ -881,143 +881,20 @@ EOF
         echo "🚀 Run: ./build/user/udos"
         ;;
         
-    "wizard-plus")
-        echo "🧙‍♀️ WIZARD+ MODE BUILD"
+    "wizard")
+        echo "🧙‍♀️ WIZARD ROLE BUILD"
         echo "   Target: WIZARD role users"
-        echo "   Access: User space + Plus Mode capabilities"
+        echo "   Extension development: Always available"
         
-        mkdir -p build/wizard-plus
+        mkdir -p build/wizard
         
-        # Create Wizard+ mode interpreter
-        cat > "build/wizard-plus/udos-wizard-plus.c" << 'EOF'
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <unistd.h>
-
-int plus_mode_enabled = 0;
-
-int execute_wizard_plus_ucode(const char* command) {
-    const char* role = getenv("UDESK_ROLE");
-    if (!role || strcmp(role, "WIZARD") != 0) {
-        printf("❌ WIZARD role required for Wizard+ commands\n");
-        printf("   Current role: %s\n", role ?: "NONE");
-        return 1;
-    }
-    
-    if (strncmp(command, "[PLUS-MODE]", 11) == 0) {
-        plus_mode_enabled = 1;
-        setenv("UDESK_PLUS_MODE", "1", 1);
-        printf("🧙‍♀️ Plus Mode ENABLED\n");
-        printf("   Extension development: ACTIVE\n");
-        printf("   TCZ creation: ACTIVE\n");
-        printf("   Plus Mode API: ACTIVE\n");
-        return 0;
-    }
-    
-    if (strncmp(command, "[PLUS-STATUS]", 13) == 0) {
-        printf("🧙‍♀️ WIZARD+ Status\n");
-        printf("   Role: %s\n", getenv("UDESK_ROLE"));
-        printf("   Plus Mode: %s\n", plus_mode_enabled ? "ENABLED" : "DISABLED");
-        printf("   Extensions: Available for development\n");
-        return 0;
-    }
-    
-    if (strncmp(command, "[CREATE-EXT]", 12) == 0) {
-        if (!plus_mode_enabled) {
-            printf("❌ Plus Mode required. Use [PLUS-MODE] first.\n");
-            return 1;
-        }
-        printf("� Extension Creation Wizard\n");
-        printf("   Creating new extension template...\n");
-        system("mkdir -p ~/extensions/my-extension && echo '# My Extension' > ~/extensions/my-extension/README.md");
-        printf("   Extension template created in ~/extensions/my-extension/\n");
-        return 0;
-    }
-    
-    if (strncmp(command, "[BUILD-TCZ]", 11) == 0) {
-        if (!plus_mode_enabled) {
-            printf("❌ Plus Mode required. Use [PLUS-MODE] first.\n");
-            return 1;
-        }
-        printf("📦 Building TCZ package...\n");
-        printf("   Packaging user extensions...\n");
-        system("cd ~/extensions && tar -czf ../my-extensions.tcz *");
-        printf("   TCZ package created: ~/my-extensions.tcz\n");
-        return 0;
-    }
-    
-    // Fall back to user commands
-    if (strncmp(command, "[BACKUP]", 8) == 0) {
-        printf("📦 WIZARD backup (includes extensions)...\n");
-        system("mkdir -p ~/backups && tar -czf ~/backups/wizard-$(date +%Y%m%d).tar.gz ~/workspace/ ~/extensions/");
-        return 0;
-    }
-    
-    if (strncmp(command, "[INFO]", 6) == 0) {
-        printf("ℹ️  uDESK v1.0.7 - Wizard+ Mode\n");
-        printf("   Role: %s\n", getenv("UDESK_ROLE"));
-        printf("   Plus Mode: %s\n", plus_mode_enabled ? "ENABLED" : "DISABLED");
-        printf("   Capabilities: Extension development, TCZ creation\n");
-        return 0;
-    }
-    
-    if (strncmp(command, "[HELP]", 6) == 0) {
-        printf("📖 uDESK v1.0.7 Wizard+ Commands\n\n");
-        printf("STANDARD COMMANDS:\n");
-        printf("  [BACKUP]      - Backup files (includes extensions)\n");
-        printf("  [RESTORE]     - Restore files\n");
-        printf("  [INFO]        - System information\n");
-        printf("  [HELP]        - This help\n\n");
-        printf("WIZARD+ COMMANDS:\n");
-        printf("  [PLUS-MODE]   - Enable Plus Mode capabilities\n");
-        printf("  [PLUS-STATUS] - Show Plus Mode status\n");
-        printf("  [CREATE-EXT]  - Create new extension (Plus Mode)\n");
-        printf("  [BUILD-TCZ]   - Build TCZ package (Plus Mode)\n\n");
-        printf("🧙‍♀️ Plus Mode: %s\n", plus_mode_enabled ? "ENABLED" : "DISABLED");
-        return 0;
-    }
-    
-    printf("❌ Unknown command: %s\n", command);
-    return 1;
-}
-
-int main(int argc, char *argv[]) {
-    const char* role = getenv("UDESK_ROLE");
-    if (!role || strcmp(role, "WIZARD") != 0) {
-        printf("❌ WIZARD role required for Wizard+ Mode\n");
-        printf("   Current role: %s\n", role ?: "NONE");
-        printf("   Use regular udesk for user mode\n");
-        return 1;
-    }
-    
-    printf("🧙‍♀️ uDESK v1.0.7 - Wizard+ Mode\n");
-    printf("Role: %s\n", role);
-    printf("Type [PLUS-MODE] to enable Plus Mode capabilities\n");
-    printf("Commands: [PLUS-MODE], [PLUS-STATUS], [CREATE-EXT], [BUILD-TCZ], [HELP], EXIT\n\n");
-    
-    char input[256];
-    while (1) {
-        printf("Wizard+> ");
-        if (!fgets(input, sizeof(input), stdin)) break;
+        # Copy existing unified wizard
+        cp dev/udos-wizard.c build/wizard/
         
-        input[strcspn(input, "\n")] = 0;
-        
-        if (strcmp(input, "exit") == 0 || strcmp(input, "quit") == 0 || 
-            strcmp(input, "EXIT") == 0 || strcmp(input, "QUIT") == 0) {
-            printf("Goodbye, Wizard!\n");
-            break;
-        }
-        
-        execute_wizard_plus_ucode(input);
-    }
-    return 0;
-}
-EOF
-        
-        gcc -o "build/wizard-plus/udos-wizard-plus" "build/wizard-plus/udos-wizard-plus.c"
-        echo "✅ Wizard+ mode build complete"
-        echo "🧙‍♀️ Run: UDESK_ROLE=WIZARD ./build/wizard-plus/udos-wizard-plus"
+        # Compile wizard
+        gcc -o "build/wizard/udos-wizard" "build/wizard/udos-wizard.c"
+        echo "✅ Wizard role build complete"
+        echo "🧙‍♀️ Run: UDESK_ROLE=WIZARD ./build/wizard/udos-wizard"
         ;;
         
     "developer")
@@ -1036,7 +913,7 @@ EOF
 int execute_developer_ucode(const char* command) {
     if (strncmp(command, "[BUILD-CORE]", 12) == 0) {
         printf("🔧 Building uDESK core system...\n");
-        system("./build.sh user && ./build.sh wizard-plus");
+        system("./build.sh user && ./build.sh wizard");
         printf("   Core system build complete\n");
         return 0;
     }
@@ -1162,7 +1039,7 @@ EOF
         echo ""
         echo "Build modes:"
         echo "  user        - User mode (standard users)"
-        echo "  wizard-plus - Wizard+ mode (WIZARD role + Plus Mode)"
+        echo "  wizard      - Wizard role (highest user role with extension development)"
         echo "  developer   - Developer mode (core developers)"
         echo "  iso         - Bootable ISO image"
         echo "  test        - Test all builds"
@@ -1170,7 +1047,7 @@ EOF
         echo ""
         echo "Examples:"
         echo "  $0 user              # User mode build"
-        echo "  $0 wizard-plus       # Wizard+ mode build"
+        echo "  $0 wizard            # Wizard role build"
         echo "  $0 developer         # Developer mode build"
         exit 1
         ;;

@@ -14,10 +14,10 @@ chmod +x ~/Desktop/udesk-install.command
 # Double-click from Desktop to install
 ```
 
-### 🐧 **Ubuntu/Linux**
+### 🐧 **Linux**
 ```bash
 # Download and run
-curl -L https://github.com/fredporter/uDESK/raw/main/udesk-install-ubuntu.sh -o ~/Desktop/udesk-install.sh
+curl -L https://github.com/fredporter/uDESK/raw/main/udesk-install-linux.sh -o ~/Desktop/udesk-install.sh
 chmod +x ~/Desktop/udesk-install.sh
 ./udesk-install.sh
 ```
@@ -37,21 +37,27 @@ All installers follow the same bootstrap pattern:
 2. **Create Directory Structure**:
    ```
    ~/uDESK/
-   ├── repo/           # Git-managed core system
-   ├── iso/current/    # TinyCore ISO downloads
-   └── iso/archive/    # Previous ISO versions
-   
-   ~/uMEMORY/
-   ├── repo/           # Templates repository
-   ├── .local/logs/    # Application logs (XDG)
-   ├── .local/backups/ # User backups (XDG)
-   ├── .local/state/   # Session data (XDG)
-   └── sandbox/        # User workspace
+   ├── app/            # Tauri desktop application
+   ├── build/          # Build artifacts (user, wizard, developer)
+   ├── dev/            # Development workspace
+   ├── docs/           # Documentation
+   ├── installers/     # Cross-platform installers
+   ├── src/            # Source code modules
+   ├── system/         # System components
+   └── uMEMORY/        # User workspace and data
+       ├── .local/
+       │   ├── logs/   # Application logs (XDG)
+       │   ├── backups/# User backups (XDG)
+       │   └── state/  # Session data (XDG)
+       ├── config/     # User configuration
+       ├── projects/   # User projects
+       ├── sandbox/    # Extension development (WIZARD role)
+       └── templates/  # Project templates
    ```
-3. **Download Core System** - Clone from GitHub
-4. **Download TinyCore ISO** - With mirror fallback
+3. **Download Core System** - Clone from GitHub to ~/uDESK/
+4. **Build System Setup** - Initialize build directories and compile core components
 5. **Run Health Check** - Self-healing system validation
-6. **Install Legacy Components** - Backward compatibility
+6. **Configure User Workspace** - Set up uMEMORY/ within uDESK structure
 
 ## Platform-Specific Features
 
@@ -60,7 +66,7 @@ All installers follow the same bootstrap pattern:
 - ✅ Xcode Command Line Tools auto-install
 - ✅ Homebrew integration for dependencies
 
-### Ubuntu/Linux (`udesk-install-ubuntu.sh`)
+### Linux (`udesk-install-linux.sh`)
 - ✅ Multi-distro package manager support (apt, yum, pacman, dnf)
 - ✅ Build tools installation
 - ✅ XDG Base Directory compliance
@@ -81,16 +87,17 @@ All installers include comprehensive health checks that:
 - Fix file permissions
 
 ### Repository Management
-- Separates core system (`~/uDESK/repo/`) from user data (`~/uMEMORY/`)
-- Supports updates via `git pull`
-- Maintains user customizations
-- Archives old versions
+- Unified system in ~/uDESK/ directory
+- Core system and user data in single location
+- Supports updates via git pull
+- Maintains user customizations in uMEMORY/
+- Role-based build system (user, wizard, developer)
 
 ### TinyCore Integration
-- Downloads latest TinyCore Linux ISO
+- Optional TinyCore Linux ISO download for embedded systems
 - Multiple mirror fallback system
 - Checksum verification
-- Archive management
+- Stored in system/tc/ directory
 
 ## Customization
 
@@ -112,9 +119,9 @@ These installers are designed for easy distribution:
 ### Manual Installation
 If automatic installation fails:
 ```bash
-git clone https://github.com/fredporter/uDESK.git ~/uDESK/repo
-cd ~/uDESK/repo
-bash install.sh
+git clone https://github.com/fredporter/uDESK.git ~/uDESK
+cd ~/uDESK
+./install.sh
 ```
 
 ## Support

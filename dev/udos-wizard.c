@@ -4,7 +4,6 @@
 #include <unistd.h>
 
 int dev_mode_enabled = 0;
-int plus_mode_enabled = 0;
 
 // Check if current working directory is within allowed dev workspace
 int is_dev_workspace() {
@@ -28,28 +27,26 @@ int execute_wizard_ucode(const char* command) {
     // Core Wizard commands (always available)
     if (strncmp(command, "[WIZARD-STATUS]", 15) == 0) {
         printf("🧙‍♀️ WIZARD Status\n");
-        printf("   Role: %s\n", getenv("UDESK_ROLE"));
+        printf("   Role: %s (Highest user role)\n", getenv("UDESK_ROLE"));
         printf("   Dev Mode: %s\n", dev_mode_enabled ? "ENABLED" : "DISABLED");
-        printf("   Plus Mode: %s\n", plus_mode_enabled ? "ENABLED" : "DISABLED");
-        printf("   User Workspace: ~/uDESK/uMEMORY/sandbox/\n");
-        printf("   Dev Workspace: ~/uDESK/dev/\n");
+        printf("   Extension Development: AVAILABLE\n");
+        printf("   User Workspace: uDESK/uMEMORY/sandbox/\n");
+        printf("   Dev Workspace: uDESK/dev/\n");
         return 0;
     }
     
     // Enable Dev Mode (restricted development capabilities)
     if (strncmp(command, "[DEV-MODE]", 10) == 0) {
         if (!is_dev_workspace()) {
-            printf("❌ Dev Mode can only be enabled from ~/uDESK/dev/\n");
+            printf("❌ Dev Mode can only be enabled from uDESK/dev/\n");
             printf("   Current directory not in dev workspace\n");
-            printf("   cd ~/uDESK/dev && udos-wizard\n");
+            printf("   cd uDESK/dev && udos-wizard\n");
             return 1;
         }
         dev_mode_enabled = 1;
-        plus_mode_enabled = 1; // Dev mode includes plus capabilities
         setenv("UDESK_DEV_MODE", "1", 1);
-        setenv("UDESK_PLUS_MODE", "1", 1);
         printf("🔧 Dev Mode ENABLED\n");
-        printf("   Development workspace: ~/uDESK/dev/\n");
+        printf("   Development workspace: uDESK/dev/\n");
         printf("   Core system access: ACTIVE\n");
         printf("   Extension development: ACTIVE\n");
         printf("   TCZ creation: ACTIVE\n");
@@ -57,24 +54,8 @@ int execute_wizard_ucode(const char* command) {
         return 0;
     }
     
-    // Plus Mode (extension development without core system access)
-    if (strncmp(command, "[PLUS-MODE]", 11) == 0) {
-        plus_mode_enabled = 1;
-        setenv("UDESK_PLUS_MODE", "1", 1);
-        printf("🧙‍♀️ Plus Mode ENABLED\n");
-        printf("   Extension development: ACTIVE\n");
-        printf("   TCZ creation: ACTIVE\n");
-        printf("   Working in: ~/uDESK/uMEMORY/sandbox/\n");
-        return 0;
-    }
-    
-    // Extension creation (available in both modes)
+    // Extension creation (always available to WIZARD)
     if (strncmp(command, "[CREATE-EXT]", 12) == 0) {
-        if (!plus_mode_enabled && !dev_mode_enabled) {
-            printf("❌ Plus Mode or Dev Mode required. Use [PLUS-MODE] or [DEV-MODE] first.\n");
-            return 1;
-        }
-        
         char* workspace = dev_mode_enabled ? "~/uDESK/dev/extensions" : "~/uDESK/uMEMORY/sandbox/extensions";
         printf("📦 Extension Creation Wizard\n");
         printf("   Creating new extension template in %s...\n", workspace);
@@ -86,12 +67,8 @@ int execute_wizard_ucode(const char* command) {
         return 0;
     }
     
-    // TCZ building (available in both modes)
+    // TCZ building (always available to WIZARD)
     if (strncmp(command, "[BUILD-TCZ]", 11) == 0) {
-        if (!plus_mode_enabled && !dev_mode_enabled) {
-            printf("❌ Plus Mode or Dev Mode required. Use [PLUS-MODE] or [DEV-MODE] first.\n");
-            return 1;
-        }
         printf("💿 Building TinyCore Extension (TCZ)...\n");
         printf("   Creating TCZ package...\n");
         printf("   TCZ build complete\n");
@@ -102,7 +79,7 @@ int execute_wizard_ucode(const char* command) {
     if (dev_mode_enabled) {
         if (strncmp(command, "[BUILD-CORE]", 12) == 0) {
             if (!is_dev_workspace()) {
-                printf("❌ Core build only allowed in dev workspace: ~/uDESK/dev/\n");
+                printf("❌ Core build only allowed in dev workspace: uDESK/dev/\n");
                 return 1;
             }
             printf("🔧 Building uDESK core system...\n");
@@ -113,7 +90,7 @@ int execute_wizard_ucode(const char* command) {
         
         if (strncmp(command, "[BUILD-ISO]", 11) == 0) {
             if (!is_dev_workspace()) {
-                printf("❌ ISO build only allowed in dev workspace: ~/uDESK/dev/\n");
+                printf("❌ ISO build only allowed in dev workspace: uDESK/dev/\n");
                 return 1;
             }
             printf("💿 Building TinyCore ISO...\n");
@@ -125,7 +102,7 @@ int execute_wizard_ucode(const char* command) {
             printf("🔧 uDESK Developer System Information\n");
             printf("   Version: 1.0.7.2\n");
             printf("   Build Environment: %s\n", getenv("BUILD_ENV") ?: "host");
-            printf("   Dev Workspace: ~/uDESK/dev/\n");
+            printf("   Dev Workspace: uDESK/dev/\n");
             printf("   Developer Access: FULL (restricted to dev workspace)\n");
             system("cd ~/uDESK && ls -la system/build/");
             return 0;
@@ -134,27 +111,23 @@ int execute_wizard_ucode(const char* command) {
     
     if (strncmp(command, "[HELP]", 6) == 0) {
         printf("📖 uDESK v1.0.7.2 Wizard Commands\n\n");
-        printf("CORE WIZARD COMMANDS:\n");
+        printf("WIZARD COMMANDS (Highest user role):\n");
         printf("  [WIZARD-STATUS] - Show wizard status\n");
-        printf("  [PLUS-MODE]     - Enable extension development\n");
-        printf("  [DEV-MODE]      - Enable dev mode (from ~/uDESK/dev only)\n");
+        printf("  [CREATE-EXT]    - Create new extension\n");
+        printf("  [BUILD-TCZ]     - Build TinyCore extension\n");
+        printf("  [DEV-MODE]      - Enable dev mode (from uDESK/dev only)\n");
         printf("  [HELP]          - This help\n\n");
         
-        if (plus_mode_enabled || dev_mode_enabled) {
-            printf("EXTENSION COMMANDS:\n");
-            printf("  [CREATE-EXT]    - Create new extension\n");
-            printf("  [BUILD-TCZ]     - Build TinyCore extension\n\n");
-        }
-        
         if (dev_mode_enabled) {
-            printf("DEV MODE COMMANDS (~/uDESK/dev only):\n");
+            printf("DEV MODE COMMANDS (uDESK/dev only):\n");
             printf("  [BUILD-CORE]    - Build core system\n");
             printf("  [BUILD-ISO]     - Build TinyCore ISO\n");
             printf("  [SYSTEM-INFO]   - Developer system info\n\n");
-            printf("🔧 Dev workspace: ~/uDESK/dev/\n");
+            printf("🔧 Dev workspace: uDESK/dev/\n");
         }
         
-        printf("👤 User workspace: ~/uDESK/uMEMORY/sandbox/\n");
+        printf("👤 User workspace: uDESK/uMEMORY/sandbox/\n");
+        printf("🧙‍♀️ Extension development always available to WIZARD role\n");
         return 0;
     }
     
@@ -164,9 +137,9 @@ int execute_wizard_ucode(const char* command) {
 }
 
 int main(int argc, char *argv[]) {
-    printf("🧙‍♀️ uDESK v1.0.7.2 - Wizard Mode\n");
-    printf("Role: WIZARD | Dev capable with restrictions\n");
-    printf("Commands: [WIZARD-STATUS], [PLUS-MODE], [DEV-MODE], [HELP], EXIT\n\n");
+    printf("🧙‍♀️ uDESK v1.0.7.2 - Wizard Role\n");
+    printf("Role: WIZARD (Highest user role) | Dev capable with restrictions\n");
+    printf("Commands: [WIZARD-STATUS], [CREATE-EXT], [BUILD-TCZ], [DEV-MODE], [HELP], EXIT\n\n");
     
     // Set wizard role
     setenv("UDESK_ROLE", "WIZARD", 1);
@@ -181,7 +154,7 @@ int main(int argc, char *argv[]) {
         input[strcspn(input, "\n")] = 0;
         
         if (strcmp(input, "EXIT") == 0 || strcmp(input, "exit") == 0) {
-            printf("👋 Exiting Wizard Mode\n");
+            printf("👋 Exiting Wizard Role\n");
             break;
         }
         

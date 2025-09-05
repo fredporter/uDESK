@@ -17,8 +17,9 @@ Thumbs.db
 # Build Artifacts & Dependencies
 # -------------------------------
 build/user/
-build/clean-udos/
-build/uDOS-core/
+build/wizard/
+build/developer/
+build/iso/
 dev/udos-wizard
 dev/udos-dev
 dev/udos
@@ -31,10 +32,10 @@ dev/udos
 
 # Tauri Build Artifacts
 # ----------------------
-app/udesk-app/tauri/target/
-app/udesk-app/dist/
-app/udesk-app/node_modules/
-app/udesk-app/.vite-temp/
+app/tauri/target/
+app/dist/
+app/node_modules/
+app/.vite-temp/
 
 # ISO Files & VM Images
 # ---------------------

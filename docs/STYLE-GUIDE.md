@@ -14,7 +14,7 @@ uSCRIPT  uKNOWLEDGE       # Core system modules
 
 ### System Architecture (v1.0.7)
 ```
-Build Modes:     user, wizard-plus, developer, iso
+Build Modes:     user, wizard, developer, iso
 Platforms:       macOS, Ubuntu, Windows
 Desktop App:     Tauri-based cross-platform application
 Extensions:      Mode-aware extension system
@@ -248,7 +248,7 @@ esac
 - Comment complex logic
 - Group related functions together
 - Separate concerns into modules
-- Follow mode-based architecture (user/wizard-plus/developer)
+- Follow role-based architecture (user/wizard/developer)
 - Implement cross-platform compatibility patterns
 
 ### Error Handling (v1.0.7)
@@ -334,6 +334,6 @@ esac
 
 ### Mode-Specific Behaviors
 - **User Mode**: Simple, essential commands only
-- **Wizard+ Mode**: Advanced features with helpful warnings
+- **Wizard Role**: Highest user role with extension development
 - **Developer Mode**: Full command set with detailed output
 - **ISO Mode**: Specialized bootable system creation
