@@ -1,41 +1,6 @@
 #!/bin/bash
 # uDESK Mac Desktop Installer (.command file)
-# Double-click from Finder to instalecho ""
-echo "🎉 Installation Complete!"
-echo ""
-echo "📂 Your unified uDESK installation:"
-echo "   Complete system: ~/uDESK/"
-echo "   User workspace:  ~/uDESK/uMEMORY/sandbox/"
-echo "   ISOs:           ~/uDESK/iso/"
-echo ""
-echo "🔧 Testing installation..."
-cd "$HOME/uDESK"
-
-if [ -f "build/user/udos" ]; then
-    echo "✅ uDOS found - launching..."
-    echo ""
-    echo "=== Starting uDOS ==="
-    ./build/user/udos || echo "⚠️  uDOS exited"
-else
-    echo "⚠️  uDOS binary not found, trying build..."
-    if [ -f "build.sh" ]; then
-        echo "🔨 Building uDOS..."
-        bash build.sh user
-        if [ -f "build/user/udos" ]; then
-            echo "✅ Build successful - launching uDOS..."
-            echo ""
-            echo "=== Starting uDOS ==="
-            ./build/user/udos || echo "⚠️  uDOS exited"
-        fi
-    fi
-fi
-
-echo ""
-echo "📚 Documentation: https://github.com/fredporter/uDESK"
-echo "🔧 To run uDOS again: cd ~/uDESK && ./build/user/udos"
-echo ""
-echo "Press any key to close this installer..."
-read -n 1 -s
+# Double-click from Finder to install
 
 # Make sure we exit on any error
 set -e
@@ -48,7 +13,7 @@ echo ""
 echo "This installer will:"
 echo "• Download uDESK complete system to ~/uDESK"
 echo "• Set up embedded uMEMORY workspace"
-echo "• Download TinyCore Linux ISO"
+echo "• Download TinyCore Linux ISO (direct curl)"
 echo "• Configure the unified environment"
 echo ""
 
@@ -128,6 +93,24 @@ echo "🚀 Running main installer..."
 cd "$HOME/uDESK"
 bash install.sh
 
+# Download TinyCore ISO using the working curl method
+echo ""
+echo "📀 Downloading TinyCore ISO (direct method)..."
+mkdir -p "$HOME/uDESK/iso/current"
+
+if curl -L --connect-timeout 15 --max-time 300 --fail --progress-bar \
+    "http://tinycorelinux.net/15.x/x86/release/TinyCore-current.iso" \
+    -o "$HOME/uDESK/iso/current/TinyCore-current.iso.tmp"; then
+    
+    echo "✅ TinyCore ISO downloaded successfully!"
+    mv "$HOME/uDESK/iso/current/TinyCore-current.iso.tmp" "$HOME/uDESK/iso/current/TinyCore-current.iso"
+    echo "📂 Location: ~/uDESK/iso/current/TinyCore-current.iso"
+else
+    echo "⚠️  TinyCore ISO download failed, but uDESK will work without it"
+    echo "   You can download it manually later from: http://tinycorelinux.net/downloads.html"
+    rm -f "$HOME/uDESK/iso/current/TinyCore-current.iso.tmp"
+fi
+
 echo ""
 echo "🎉 Installation Complete!"
 echo ""
@@ -136,10 +119,33 @@ echo "   Complete system: ~/uDESK/"
 echo "   User workspace:  ~/uDESK/uMEMORY/sandbox/"
 echo "   ISOs:           ~/uDESK/iso/"
 echo ""
-echo "🔧 To use uDESK:"
-echo "   cd ~/uDESK && udos version - Check installation"
-echo "   cd ~/uDESK && udos test    - Run system test"
+echo "🔧 Testing installation..."
+
+# Test and launch uDOS
+if [ -f "$HOME/uDESK/build/user/udos" ]; then
+    echo "✅ uDOS found - launching..."
+    echo ""
+    echo "=== Starting uDOS ==="
+    cd "$HOME/uDESK"
+    ./build/user/udos || echo "⚠️  uDOS exited"
+else
+    echo "⚠️  uDOS binary not found, trying build..."
+    if [ -f "$HOME/uDESK/build.sh" ]; then
+        echo "🔨 Building uDOS..."
+        cd "$HOME/uDESK"
+        bash build.sh user
+        if [ -f "build/user/udos" ]; then
+            echo "✅ Build successful - launching uDOS..."
+            echo ""
+            echo "=== Starting uDOS ==="
+            ./build/user/udos || echo "⚠️  uDOS exited"
+        fi
+    fi
+fi
+
 echo ""
 echo "📚 Documentation: https://github.com/fredporter/uDESK"
+echo "🔧 To run uDOS again: cd ~/uDESK && ./build/user/udos"
 echo ""
-read -p "Press any key to close this installer..."
+echo "Press any key to close this installer..."
+read -n 1 -s
