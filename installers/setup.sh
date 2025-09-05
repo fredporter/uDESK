@@ -9,31 +9,31 @@ echo "======================================="
 
 # Define essential directory structure
 declare -A ESSENTIAL_DIRS=(
-    ["$HOME/uDESK/repo"]="uDESK core repository"
+    ["$HOME/uDESK"]="uDESK root directory"
     ["$HOME/uDESK/iso/current"]="TinyCore ISO storage"
     ["$HOME/uDESK/iso/archive"]="TinyCore ISO archive"
+    ["$HOME/uDESK/uMEMORY"]="Embedded uMEMORY workspace"
+    ["$HOME/uDESK/uMEMORY/.local/logs"]="Application logs (XDG)"
+    ["$HOME/uDESK/uMEMORY/.local/backups"]="User backups (XDG)"
+    ["$HOME/uDESK/uMEMORY/.local/state"]="Session state (XDG)"
+    ["$HOME/uDESK/uMEMORY/sandbox"]="User workspace"
+    ["$HOME/uDESK/uMEMORY/sandbox/projects"]="User projects"
+    ["$HOME/uDESK/uMEMORY/sandbox/drafts"]="Draft workspace"
+    ["$HOME/uDESK/uMEMORY/sandbox/experiments"]="Experimental workspace"
     ["$HOME/uDESK/runtime"]="Runtime files"
     ["$HOME/uDESK/logs"]="uDESK system logs"
-    ["$HOME/uMEMORY/repo"]="uMEMORY repository"
-    ["$HOME/uMEMORY/.local/logs"]="Application logs (XDG)"
-    ["$HOME/uMEMORY/.local/backups"]="User backups (XDG)"
-    ["$HOME/uMEMORY/.local/state"]="Session state (XDG)"
-    ["$HOME/uMEMORY/sandbox"]="User workspace"
-    ["$HOME/uMEMORY/sandbox/projects"]="User projects"
-    ["$HOME/uMEMORY/sandbox/drafts"]="Draft workspace"
-    ["$HOME/uMEMORY/sandbox/experiments"]="Experimental workspace"
 )
 
 # Define essential files that should exist
 declare -A ESSENTIAL_FILES=(
-    ["$HOME/uDESK/repo/scripts/download-tinycore.sh"]="TinyCore downloader script"
-    ["$HOME/uDESK/repo/scripts/setup.sh"]="This setup script"
-    ["$HOME/uDESK/repo/install.sh"]="Main installer"
+    ["$HOME/uDESK/installers/download-tinycore.sh"]="TinyCore downloader script"
+    ["$HOME/uDESK/installers/setup.sh"]="This setup script"
+    ["$HOME/uDESK/install.sh"]="Main installer"
 )
 
 # Define downloadable/recoverable files
 declare -A RECOVERABLE_ACTIONS=(
-    ["$HOME/uDESK/iso/current/TinyCore-current.iso"]="bash $HOME/uDESK/repo/scripts/download-tinycore.sh"
+    ["$HOME/uDESK/iso/current/TinyCore-current.iso"]="bash $HOME/uDESK/installers/download-tinycore.sh"
 )
 
 # Health check functions

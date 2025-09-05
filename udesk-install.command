@@ -11,10 +11,10 @@ echo "🍎 uDESK Mac Installer v1.0.7.2"
 echo "================================"
 echo ""
 echo "This installer will:"
-echo "• Download uDESK core system"
-echo "• Set up uMEMORY workspace"
+echo "• Download uDESK complete system to ~/uDESK"
+echo "• Set up embedded uMEMORY workspace"
 echo "• Download TinyCore Linux ISO"
-echo "• Configure the complete environment"
+echo "• Configure the unified environment"
 echo ""
 read -p "Press Enter to continue or Ctrl+C to cancel..."
 
@@ -37,45 +37,33 @@ if ! command -v curl &> /dev/null; then
 fi
 echo "✅ curl found"
 
-# Create base directories
+# Clone or update uDESK to unified directory
 echo ""
-echo "📁 Creating base structure..."
-mkdir -p "$HOME/uDESK/iso/current" "$HOME/uDESK/iso/archive" "$HOME/uMEMORY"
-
-# Clone or update uDESK repository
-echo ""
-if [ -d "$HOME/uDESK/repo/.git" ]; then
+if [ -d "$HOME/uDESK/.git" ]; then
     echo "🔄 Updating existing uDESK installation..."
-    cd "$HOME/uDESK/repo" && git pull
+    cd "$HOME/uDESK" && git pull
 else
-    echo "📦 Downloading uDESK core system..."
-    git clone https://github.com/fredporter/uDESK.git "$HOME/uDESK/repo"
+    echo "📦 Downloading uDESK complete system..."
+    git clone https://github.com/fredporter/uDESK.git "$HOME/uDESK"
 fi
-
-# Set up uMEMORY structure (XDG compliant)
-echo ""
-echo "🧠 Setting up uMEMORY workspace..."
-mkdir -p "$HOME/uMEMORY/repo/templates" "$HOME/uMEMORY/repo/config"
-mkdir -p "$HOME/uMEMORY/.local/logs" "$HOME/uMEMORY/.local/backups" "$HOME/uMEMORY/.local/state"
-mkdir -p "$HOME/uMEMORY/sandbox/projects" "$HOME/uMEMORY/sandbox/drafts" "$HOME/uMEMORY/sandbox/experiments"
 
 # Run the main installer
 echo ""
 echo "🚀 Running main installer..."
-cd "$HOME/uDESK/repo"
-bash installers/install.sh
+cd "$HOME/uDESK"
+bash install.sh
 
 echo ""
 echo "🎉 Installation Complete!"
 echo ""
-echo "📂 Your uDESK installation:"
-echo "   System: ~/uDESK/repo/"
-echo "   ISOs:   ~/uDESK/iso/"
-echo "   Memory: ~/uMEMORY/"
+echo "📂 Your unified uDESK installation:"
+echo "   Complete system: ~/uDESK/"
+echo "   User workspace:  ~/uDESK/uMEMORY/sandbox/"
+echo "   ISOs:           ~/uDESK/iso/"
 echo ""
 echo "🔧 To use uDESK:"
-echo "   udos version    - Check installation"
-echo "   udos test       - Run system test"
+echo "   cd ~/uDESK && udos version - Check installation"
+echo "   cd ~/uDESK && udos test    - Run system test"
 echo ""
 echo "📚 Documentation: https://github.com/fredporter/uDESK"
 echo ""
