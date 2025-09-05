@@ -1,0 +1,5 @@
+#!/bin/bash
+# uDESK Desktop App - Quick Launcher
+# Usage: udesk-app [--build]
+
+exec "$HOME/uDESK/launch-tauri.sh" "$@"

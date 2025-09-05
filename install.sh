@@ -380,8 +380,10 @@ echo "🧪 Quick Tests:"
 echo "  cd ~/uDESK && ./build/wizard/udos-wizard  - Launch Wizard mode"
 echo "  cd ~/uDESK && ./build/user/udos version   - Check installation"
 echo ""
-echo "🎨 Modern Interface:"
-echo "  cd ~/uDESK/app && npm install && npm run tauri dev  - Launch Tauri GUI"
+echo "🎨 Desktop App (Tauri):"
+echo "  ./launch-tauri.sh       - Launch development app"
+echo "  ./launch-tauri.sh --build - Build production app with dock icon"
+echo "  ./udesk-app             - Quick launcher command"
 
 # Test and launch uDOS (if not called from platform installer)
 if [ "$3" != "--skip-auto-launch" ]; then
@@ -391,5 +393,6 @@ if [ "$3" != "--skip-auto-launch" ]; then
     echo ""
     echo "📚 Documentation: https://github.com/fredporter/uDESK"
     echo "🔧 To run uDOS again: cd ~/uDESK && ./build/wizard/udos-wizard"
-    echo "🎨 To run Tauri GUI: cd ~/uDESK/app && npm run tauri dev"
+    echo "🎨 To run Tauri GUI: cd ~/uDESK && ./launch-tauri.sh"
+    echo "🏗️  For dock icon: cd ~/uDESK && ./launch-tauri.sh --build"
 fi
