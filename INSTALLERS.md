@@ -57,7 +57,6 @@ All installers follow the same bootstrap pattern:
 
 ### macOS (`udesk-install.command`)
 - ✅ Double-click installation from Finder
-- ✅ Custom icon support (via `add-icon.sh`)
 - ✅ Xcode Command Line Tools auto-install
 - ✅ Homebrew integration for dependencies
 
@@ -65,13 +64,11 @@ All installers follow the same bootstrap pattern:
 - ✅ Multi-distro package manager support (apt, yum, pacman, dnf)
 - ✅ Build tools installation
 - ✅ XDG Base Directory compliance
-- ✅ Desktop shortcut creation
 
 ### Windows (`udesk-install-windows.bat`)
 - ✅ Windows 10+ compatibility
 - ✅ WSL integration for full functionality
 - ✅ Windows-native fallback mode
-- ✅ Desktop shortcut creation
 
 ## Advanced Features
 
@@ -96,14 +93,6 @@ All installers include comprehensive health checks that:
 - Archive management
 
 ## Customization
-
-### Adding Custom Icons (macOS)
-```bash
-# Place your 1024x1024 PNG icon
-cp your-icon.png assets/
-sips -s format icns assets/your-icon.png --out assets/udesk-icon.icns
-./add-icon.sh
-```
 
 ### Distribution
 These installers are designed for easy distribution:
