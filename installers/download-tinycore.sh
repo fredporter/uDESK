@@ -20,7 +20,6 @@ MIRRORS=(
     "http://mirror.switch.ch/ftp/mirror/tinycorelinux/15.x/x86/release/"
     "http://ftp.uni-kl.de/pub/linux/tinycorelinux/15.x/x86/release/"
 )
-)
 
 ISO_NAME="TinyCore-current.iso"
 CHECKSUM_NAME="TinyCore-current.iso.md5.txt"
