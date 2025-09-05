@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { invoke } from '@tauri-apps/api/core';
 import { ThemeName, getTheme } from '../lib/themes';
 import { BootSequence } from './BootSequence';
+import { Setup } from './Setup';
 
 interface MainInterfaceProps {
   theme: ThemeName;
@@ -18,18 +19,32 @@ interface UCodeCommand {
 
 export const MainInterface: React.FC<MainInterfaceProps> = ({ theme, onThemeChange }) => {
   const [isBooted, setIsBooted] = useState(false);
-  const [currentView, setCurrentView] = useState<'desktop' | 'terminal' | 'container'>('desktop');
+  const [currentView, setCurrentView] = useState<'desktop' | 'terminal' | 'container' | 'setup'>('desktop');
   const [commandHistory, setCommandHistory] = useState<UCodeCommand[]>([]);
   const [currentCommand, setCurrentCommand] = useState('');
   const [containerStatus, setContainerStatus] = useState<'stopped' | 'starting' | 'running' | 'error'>('stopped');
   const [extensions, setExtensions] = useState<string[]>([]);
+  const [showFirstTimeSetup, setShowFirstTimeSetup] = useState(false);
 
   useEffect(() => {
     if (isBooted) {
       loadExtensions();
       checkContainerStatus();
+      checkFirstTimeSetup();
     }
   }, [isBooted]);
+
+  const checkFirstTimeSetup = async () => {
+    try {
+      const needsSetup = await invoke<boolean>('needs_first_time_setup');
+      setShowFirstTimeSetup(needsSetup);
+      if (needsSetup) {
+        setCurrentView('setup');
+      }
+    } catch (error) {
+      console.error('Failed to check setup status:', error);
+    }
+  };
 
   const loadExtensions = async () => {
     try {
@@ -140,6 +155,12 @@ export const MainInterface: React.FC<MainInterfaceProps> = ({ theme, onThemeChan
             >
               Container
             </button>
+            <button 
+              className={currentView === 'setup' ? 'active' : ''}
+              onClick={() => setCurrentView('setup')}
+            >
+              Setup
+            </button>
           </div>
           
           <div className="theme-selector">
@@ -169,6 +190,11 @@ export const MainInterface: React.FC<MainInterfaceProps> = ({ theme, onThemeChan
                 <div className="desktop-icon" onClick={() => setCurrentView('container')}>
                   <div className="icon-image">🐳</div>
                   <div className="icon-label">TinyCore Container</div>
+                </div>
+                
+                <div className="desktop-icon" onClick={() => setCurrentView('setup')}>
+                  <div className="icon-image">🛠️</div>
+                  <div className="icon-label">Setup & Install</div>
                 </div>
                 
                 <div className="desktop-icon">
@@ -347,6 +373,17 @@ export const MainInterface: React.FC<MainInterfaceProps> = ({ theme, onThemeChan
               </div>
             </div>
           </div>
+        )}
+        
+        {currentView === 'setup' && (
+          <Setup 
+            theme={theme}
+            onComplete={() => {
+              setShowFirstTimeSetup(false);
+              setCurrentView('desktop');
+            }}
+            onBack={() => setCurrentView('desktop')}
+          />
         )}
       </div>
     </div>

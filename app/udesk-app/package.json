@@ -7,7 +7,14 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
-    "tauri": "tauri"
+    "tauri": "tauri",
+    "tauri:dev": "tauri dev",
+    "tauri:build": "tauri build",
+    "setup": "npm install && npm run tauri:dev",
+    "install-deps": "npm install",
+    "check-system": "echo 'Checking system requirements...' && node --version && npm --version",
+    "clean": "rm -rf node_modules dist target && npm install",
+    "help": "echo 'Available commands:' && echo '  npm run setup      - Install dependencies and start dev server' && echo '  npm run tauri:dev  - Start Tauri development server' && echo '  npm run tauri:build- Build production app' && echo '  npm run clean      - Clean and reinstall dependencies'"
   },
   "dependencies": {
     "@tauri-apps/api": "^2.8.0",

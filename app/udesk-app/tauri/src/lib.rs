@@ -1,4 +1,5 @@
 mod container;
+mod setup;
 
 use container::{
     ContainerManager, 
@@ -19,6 +20,13 @@ use container::{
     udos_repair,
     udos_undo,
     udos_redo,
+};
+
+use setup::{
+    get_system_info,
+    needs_first_time_setup,
+    install_component,
+    open_documentation,
 };
 
 // Learn more about Tauri commands at https://tauri.app/develop/calling-rust/
@@ -55,7 +63,11 @@ pub fn run() {
             udos_reboot,
             udos_repair,
             udos_undo,
-            udos_redo
+            udos_redo,
+            get_system_info,
+            needs_first_time_setup,
+            install_component,
+            open_documentation
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
