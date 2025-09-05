@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
+#include "udos-core.h"
 
 int dev_mode_enabled = 0;
 
@@ -111,22 +112,34 @@ int execute_wizard_ucode(const char* command) {
     
     if (strncmp(command, "[HELP]", 6) == 0) {
         printf("📖 uDESK v1.0.7.2 Wizard Commands\n\n");
+        
+        // Show core commands first
+        printf("CORE uCODE COMMANDS (Available to all roles):\n");
+        printf("  BACKUP          - Backup your files and config\n");
+        printf("  RESTORE         - Show available backups\n");
+        printf("  INFO            - System information\n");
+        printf("  CONFIG          - Show configuration\n");
+        printf("  HELP            - This help\n\n");
+        
         printf("WIZARD COMMANDS (Highest user role):\n");
         printf("  [WIZARD-STATUS] - Show wizard status\n");
         printf("  [CREATE-EXT]    - Create new extension\n");
         printf("  [BUILD-TCZ]     - Build TinyCore extension\n");
-        printf("  [DEV-MODE]      - Enable dev mode (from uDESK/dev only)\n");
-        printf("  [HELP]          - This help\n\n");
+        printf("  [DEV-MODE]      - Enable dev mode (from ~/uDESK/dev only)\n\n");
         
         if (dev_mode_enabled) {
-            printf("DEV MODE COMMANDS (uDESK/dev only):\n");
+            printf("DEV MODE COMMANDS (~/uDESK/dev only):\n");
             printf("  [BUILD-CORE]    - Build core system\n");
             printf("  [BUILD-ISO]     - Build TinyCore ISO\n");
             printf("  [SYSTEM-INFO]   - Developer system info\n\n");
-            printf("🔧 Dev workspace: uDESK/dev/\n");
+            printf("🔧 Dev workspace: ~/uDESK/dev/\n");
         }
         
-        printf("👤 User workspace: uDESK/uMEMORY/sandbox/\n");
+        printf("SHELL COMMANDS:\n");
+        printf("  EXIT, QUIT      - Leave uDESK\n");
+        printf("  ROLE            - Show role information\n");
+        printf("  THEME           - Show theme settings\n\n");
+        printf("👤 User workspace: ~/uDESK/uMEMORY/sandbox/\n");
         printf("🧙‍♀️ Extension development always available to WIZARD role\n");
         return 0;
     }
@@ -137,12 +150,15 @@ int execute_wizard_ucode(const char* command) {
 }
 
 int main(int argc, char *argv[]) {
-    printf("🧙‍♀️ uDESK v1.0.7.2 - Wizard Role\n");
+    show_udos_banner("WIZARD MODE", "1.0.7.2");
+    
     printf("Role: WIZARD (Highest user role) | Dev capable with restrictions\n");
-    printf("Commands: [WIZARD-STATUS], [CREATE-EXT], [BUILD-TCZ], [DEV-MODE], [HELP], EXIT\n\n");
+    printf("Commands: BACKUP, RESTORE, INFO, CONFIG, HELP, [WIZARD-STATUS], [CREATE-EXT], [BUILD-TCZ], [DEV-MODE], EXIT\n");
+    printf("Format: Direct commands or [SHORTCODE] syntax\n\n");
     
     // Set wizard role
     setenv("UDESK_ROLE", "WIZARD", 1);
+    setenv("UDESK_THEME", "POLAROID", 0); // Don't override if already set
     
     char input[256];
     while (1) {
@@ -153,15 +169,23 @@ int main(int argc, char *argv[]) {
         
         input[strcspn(input, "\n")] = 0;
         
-        if (strcmp(input, "EXIT") == 0 || strcmp(input, "exit") == 0) {
-            printf("👋 Exiting Wizard Role\n");
-            break;
-        }
-        
         if (strlen(input) == 0) continue;
         
-        execute_wizard_ucode(input);
-        printf("\n");
+        // First try core commands (available to all roles)
+        if (process_core_command(input)) {
+            printf("\n");
+            continue;
+        }
+        
+        // Then try wizard-specific commands
+        if (execute_wizard_ucode(input) == 0) {
+            printf("\n");
+            continue;
+        }
+        
+        // Unknown command
+        printf("❌ Unknown command: %s\n", input);
+        printf("   Use HELP for available commands\n\n");
     }
     
     return 0;

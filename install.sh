@@ -242,13 +242,24 @@ launch_tauri_app() {
     if [ -d "$HOME/uDESK/app" ]; then
         cd "$HOME/uDESK/app"
         
+        # Check if package.json exists
+        if [ ! -f "package.json" ]; then
+            echo "⚠️  Tauri app not properly set up (missing package.json)"
+            return 1
+        fi
+        
         # Check if node modules exist
         if [ ! -d "node_modules" ]; then
             echo "📦 Installing Tauri dependencies..."
             if command -v npm &> /dev/null; then
-                npm install --silent
+                npm install
+                if [ $? -ne 0 ]; then
+                    echo "⚠️  npm install failed - check Node.js installation"
+                    return 1
+                fi
             else
                 echo "⚠️  npm not found - install Node.js to use Tauri interface"
+                echo "   Download from: https://nodejs.org/"
                 return 1
             fi
         fi
@@ -256,8 +267,23 @@ launch_tauri_app() {
         # Launch Tauri app in development mode
         echo "🚀 Starting Tauri desktop app..."
         if command -v npm &> /dev/null; then
-            npm run tauri dev &
-            echo "✅ Tauri app launched in background"
+            # Check if tauri is available
+            if npm run tauri --version &> /dev/null; then
+                echo "   Launching in background..."
+                nohup npm run tauri dev > /dev/null 2>&1 &
+                sleep 2
+                echo "✅ Tauri app launched in background"
+                echo "   A desktop window should open shortly..."
+            else
+                echo "⚠️  Tauri not properly configured in package.json"
+            fi
+        else
+            echo "⚠️  npm not found - install Node.js to use Tauri interface"
+        fi
+    else
+        echo "⚠️  Tauri app directory not found at ~/uDESK/app"
+        echo "   The modern desktop interface requires the app directory"
+    fi
             echo "   A desktop window should open shortly..."
         else
             echo "⚠️  npm not found - install Node.js to use Tauri interface"
