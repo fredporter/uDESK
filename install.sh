@@ -171,8 +171,16 @@ setup_repository() {
 # Function to download TinyCore ISO
 download_tinycore_iso() {
     echo ""
-    echo "📀 Downloading TinyCore ISO (direct method)..."
     mkdir -p "$HOME/uDESK/build/iso"
+    
+    # Check if ISO already exists
+    if [ -f "$HOME/uDESK/build/iso/TinyCore-current.iso" ]; then
+        echo "📀 TinyCore ISO already exists - skipping download"
+        echo "📂 Location: ~/uDESK/build/iso/TinyCore-current.iso"
+        return 0
+    fi
+    
+    echo "📀 Downloading TinyCore ISO (direct method)..."
     
     if curl -L --connect-timeout 15 --max-time 300 --fail --progress-bar \
         "http://tinycorelinux.net/15.x/x86/release/TinyCore-current.iso" \
