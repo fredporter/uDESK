@@ -234,8 +234,29 @@ test_and_launch_udos() {
     fi
 }
 
+# Function to detect platform
+detect_platform() {
+    # Check environment variable first (set by platform installers)
+    if [ "$UDESK_PLATFORM" = "macos" ]; then
+        echo "macos"
+        return
+    fi
+    
+    # Check if running on macOS
+    if [[ "$OSTYPE" == "darwin"* ]]; then
+        echo "macos"
+    elif [[ "$OSTYPE" == "linux-gnu"* ]]; then
+        echo "linux"
+    elif [[ "$OSTYPE" == "msys" || "$OSTYPE" == "cygwin" ]]; then
+        echo "windows"
+    else
+        echo "unknown"
+    fi
+}
+
 # Function to launch Tauri app
 launch_tauri_app() {
+    local is_macos=${1:-false}
     echo ""
     echo "🎨 Launching Modern Tauri Interface..."
     
@@ -264,8 +285,41 @@ launch_tauri_app() {
             fi
         fi
         
-        # Launch Tauri app in development mode
-        echo "🚀 Starting Tauri desktop app..."
+        # On macOS, build production app for dock integration
+        if [ "$is_macos" = "true" ]; then
+            echo "🍎 macOS detected - building production app with dock icon..."
+            echo "   This may take a few minutes but gives you a proper Mac app!"
+            
+            if command -v npm &> /dev/null; then
+                # Check if Rust is available for Tauri build
+                if command -v cargo &> /dev/null; then
+                    echo "🏗️  Building production Tauri app..."
+                    if npm run tauri:build; then
+                        echo "✅ Production app built successfully!"
+                        
+                        # Find and open the .app bundle
+                        APP_BUNDLE=$(find "target/release/bundle/macos/" -name "*.app" -type d 2>/dev/null | head -1)
+                        if [ -n "$APP_BUNDLE" ]; then
+                            echo "🚀 Opening production app with dock icon..."
+                            open "$APP_BUNDLE"
+                            echo "✅ uDESK app now available in dock and Applications!"
+                            return 0
+                        else
+                            echo "⚠️  App bundle not found - falling back to development mode"
+                        fi
+                    else
+                        echo "⚠️  Production build failed - falling back to development mode"
+                    fi
+                else
+                    echo "⚠️  Rust/Cargo not found - install for production builds"
+                    echo "   curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh"
+                    echo "   Falling back to development mode..."
+                fi
+            fi
+        fi
+        
+        # Launch Tauri app in development mode (fallback or non-macOS)
+        echo "🚀 Starting Tauri desktop app (development mode)..."
         if command -v npm &> /dev/null; then
             # Check if tauri is available
             if npm run tauri --version &> /dev/null; then
@@ -388,11 +442,24 @@ echo "  ./udesk-app             - Quick launcher command"
 # Test and launch uDOS (if not called from platform installer)
 if [ "$3" != "--skip-auto-launch" ]; then
     test_and_launch_udos
-    launch_tauri_app
+    
+    # Detect platform and launch Tauri with appropriate mode
+    platform=$(detect_platform)
+    if [ "$platform" = "macos" ]; then
+        launch_tauri_app true
+    else
+        launch_tauri_app false
+    fi
     
     echo ""
     echo "📚 Documentation: https://github.com/fredporter/uDESK"
     echo "🔧 To run uDOS again: cd ~/uDESK && ./build/wizard/udos-wizard"
     echo "🎨 To run Tauri GUI: cd ~/uDESK && ./launch-tauri.sh"
+    
+    # Show macOS-specific message if production build was attempted
+    if [ "$(detect_platform)" = "macos" ]; then
+        echo "🍎 macOS: Production app with dock icon was built during installation!"
+        echo "   Look for uDESK in your dock or Applications folder"
+    fi
     echo "🏗️  For dock icon: cd ~/uDESK && ./launch-tauri.sh --build"
 fi

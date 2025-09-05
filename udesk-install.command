@@ -5,6 +5,10 @@
 # Make sure we exit on any error
 set -e
 
+# Set macOS flag for installer
+export UDESK_PLATFORM="macos"
+export UDESK_INSTALLER_SOURCE="command"
+
 # Clear screen and show banner
 clear
 echo "🍎 uDESK Mac Installer v1.0.7.2"
