@@ -36,16 +36,21 @@ uDESK-Windows.bat
 
 ### **Three Clear Modes:**
 - **👤 User Mode**: Standard users (all roles: GHOST → WIZARD)
-- **🧙‍♀️ Wizard+ Mode**: WIZARD role with Plus Mode capabilities  
-- **🔧 Developer Mode**: Core system developers (us)
+- **🧙‍♀️ Wizard Mode**: Unified wizard with Plus/Dev capabilities  
+- **🔧 Dev Mode**: Legacy developer mode (deprecated)
 
 ### **Mode Commands:**
 ```bash
-./build.sh user        # User Mode build
-./build.sh wizard-plus # Wizard+ Mode build  
-./build.sh developer   # Developer Mode build
-./build.sh iso         # TinyCore ISO generation
+./installers/build.sh user    # User Mode build
+./installers/build.sh wizard  # Wizard Mode build  
+./installers/build.sh dev     # Legacy dev mode build
+./installers/build.sh iso     # TinyCore ISO generation
 ```
+
+### **Wizard Mode Features:**
+- **[PLUS-MODE]**: Extension development in `~/uDESK/uMEMORY/sandbox/`
+- **[DEV-MODE]**: Core system development in `~/uDESK/dev/` (restricted)
+- **Unified Interface**: Single wizard with role-based capabilities
 
 ---
 

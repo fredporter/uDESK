@@ -53,10 +53,10 @@
                 }
             },
             {
-                "label": "Build Developer Mode",
+                "label": "Build Wizard Mode",
                 "type": "shell",
-                "command": "./build.sh",
-                "args": ["developer"],
+                "command": "./installers/build.sh",
+                "args": ["wizard"],
                 "group": {
                     "kind": "build",
                     "isDefault": true

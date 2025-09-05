@@ -49,17 +49,18 @@ show_build_art() {
             echo "    Standard interface for all roles"
             echo "    GHOST → TOMB → DRONE → CRYPT → IMP → KNIGHT → SORCERER → WIZARD"
             ;;
-        "wizard-plus")
-            echo "    🧙‍♀️ WIZARD+ MODE"
+        "wizard")
+            echo "    🧙‍♀️ WIZARD MODE"
             echo "    ═══════════════"
-            echo "    Extension development for WIZARD role"
-            echo "    Plus Mode: Advanced capabilities unlocked"
+            echo "    Unified wizard with dev capabilities"
+            echo "    Plus Mode: Extension development"
+            echo "    Dev Mode: Core system development (restricted to ~/uDESK/dev)"
             ;;
-        "developer")
-            echo "    🔧 DEVELOPER MODE"
-            echo "    ═════════════════"
-            echo "    Core system development toolkit"
-            echo "    Full system access and modification"
+        "dev")
+            echo "    🔧 DEV MODE"
+            echo "    ═══════════════"
+            echo "    Legacy developer mode (deprecated)"
+            echo "    Use 'wizard' mode with [DEV-MODE] instead"
             ;;
         "iso")
             echo "    💿 ISO BUILD MODE"
@@ -180,15 +181,15 @@ run_setup_wizard() {
     echo "🎯 Select your preferred mode:"
     echo ""
     echo "   1) 👤 User Mode      - Standard interface (recommended)"
-    echo "   2) 🧙‍♀️ Wizard+ Mode   - Extension development (WIZARD role only)"
-    echo "   3) 🔧 Developer Mode - Core system development"
+    echo "   2) 🧙‍♀️ Wizard Mode    - Unified wizard with dev capabilities"
+    echo "   3) 🔧 Dev Mode       - Legacy dev mode (use wizard mode instead)"
     echo ""
     read -p "Choose mode (1-3) [1]: " mode_choice
     
     case ${mode_choice:-1} in
         1) UDESK_DEFAULT_MODE="user" ;;
-        2) UDESK_DEFAULT_MODE="wizard-plus" ;;
-        3) UDESK_DEFAULT_MODE="developer" ;;
+        2) UDESK_DEFAULT_MODE="wizard" ;;
+        3) UDESK_DEFAULT_MODE="dev" ;;
         *) UDESK_DEFAULT_MODE="user" ;;
     esac
     
@@ -259,12 +260,12 @@ interactive_mode_selection() {
     echo "                         Access: User workspace only"
     echo "                         Commands: [BACKUP], [RESTORE], [INFO], [HELP]"
     echo ""
-    echo "   2) 🧙‍♀️ Wizard+ Mode   - WIZARD role users"
-    echo "                         Access: User space + Plus Mode capabilities"
-    echo "                         Commands: [PLUS-MODE], [CREATE-EXT], [BUILD-TCZ]"
+    echo "   2) 🧙‍♀️ Wizard Mode     - Unified wizard with dev capabilities"
+    echo "                         Access: User space + Plus/Dev Mode capabilities"
+    echo "                         Commands: [PLUS-MODE], [DEV-MODE], [CREATE-EXT], [BUILD-TCZ]"
     echo ""
-    echo "   3) 🔧 Developer Mode - Core system developers"
-    echo "                         Access: Full system modification"
+    echo "   3) 🔧 Dev Mode        - Legacy developer mode (deprecated)"
+    echo "                         Access: Dev workspace only"
     echo "                         Commands: [BUILD-CORE], [BUILD-ISO], [SYSTEM-INFO]"
     echo ""
     echo "   4) 💿 ISO Build      - Bootable TinyCore image"
@@ -283,8 +284,8 @@ interactive_mode_selection() {
     
     case ${choice} in
         1) BUILD_MODE="user" ;;
-        2) BUILD_MODE="wizard-plus" ;;
-        3) BUILD_MODE="developer" ;;
+        2) BUILD_MODE="wizard" ;;
+        3) BUILD_MODE="dev" ;;
         4) BUILD_MODE="iso" ;;
         5) BUILD_MODE="test" ;;
         6) BUILD_MODE="clean" ;;
@@ -359,21 +360,20 @@ show_tips() {
                 echo "   • Repository synced automatically in uDESK/repository/"
                 echo "   • Workspace available in uMEMORY/"
                 ;;
-            "wizard-plus")
-                echo "   • Type [PLUS-MODE] to unlock extension development features"
-                echo "   • Use [CREATE-EXT] to build your own extensions"
+            "wizard")
+                echo "   • Use [PLUS-MODE] for extension development in user workspace"
+                echo "   • Use [DEV-MODE] for core development (from ~/uDESK/dev only)"
+                echo "   • Type [CREATE-EXT] to build your own extensions"
                 echo "   • Share your extensions with the community"
-                echo "   • WIZARD role required for full access"
-                echo "   • Latest code available in uDESK/repository/"
-                echo "   • Workspace available in uMEMORY/"
+                echo "   • WIZARD role with flexible capabilities"
+                echo "   • User workspace: ~/uDESK/uMEMORY/sandbox/"
+                echo "   • Dev workspace: ~/uDESK/dev/"
                 ;;
-            "developer")
-                echo "   • Use [BUILD-CORE] to compile all system components"
-                echo "   • Test changes with [SYSTEM-INFO] before deployment"
-                echo "   • Remember: With great power comes great responsibility!"
-                echo "   • Access to full system modification capabilities"
-                echo "   • Repository automatically updated on each build"
-                echo "   • Workspace available in uMEMORY/"
+            "dev")
+                echo "   • Legacy developer mode (deprecated)"
+                echo "   • Use 'wizard' mode with [DEV-MODE] instead"
+                echo "   • Limited to dev workspace: ~/uDESK/dev/"
+                echo "   • Use [BUILD-CORE] to compile system components"
                 ;;
         esac
         echo ""
@@ -391,13 +391,17 @@ show_launch_options() {
             echo "   Terminal:      ./build/user/udos"
             echo "   Test:          echo \"HELP\" | ./build/user/udos"
             ;;
-        "wizard-plus")
-            echo "   Terminal:      UDESK_ROLE=WIZARD ./build/wizard-plus/udos-wizard-plus"
-            echo "   Test:          echo \"[HELP]\" | UDESK_ROLE=WIZARD ./build/wizard-plus/udos-wizard-plus"
+        "wizard")
+            echo "   Terminal:      UDESK_ROLE=WIZARD ./dev/udos-wizard"
+            echo "   Test:          echo \"[HELP]\" | UDESK_ROLE=WIZARD ./dev/udos-wizard"
             ;;
-        "developer")
-            echo "   Terminal:      ./build/developer/udos-developer"
-            echo "   Test:          echo \"[HELP]\" | ./build/developer/udos-developer"
+        "dev")
+            echo "   Terminal:      ./dev/udos-dev"
+            echo "   Test:          echo \"[HELP]\" | ./dev/udos-dev"
+            ;;
+        "iso")
+            echo "   ISO Ready:     build/iso/udesk.tcz"
+            echo "   TinyCore:      Load udesk.tcz in TinyCore Linux"
             ;;
         "iso")
             echo "   ISO Ready:     build/iso/udesk.tcz"

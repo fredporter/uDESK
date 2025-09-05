@@ -17,10 +17,11 @@ Thumbs.db
 # Build Artifacts & Dependencies
 # -------------------------------
 build/user/
-build/wizard-plus/
-build/developer/
 build/clean-udos/
 build/uDOS-core/
+dev/udos-wizard
+dev/udos-dev
+dev/udos
 *.tcz
 *.tce
 *.deb
