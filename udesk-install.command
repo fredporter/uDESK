@@ -35,7 +35,7 @@ echo "📚 Documentation: https://github.com/fredporter/uDESK"
 echo "🔧 To run uDOS again: cd ~/uDESK && ./build/user/udos"
 echo ""
 echo "Press any key to close this installer..."
-read -n 1 -s2
+read -n 1 -s
 
 # Make sure we exit on any error
 set -e
@@ -72,6 +72,7 @@ if [ -d "$HOME/uDESK" ]; then
             read -p "Are you sure? This will delete ~/uDESK completely (y/N): " confirm
             if [[ $confirm =~ ^[Yy]$ ]]; then
                 echo "🗑️  Removing existing uDESK directory..."
+                cd "$HOME"  # Change to safe directory before deletion
                 rm -rf "$HOME/uDESK"
                 echo "✅ Directory removed"
             else
