@@ -226,10 +226,10 @@ test_and_launch_udos() {
         ./build/user/udos || echo "⚠️  uDOS exited"
     else
         echo "⚠️  uDOS binary not found, trying build..."
-        if [ -f "$HOME/uDESK/dev/build.sh" ]; then
+        if [ -f "$HOME/uDESK/build.sh" ]; then
             echo "🔨 Building uDOS (Wizard Mode for first-time setup)..."
             cd "$HOME/uDESK"
-            bash dev/build.sh wizard
+            bash build.sh wizard
             if [ -f "build/wizard/udos-wizard" ]; then
                 echo "✅ Build successful - launching Wizard Mode..."
                 echo ""
