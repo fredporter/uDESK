@@ -7,12 +7,14 @@ set -e
 echo "🚀 uDESK Bootstrap Installer v1.0.7.2"
 echo "====================================="
 
-# Create/update the unified uDESK directory
-if [ -d "$HOME/uDESK/.git" ]; then
+# Check if we're already in a uDESK directory (called from installer)
+if [ -f "udesk-install.command" ] && [ -d ".git" ]; then
+    echo "✓ uDESK installation ready"
+elif [ -d "$HOME/uDESK/.git" ]; then
     echo "✓ uDESK found - updating repository..."
     cd "$HOME/uDESK" && git pull
 else
-    echo "📦 Installing uDESK to uDESK..."
+    echo "📦 Installing uDESK to ~/uDESK..."
     git clone https://github.com/fredporter/uDESK.git "$HOME/uDESK"
     cd "$HOME/uDESK"
 fi

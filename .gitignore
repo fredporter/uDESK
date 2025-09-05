@@ -39,8 +39,9 @@ app/.vite-temp/
 
 # ISO Files & VM Images
 # ---------------------
-*.iso
+# ISO Files & VM Images  
 *.img
+*.iso
 *.vmdk
 *.vdi
 *.qcow2
@@ -101,6 +102,8 @@ ai-*.log
 TinyCore-*.iso
 CorePlus-*.iso
 Core-*.iso
+# Allow bundled TinyCore ISO for installation
+!iso/current/TinyCore-current.iso
 tce/
 mydata.tgz
 *.filetool.lst

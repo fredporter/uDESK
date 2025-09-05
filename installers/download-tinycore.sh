@@ -4,7 +4,34 @@
 
 set -e
 
-ISO_DIR="$HOME/uDESK/iso/current"
+ISO_DIR="$echo ""
+echo "💥 All mirrors failed - trying direct download..."
+echo "🔄 Using working curl command..."
+
+# Try the direct command that works
+if curl -L --connect-timeout 15 --max-time 300 --fail --progress-bar \
+    "http://tinycorelinux.net/15.x/x86/release/TinyCore-current.iso" \
+    -o "$ISO_DIR/TinyCore-current.iso.tmp"; then
+    
+    echo "✅ Direct download successful!"
+    mv "$ISO_DIR/TinyCore-current.iso.tmp" "$ISO_DIR/TinyCore-current.iso"
+    echo "📂 Location: $ISO_DIR/TinyCore-current.iso"
+    exit 0
+fi
+
+echo ""
+echo "💥 All download methods failed - unable to download TinyCore ISO"
+echo ""
+echo "Options:"
+echo "1) Continue without TinyCore ISO (uDESK will work without it)"
+echo "2) Retry download"  
+echo "3) Exit and manually download"
+echo ""
+echo "🔧 Manual download instructions:"
+echo "   - Download from: http://tinycorelinux.net/downloads.html"
+echo "   - Place file as: $ISO_DIR/TinyCore-current.iso"
+echo ""
+read -p "Enter choice (1-3): " choiceo/current"
 ARCHIVE_DIR="$HOME/uDESK/iso/archive"
 
 # Comprehensive TinyCore mirror list with geographic diversity

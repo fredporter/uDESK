@@ -7,22 +7,26 @@ set -e
 echo "🔧 uDESK Setup & Health Check v1.0.7.2"
 echo "======================================="
 
-# Define essential directory structure
-declare -A ESSENTIAL_DIRS=(
-    ["$HOME/uDESK"]="uDESK root directory"
-    ["$HOME/uDESK/iso/current"]="TinyCore ISO storage"
-    ["$HOME/uDESK/iso/archive"]="TinyCore ISO archive"
-    ["$HOME/uDESK/uMEMORY"]="Embedded uMEMORY workspace"
-    ["$HOME/uDESK/uMEMORY/.local/logs"]="Application logs (XDG)"
-    ["$HOME/uDESK/uMEMORY/.local/backups"]="User backups (XDG)"
-    ["$HOME/uDESK/uMEMORY/.local/state"]="Session state (XDG)"
-    ["$HOME/uDESK/uMEMORY/sandbox"]="User workspace"
-    ["$HOME/uDESK/uMEMORY/sandbox/projects"]="User projects"
-    ["$HOME/uDESK/uMEMORY/sandbox/drafts"]="Draft workspace"
-    ["$HOME/uDESK/uMEMORY/sandbox/experiments"]="Experimental workspace"
-    ["$HOME/uDESK/runtime"]="Runtime files"
-    ["$HOME/uDESK/logs"]="uDESK system logs"
-)
+# Simple directory creation
+echo "📁 Setting up workspace structure..."
+mkdir -p "$HOME/uDESK/iso/current"
+mkdir -p "$HOME/uDESK/iso/archive"
+mkdir -p "$HOME/uDESK/uMEMORY/.local/logs"
+mkdir -p "$HOME/uDESK/uMEMORY/.local/backups"
+mkdir -p "$HOME/uDESK/uMEMORY/.local/state"
+mkdir -p "$HOME/uDESK/uMEMORY/sandbox/projects"
+mkdir -p "$HOME/uDESK/uMEMORY/sandbox/drafts"
+mkdir -p "$HOME/uDESK/uMEMORY/sandbox/experiments"
+mkdir -p "$HOME/uDESK/runtime"
+mkdir -p "$HOME/uDESK/logs"
+
+echo "📀 Checking TinyCore ISO..."
+if [ ! -f "$HOME/uDESK/iso/current/TinyCore-current.iso" ]; then
+    echo "📥 Downloading TinyCore ISO..."
+    bash "$HOME/uDESK/installers/download-tinycore.sh"
+else
+    echo "✅ TinyCore ISO found"
+fi
 
 # Define essential files that should exist
 declare -A ESSENTIAL_FILES=(

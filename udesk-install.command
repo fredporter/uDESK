@@ -1,6 +1,41 @@
 #!/bin/bash
 # uDESK Mac Desktop Installer (.command file)
-# Double-click from Finder to install uDESK v1.0.7.2
+# Double-click from Finder to instalecho ""
+echo "🎉 Installation Complete!"
+echo ""
+echo "📂 Your unified uDESK installation:"
+echo "   Complete system: ~/uDESK/"
+echo "   User workspace:  ~/uDESK/uMEMORY/sandbox/"
+echo "   ISOs:           ~/uDESK/iso/"
+echo ""
+echo "🔧 Testing installation..."
+cd "$HOME/uDESK"
+
+if [ -f "build/user/udos" ]; then
+    echo "✅ uDOS found - launching..."
+    echo ""
+    echo "=== Starting uDOS ==="
+    ./build/user/udos || echo "⚠️  uDOS exited"
+else
+    echo "⚠️  uDOS binary not found, trying build..."
+    if [ -f "build.sh" ]; then
+        echo "🔨 Building uDOS..."
+        bash build.sh user
+        if [ -f "build/user/udos" ]; then
+            echo "✅ Build successful - launching uDOS..."
+            echo ""
+            echo "=== Starting uDOS ==="
+            ./build/user/udos || echo "⚠️  uDOS exited"
+        fi
+    fi
+fi
+
+echo ""
+echo "📚 Documentation: https://github.com/fredporter/uDESK"
+echo "🔧 To run uDOS again: cd ~/uDESK && ./build/user/udos"
+echo ""
+echo "Press any key to close this installer..."
+read -n 1 -s2
 
 # Make sure we exit on any error
 set -e
