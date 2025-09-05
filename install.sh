@@ -28,14 +28,9 @@ mkdir -p "$HOME/uDESK/uMEMORY/.local/state"
 mkdir -p "$HOME/uDESK/iso/current"
 mkdir -p "$HOME/uDESK/iso/archive"
 
-# Download TinyCore ISO with mirror fallback
+# Skip TinyCore ISO download - handled by main installer with direct curl
 echo ""
-echo "📀 Checking TinyCore ISO..."
-if [ -f "$HOME/uDESK/installers/download-tinycore.sh" ]; then
-    bash "$HOME/uDESK/installers/download-tinycore.sh"
-else
-    echo "⚠️  TinyCore downloader not found - will be available after repository setup"
-fi
+echo "📀 TinyCore ISO download skipped (handled by main installer)"
 
 # Run comprehensive health check and setup
 echo ""
