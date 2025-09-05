@@ -1,4 +1,4 @@
-# uDESK v1.0.7 Style Guide
+# uDESK v1.0.7.2 Style Guide
 
 ## uDESK Capitalization Standards
 
@@ -12,7 +12,7 @@ uSCRIPT  uKNOWLEDGE       # Core system modules
 # uHEX     uWORK    uBRIEF  uDEV      uREPORT  uTASK
 ```
 
-### System Architecture (v1.0.7)
+### System Architecture (v1.0.7.2)
 ```
 Build Modes:     user, wizard, developer, iso
 Platforms:       macOS, Ubuntu, Windows
@@ -20,16 +20,19 @@ Desktop App:     Tauri-based cross-platform application
 Extensions:      Mode-aware extension system
 ```
 
-### ⌨️ **Command Syntax (uCODE v1.0.7)**
+### ⌨️ **Command Syntax (uCODE v1.0.7.2)**
 
 #### **CLI Context (Terminal/uSCRIPT)**
 ```ucode
-# Direct commands - case insensitive input, UPPERCASE output
-help                          ~ Show general help
-HELP                          ~ System responds in UPPERCASE
-backup create full            ~ Create full backup
-MEMORY SEARCH term            ~ Search for files
-CONFIG SET THEME DARK         ~ Set theme to dark mode
+# Direct commands - case insensitive input, system responds with CAPS commands in sentence case
+help                          ~ User types (case insensitive)
+HELP commands available       ~ System responds: CAPS commands, sentence case text
+backup create full            ~ User input
+BACKUP created successfully   ~ System response
+memory search term            ~ User input  
+MEMORY search completed       ~ System response
+config set theme dark         ~ User input
+CONFIG updated successfully   ~ System response
 ```
 
 #### **Documentation Context (Markdown/Shortcodes)**
@@ -49,17 +52,26 @@ CONFIG SET THEME DARK         ~ Set theme to dark mode
 
 #### **UPPERCASE Rules**
 ```ucode
-# Commands, options, variables, functions: ALL CAPS
-HELP BACKUP                   ~ Commands in UPPERCASE
-CONFIG SET {THEME-NAME} DARK  ~ Variables and options in CAPS
-RUN <BACKUP-SCRIPT|FULL>      ~ Functions in CAPS with parameters
-EXIT CONFIG ROLE THEME        ~ Shell commands also in CAPS for consistency
+# COMMANDS, VARIABLES, FUNCTIONS: CAPS in output
+HELP                          ~ Commands always CAPS in output
+BACKUP                        ~ Commands always CAPS in output  
+CONFIG                        ~ Commands always CAPS in output
+{USER-NAME}                   ~ Variables always CAPS in output
+<BACKUP-SCRIPT>               ~ Functions always CAPS in output
 
-# Regular text: Sentence case
-To create a backup, use the BACKUP command.
-Press ENTER to continue with the operation.
-Your current role is {ROLE} in the system.
-Type EXIT to quit the application.
+# All other text: Sentence case
+HELP commands available       ~ COMMAND + sentence case description
+BACKUP created successfully   ~ COMMAND + sentence case status
+CONFIG updated for user       ~ COMMAND + sentence case message
+MODE set to developer         ~ COMMAND + sentence case description
+Current ROLE is WIZARD        ~ Sentence case + CAPS variable
+
+# Examples of correct output format:
+BUILD completed successfully for user mode
+CONFIG theme updated to dark mode  
+MEMORY search found 5 results
+STATUS check completed without errors
+ROLE detected as WIZARD with full permissions
 ```
 
 ### 🔧 **Variable Naming (v1.0.7)**
@@ -158,11 +170,18 @@ HELP                          ~ End-of-line comment
 --black:   #000000    /* tput 16  - Pure Black */
 ```
 
-### Examples (v1.0.7)
+### Examples (v1.0.7.2)
 ```bash
-# ✅ Correct uDESK v1.0.7 formatting
-Usage: udesk COMMAND OPTIONS                   ~ Commands in UPPERCASE
-Help:  udesk HELP COMMAND                      ~ Commands in UPPERCASE
+# ✅ Correct uDESK v1.0.7.2 formatting
+Usage: udesk COMMAND options                   ~ COMMANDS in CAPS, other text sentence case
+Help:  udesk HELP command                      ~ COMMANDS in CAPS
+
+System Output Examples:
+BUILD completed successfully                   ~ COMMAND + sentence case
+CONFIG updated for theme setting              ~ COMMAND + sentence case  
+MODE set to developer                         ~ COMMAND + sentence case
+ROLE detected as WIZARD                       ~ VARIABLE + sentence case
+STATUS ready for commands                     ~ COMMAND + sentence case
 
 Commands:
   BUILD        Build system in specified mode
@@ -176,21 +195,21 @@ Variables:
   {PROJECT-PATH}    Current project directory
 
 Examples:
-  udesk build user                    ~ Build user mode
-  udesk config set theme dark         ~ Set dark theme
-  udesk ext install {EXTENSION-NAME}  ~ Install extension
+  udesk build user                    ~ User input (case insensitive)
+  BUILD started for user mode         ~ System output (COMMAND + sentence)
+  udesk config set theme dark         ~ User input
+  CONFIG theme updated successfully   ~ System output
+  udesk ext install {EXTENSION-NAME}  ~ User input with VARIABLE
+  EXT installation completed          ~ System output
 
 # ❌ Incorrect formatting
-Usage: udesk command options          ~ Should be: COMMAND OPTIONS
-Help:  udesk help command            ~ Should be: HELP COMMAND
-Variables: {user-name}               ~ Should be: {USER-NAME}
-
-# Don't use quotes unnecessarily  
-"Press ENTER to continue"            ~ Should be: Press ENTER to continue
-Use "CONFIG SET" command             ~ Should be: Use CONFIG SET command
+BUILD COMPLETED SUCCESSFULLY          ~ Should be: BUILD completed successfully
+config updated                       ~ Should be: CONFIG updated
+Help Commands Available              ~ Should be: HELP commands available
+Mode Set To Developer                ~ Should be: MODE set to developer
 ```
 
-## Code Style Guidelines (v1.0.7)
+## Code Style Guidelines (v1.0.7.2)
 
 ### Cross-Platform Shell Scripts
 - Use `#!/bin/bash` for unified build system compatibility
@@ -217,7 +236,7 @@ case "$(uname)" in
 esac
 ```
 
-### File Naming Conventions (v1.0.7)
+### File Naming Conventions (v1.0.7.2)
 - Shell scripts: lowercase with hyphens (`build-system.sh`, platform launchers)
 - Documentation: uppercase with hyphens (`README.md`, `BUILD.md`, `USER-CODE-MANUAL.md`)
 - Rust/Tauri files: snake_case (`main.rs`, `tauri.conf.json`)
@@ -225,7 +244,7 @@ esac
 - Configuration files: lowercase (`config.json`, `.gitignore`)
 - Platform launchers: descriptive with extensions (`.command`, `.sh`, `.bat`)
 
-### Documentation Style (v1.0.7)
+### Documentation Style (v1.0.7.2)
 - Use clear, concise headers
 - Include examples for all commands
 - Document cross-platform differences
@@ -274,32 +293,32 @@ esac
 - Use modern ES6+ features
 - Follow Tauri frontend patterns
 
-### Directory Structure (v1.0.7)
+### Directory Structure (v1.0.7.2)
 ```
-/core/docs          - Core documentation
-/core/docs/dev      - Developer documentation  
-/core/config        - System configuration
+/docs               - Core documentation
+/docs/dev           - Developer documentation  
+/src                - Source code
 /uCORE              - Core runtime system
 /uMEMORY            - Memory management
 /uNETWORK           - Network operations
 /uSCRIPT            - Script execution
 /uKNOWLEDGE         - Knowledge management
-/app             - Tauri desktop application
-/app/tauri       - Tauri backend (Rust)
-/extensions         - Extension system
+/app                - Tauri desktop application
+/app/tauri          - Tauri backend (Rust)
+/system             - System components
+/system/tc          - TinyCore integration
 /build              - Build artifacts
-/usr                - User data and configurations
 ```
 
-### Version Control (v1.0.7)
+### Version Control (v1.0.7.2)
 - Use conventional commit messages
 - Keep commits atomic and focused
-- Tag releases with semantic versioning (v1.0.7+)
+- Tag releases with semantic versioning (v1.0.7.2+)
 - Maintain clean git history
 - Document cross-platform testing in commits
 - Include platform-specific changes in commit messages
 
-### Testing (v1.0.7)
+### Testing (v1.0.7.2)
 - Test unified build system on all platforms
 - Validate cross-platform compatibility
 - Test desktop application builds
@@ -307,7 +326,7 @@ esac
 - Validate mode switching operations
 - Document test procedures for each platform
 
-## Command Line Interface Standards (v1.0.7)
+## Command Line Interface Standards (v1.0.7.2)
 
 ### Help Messages
 - Always provide `--help` option
@@ -324,16 +343,26 @@ esac
 - 126: Command not executable
 - 127: Command not found
 
-### Output Format (v1.0.7)
-- Use consistent icons and formatting
+### Output Format (v1.0.7.2)
+- Use CAPS for COMMANDS, VARIABLES, FUNCTIONS in system output
+- Use sentence case for all descriptive text and status messages
 - Provide progress indicators for build operations
 - Use colors appropriately (with fallbacks for Windows)
 - Keep output concise but informative
 - Include platform detection information
 - Show current mode in status outputs
 
+Example outputs:
+```
+BUILD started for user mode
+CONFIG theme updated successfully  
+STATUS check completed
+ROLE detected as WIZARD
+ERROR command not found
+```
+
 ### Mode-Specific Behaviors
 - **User Mode**: Simple, essential commands only
-- **Wizard Role**: Highest user role with extension development
+- **Wizard Mode**: Highest user role with extension development capabilities
 - **Developer Mode**: Full command set with detailed output
 - **ISO Mode**: Specialized bootable system creation
