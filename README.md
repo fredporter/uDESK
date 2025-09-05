@@ -23,12 +23,41 @@ uDESK provides TinyCore Linux integration for **uDOS (Universal Device Operating
 ./udesk-install-windows.bat
 ```
 
-> 💡 **All launchers now include:**
-> - Interactive startup menu with 6 options
-> - Modern Tauri GUI with automated setup
-> - Terminal interface for power users
-> - Built-in dependency installation
-> - Documentation and help system
+> 💡 **Enhanced v1.0.7.2 Features:**
+> - **uCODE Standard Input**: Case-insensitive partial matching ([YES|NO] accepts "y", "yes", "n", "no")
+> - **Consolidated Architecture**: Single install.sh with all logic, platform wrappers are lightweight
+> - **Direct Downloads**: Reliable curl-based TinyCore ISO downloads bypassing failing mirrors
+>  - **Modern Installation**: User-local (~/.local/bin) approach without sudo requirements
+> - **Interactive Prompts**: Smart uCODE parsing for [UPDATE|DESTROY|CANCEL] and [YES|NO] inputs
+
+## 🏗️ **Installation Architecture**
+
+### **Consolidated Design (v1.0.7.2)**
+All platform installers are lightweight wrappers that call the core `install.sh`:
+
+```
+Platform Installers (Lightweight Wrappers)
+├── udesk-install.command        # macOS: Xcode CLI tools check
+├── udesk-install-linux.sh       # Linux: Build tools installation  
+└── udesk-install-windows.bat    # Windows: WSL requirement check
+            ↓
+Core Installation Logic
+└── install.sh                   # All installation logic with uCODE input parsing
+```
+
+### **uCODE Input System**
+Smart case-insensitive partial matching for user inputs:
+- **[YES|NO]**: Accepts "y", "yes", "n", "no", "Y", "YES", etc.
+- **[UPDATE|DESTROY|CANCEL]**: Accepts "up", "dest", "can", "update", etc.
+- **Error Handling**: Invalid inputs prompt retry with examples
+
+### **Modern Installation Approach**
+- **User-Local**: Installs to `~/.local/bin` (no sudo required)
+- **Direct Downloads**: Bypasses failing mirror system with curl
+- **Prerequisite Detection**: Automatic build tool installation per platform
+- **Clean Structure**: Single source of truth with platform-specific setup
+
+---
 
 ## 🎯 **New Architecture**
 
@@ -110,21 +139,23 @@ udos help                             # Show all commands (if installed)
 
 ```
 uDESK/
-├── app/          # Modern Tauri application
-│   ├── src/                # React frontend
-│   ├── tauri/              # Rust backend
-│   └── package.json        # Node.js dependencies
-├── system/                 # System components
-│   └── tinycore/           # TinyCore integration
-├── build/                  # Build outputs
-│   ├── user/               # User mode binaries
-│   ├── wizard/             # Wizard role binaries
-│   └── developer/          # Developer mode binaries
-├── build.sh                # Unified build system
-├── install.sh              # System installer
-├── udesk-install.command        # macOS installer
-├── udesk-install-linux.sh       # Linux installer  
-└── udesk-install-windows.bat    # Windows installer
+├── app/                         # Modern Tauri application
+│   ├── src/                    # React frontend
+│   ├── tauri/                  # Rust backend
+│   └── package.json            # Node.js dependencies
+├── system/                      # System components
+│   └── tinycore/               # TinyCore Linux integration files
+│       ├── build-tcz.sh       # TCZ package build script
+│       ├── udesk.desktop      # Desktop entry
+│       └── udesk.tcz.*        # Package metadata
+├── build/                       # Build outputs
+│   ├── user/                   # User mode binaries
+│   ├── wizard/                 # Wizard role binaries
+│   └── developer/              # Developer mode binaries
+├── install.sh                   # Core installer (all platforms)
+├── udesk-install.command        # macOS installer wrapper
+├── udesk-install-linux.sh       # Linux installer wrapper
+└── udesk-install-windows.bat    # Windows installer wrapper
 ```
 
 ## 🌟 Key Features
