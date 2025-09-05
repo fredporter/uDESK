@@ -204,16 +204,18 @@ test_and_launch_udos() {
         ./build/user/udos || echo "⚠️  uDOS exited"
     else
         echo "⚠️  uDOS binary not found, trying build..."
-        if [ -f "$HOME/uDESK/build.sh" ]; then
+        if [ -f "$HOME/uDESK/dev/build.sh" ]; then
             echo "🔨 Building uDOS..."
             cd "$HOME/uDESK"
-            bash build.sh user
+            bash dev/build.sh user
             if [ -f "build/user/udos" ]; then
                 echo "✅ Build successful - launching uDOS..."
                 echo ""
                 echo "=== Starting uDOS ==="
                 ./build/user/udos || echo "⚠️  uDOS exited"
             fi
+        else
+            echo "⚠️  Build script not found in dev/ - binaries may need manual compilation"
         fi
     fi
 }
@@ -245,16 +247,6 @@ mkdir -p "$HOME/uDESK/iso/archive"
 # Download TinyCore ISO (if not called from platform installer)
 if [ "$2" != "--skip-iso-download" ]; then
     download_tinycore_iso
-fi
-
-# Run comprehensive health check and setup (but skip the failing download parts)
-echo ""
-echo "🩺 Running health check and setup..."
-if [ -f "$HOME/uDESK/installers/setup.sh" ]; then
-    # Skip the problematic download parts in setup.sh
-    echo "📊 Running simplified health check..."
-else
-    echo "⚠️  Setup script not found - proceeding with legacy installation"
 fi
 
 # Modern repository-based installation (uDESK v1.0.7.2+)
