@@ -540,7 +540,7 @@ setup_workspace() {
     local workspace_dir="uMEMORY"
     local config_dir=".udesk"
     local home_dir="${HOME}/uDESK"
-    local memory_dir="${HOME}/uMEMORY"
+    local memory_dir="${HOME}/uDESK/uMEMORY"
     local repo_url="https://github.com/fredporter/uDESK.git"
     local repo_dir="${home_dir}/repository"
     
