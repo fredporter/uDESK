@@ -106,12 +106,12 @@ check_milestone_completion() {
         echo "📋 Workflow System: ${workflow_completed}/5 completed"
     fi
     
-    # CHESTER Desktop (TODO-011 to TODO-014)
-    local chester_completed=$(grep -E "TODO-01[1-4]:.*✅.*COMPLETED" "${TODO_FILE}" | wc -l | tr -d ' ')
-    if [[ "$chester_completed" == "4" ]]; then
-        echo "🎯 MILESTONE: CHESTER Desktop Complete!"
+    # CHEST Desktop (TODO-011 to TODO-014)
+    local chest_completed=$(grep -E "TODO-01[1-4]:.*✅.*COMPLETED" "${TODO_FILE}" | wc -l | tr -d ' ')
+    if [[ "$chest_completed" == "4" ]]; then
+        echo "🎯 MILESTONE: CHEST Desktop Complete!"
     else
-        echo "📋 CHESTER Desktop: ${chester_completed}/4 completed"
+        echo "📋 CHEST Desktop: ${chest_completed}/4 completed"
     fi
     
     # Infrastructure (TODO-015 to TODO-018)

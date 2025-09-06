@@ -1,0 +1,592 @@
+/* CHEST Desktop - TinyCore Linux Inspired Interface */
+
+.chest-desktop {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  font-family: var(--font-mono);
+  overflow: hidden;
+}
+
+/* Desktop Background */
+.desktop-background {
+  flex: 1;
+  background: var(--bg-primary);
+  background-image: 
+    radial-gradient(circle at 25% 25%, rgba(30, 144, 255, 0.05) 0%, transparent 50%),
+    radial-gradient(circle at 75% 75%, rgba(70, 130, 180, 0.03) 0%, transparent 50%);
+  position: relative;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Desktop Icons Grid */
+.desktop-icons {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 80px);
+  grid-template-rows: repeat(auto-fill, 100px);
+  gap: 20px;
+  padding: 20px;
+  align-content: start;
+}
+
+.desktop-icon {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: var(--border-radius);
+  transition: all 0.2s ease;
+  user-select: none;
+}
+
+.desktop-icon:hover {
+  background: rgba(30, 144, 255, 0.1);
+  transform: scale(1.05);
+}
+
+.desktop-icon:active {
+  transform: scale(0.95);
+}
+
+.icon-graphic {
+  font-size: 24px;
+  margin-bottom: 4px;
+  filter: drop-shadow(1px 1px 2px rgba(0, 0, 0, 0.3));
+}
+
+.icon-label {
+  font-size: 10px;
+  text-align: center;
+  color: var(--text-primary);
+  font-weight: 500;
+  max-width: 70px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Window System */
+.window-container {
+  position: absolute;
+  top: 50px;
+  left: 100px;
+  z-index: 100;
+  min-width: 600px;
+  min-height: 400px;
+}
+
+.window {
+  background: var(--bg-primary);
+  border: 2px solid var(--border-color);
+  border-radius: var(--border-radius);
+  box-shadow: 0 4px 12px var(--shadow-color);
+  display: flex;
+  flex-direction: column;
+  min-height: 400px;
+}
+
+.window-titlebar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: linear-gradient(to bottom, var(--accent-primary), var(--accent-secondary));
+  color: white;
+  padding: 8px 12px;
+  border-radius: var(--border-radius) var(--border-radius) 0 0;
+  font-size: 12px;
+  font-weight: bold;
+  cursor: move;
+}
+
+.window-title {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.window-controls {
+  display: flex;
+  gap: 4px;
+}
+
+.window-controls button {
+  width: 18px;
+  height: 18px;
+  border: none;
+  border-radius: 2px;
+  background: rgba(255, 255, 255, 0.8);
+  color: #333;
+  font-size: 12px;
+  font-weight: bold;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+}
+
+.window-controls button:hover {
+  background: rgba(255, 255, 255, 1);
+}
+
+.window-close:hover {
+  background: #ff4444 !important;
+  color: white;
+}
+
+.window-content {
+  flex: 1;
+  padding: 16px;
+  background: var(--bg-primary);
+  overflow: auto;
+}
+
+/* Terminal Window */
+.terminal-window {
+  background: #1a1a1a;
+  color: #00ff00;
+  font-family: var(--font-mono);
+  padding: 16px;
+  border-radius: 4px;
+  height: 100%;
+  overflow: auto;
+}
+
+.terminal-window pre {
+  color: #00ff00;
+  font-size: 10px;
+  line-height: 1.2;
+  margin-bottom: 16px;
+  white-space: pre;
+  overflow-x: auto;
+}
+
+.terminal-content {
+  font-family: var(--font-mono);
+  font-size: 14px;
+}
+
+.terminal-line {
+  margin: 2px 0;
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+
+.terminal-input-line {
+  display: flex;
+  align-items: center;
+  margin-top: 8px;
+}
+
+.terminal-prompt {
+  color: #00ff00;
+  font-family: var(--font-mono);
+  font-size: 14px;
+  margin-right: 8px;
+  flex-shrink: 0;
+}
+
+.terminal-input {
+  background: transparent;
+  border: none;
+  outline: none;
+  color: #00ff00;
+  font-family: var(--font-mono);
+  font-size: 14px;
+  flex: 1;
+  margin-right: 4px;
+}
+
+.cursor {
+  animation: blink 1s infinite;
+  color: #00ff00;
+}
+
+@keyframes blink {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0; }
+}
+
+/* Workflow Window */
+.workflow-window h3 {
+  color: var(--text-primary);
+  margin-bottom: 16px;
+  font-size: 16px;
+}
+
+.command-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 12px;
+}
+
+.workflow-cmd {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  padding: 12px 16px;
+  color: var(--text-primary);
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.workflow-cmd:hover {
+  background: var(--accent-primary);
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px var(--shadow-color);
+}
+
+/* Progress Window */
+.progress-window h3 {
+  color: var(--text-primary);
+  margin-bottom: 16px;
+  font-size: 16px;
+}
+
+.progress-stats {
+  background: var(--bg-secondary);
+  border-radius: var(--border-radius);
+  padding: 16px;
+}
+
+.stat-item {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  font-size: 14px;
+}
+
+.stat-label {
+  color: var(--text-secondary);
+}
+
+.stat-value {
+  color: var(--text-primary);
+  font-weight: bold;
+}
+
+.progress-bar {
+  width: 100%;
+  height: 20px;
+  background: #e0e0e0;
+  border-radius: 10px;
+  overflow: hidden;
+  margin-top: 12px;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(to right, var(--accent-primary), var(--accent-secondary));
+  transition: width 0.3s ease;
+}
+
+/* Files Window */
+.files-window h3 {
+  color: var(--text-primary);
+  margin-bottom: 16px;
+  font-size: 16px;
+}
+
+.file-tree {
+  background: var(--bg-secondary);
+  border-radius: var(--border-radius);
+  padding: 16px;
+}
+
+.folder, .file {
+  padding: 4px 8px;
+  margin: 2px 0;
+  border-radius: 2px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background 0.2s;
+}
+
+.folder:hover, .file:hover {
+  background: var(--accent-primary);
+  color: white;
+}
+
+/* Taskbar */
+.taskbar {
+  height: 40px;
+  background: linear-gradient(to bottom, var(--bg-secondary), var(--bg-primary));
+  border-top: 1px solid var(--border-color);
+  display: flex;
+  align-items: center;
+  padding: 0 8px;
+  gap: 8px;
+  box-shadow: 0 -2px 4px var(--shadow-color);
+}
+
+.start-menu {
+  flex-shrink: 0;
+}
+
+.start-button {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--accent-primary);
+  color: white;
+  padding: 6px 12px;
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: bold;
+  transition: all 0.2s ease;
+}
+
+.start-button:hover {
+  background: var(--accent-secondary);
+  transform: scale(1.05);
+}
+
+.start-icon {
+  font-size: 14px;
+}
+
+.start-text {
+  font-family: var(--font-mono);
+}
+
+.taskbar-apps {
+  flex: 1;
+  display: flex;
+  gap: 4px;
+  overflow-x: auto;
+}
+
+.taskbar-app {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px;
+  background: var(--bg-primary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  font-size: 11px;
+  transition: all 0.2s ease;
+  min-width: 80px;
+}
+
+.taskbar-app:hover {
+  background: var(--bg-secondary);
+}
+
+.taskbar-app.active {
+  background: var(--accent-primary);
+  color: white;
+  border-color: var(--accent-secondary);
+}
+
+.app-icon {
+  font-size: 12px;
+}
+
+.app-name {
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.system-tray {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 11px;
+  color: var(--text-secondary);
+}
+
+.system-stats {
+  display: flex;
+  gap: 8px;
+}
+
+.system-stats span {
+  padding: 2px 6px;
+  background: var(--bg-secondary);
+  border-radius: 2px;
+  font-family: var(--font-mono);
+}
+
+.system-time {
+  font-family: var(--font-mono);
+  font-weight: bold;
+  color: var(--text-primary);
+  padding: 4px 8px;
+  background: var(--bg-secondary);
+  border-radius: var(--border-radius);
+}
+
+/* TinyCore Theme Specific Styles */
+.theme-tinycore .chest-desktop {
+  --font-mono: 'DejaVu Sans Mono', 'Liberation Mono', 'Consolas', monospace;
+  background: linear-gradient(135deg, #f5f5f5 0%, #e8e8e8 100%);
+}
+
+.theme-tinycore .desktop-background {
+  background: 
+    radial-gradient(circle at 25% 25%, rgba(30, 144, 255, 0.08) 0%, transparent 60%),
+    radial-gradient(circle at 75% 75%, rgba(70, 130, 180, 0.06) 0%, transparent 60%),
+    linear-gradient(135deg, #f8f8f8 0%, #f0f0f0 50%, #e8e8e8 100%);
+}
+
+.theme-tinycore .desktop-icon {
+  background: rgba(255, 255, 255, 0.7);
+  border: 1px solid rgba(192, 192, 192, 0.5);
+  backdrop-filter: blur(4px);
+}
+
+.theme-tinycore .desktop-icon:hover {
+  background: rgba(30, 144, 255, 0.15);
+  border: 1px solid rgba(30, 144, 255, 0.4);
+  transform: scale(1.05) translateY(-2px);
+  box-shadow: 0 4px 12px rgba(30, 144, 255, 0.3);
+}
+
+.theme-tinycore .icon-label {
+  color: #2f2f2f;
+  font-weight: 600;
+  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8);
+}
+
+.theme-tinycore .window {
+  border: 2px solid #c0c0c0;
+  box-shadow: 
+    0 8px 32px rgba(47, 47, 47, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(8px);
+  background: rgba(245, 245, 245, 0.95);
+}
+
+.theme-tinycore .window-titlebar {
+  background: linear-gradient(to bottom, #1e90ff 0%, #4682b4 100%);
+  border-bottom: 1px solid #4682b4;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.theme-tinycore .window-content {
+  background: rgba(245, 245, 245, 0.98);
+}
+
+.theme-tinycore .terminal-window {
+  background: #1e1e1e;
+  border: 1px solid #404040;
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.theme-tinycore .terminal-line {
+  color: #32cd32;
+}
+
+.theme-tinycore .terminal-prompt {
+  color: #1e90ff;
+  font-weight: bold;
+}
+
+.theme-tinycore .terminal-input {
+  color: #32cd32;
+}
+
+.theme-tinycore .workflow-cmd {
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid #c0c0c0;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.theme-tinycore .workflow-cmd:hover {
+  background: #1e90ff;
+  color: white;
+  transform: translateY(-3px);
+  box-shadow: 0 6px 16px rgba(30, 144, 255, 0.4);
+  border-color: #4682b4;
+}
+
+.theme-tinycore .progress-bar {
+  background: #e0e0e0;
+  border: 1px solid #c0c0c0;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.theme-tinycore .progress-fill {
+  background: linear-gradient(to right, #1e90ff, #32cd32);
+  box-shadow: 0 2px 4px rgba(30, 144, 255, 0.3);
+}
+
+.theme-tinycore .file-tree {
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid #c0c0c0;
+}
+
+.theme-tinycore .folder:hover,
+.theme-tinycore .file:hover {
+  background: #1e90ff;
+  color: white;
+  border-radius: 3px;
+}
+
+.theme-tinycore .taskbar {
+  background: linear-gradient(to bottom, 
+    rgba(224, 224, 224, 0.95) 0%, 
+    rgba(208, 208, 208, 0.95) 50%,
+    rgba(192, 192, 192, 0.95) 100%);
+  border-top: 1px solid #a0a0a0;
+  backdrop-filter: blur(8px);
+  box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.theme-tinycore .start-button {
+  background: linear-gradient(to bottom, #1e90ff, #4682b4);
+  border: 1px solid #4682b4;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.theme-tinycore .start-button:hover {
+  background: linear-gradient(to bottom, #4682b4, #1e90ff);
+  transform: scale(1.05) translateY(-1px);
+  box-shadow: 0 4px 8px rgba(30, 144, 255, 0.4);
+}
+
+.theme-tinycore .taskbar-app {
+  background: rgba(255, 255, 255, 0.8);
+  border: 1px solid #c0c0c0;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.theme-tinycore .taskbar-app:hover {
+  background: rgba(255, 255, 255, 0.95);
+  border-color: #1e90ff;
+}
+
+.theme-tinycore .taskbar-app.active {
+  background: linear-gradient(to bottom, #1e90ff, #4682b4);
+  color: white;
+  border-color: #4682b4;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.theme-tinycore .system-stats span {
+  background: rgba(255, 255, 255, 0.8);
+  border: 1px solid #c0c0c0;
+  color: #2f2f2f;
+  font-weight: 600;
+}
+
+.theme-tinycore .system-time {
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid #c0c0c0;
+  color: #2f2f2f;
+  font-weight: bold;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}

@@ -240,7 +240,7 @@ unified_progress_command() {
             echo "  Overall: ${completed}/${total} TODOs (${percentage}%)"
             echo "  Express Dev: ✅ COMPLETE (5/5)"
             echo "  Workflow: 🚧 IN PROGRESS ($(grep -E "TODO-00[6-9]|TODO-010" "${SCRIPT_DIR}/../uMEMORY/sandbox/workflows/EXPRESS-DEV-TODOS.md" | grep -c "✅.*COMPLETED")/5)"
-            echo "  CHESTER: ⏳ PENDING (0/4)"
+            echo "  CHEST: ⏳ PENDING (0/4)"
             echo "  Infrastructure: ⏳ PENDING (0/4)"
             ;;
         *)

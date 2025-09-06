@@ -1,5 +1,5 @@
 // Theme definitions for uDESK v1.7
-export type ThemeName = 'polaroid' | 'c64' | 'macintosh' | 'mode7';
+export type ThemeName = 'polaroid' | 'c64' | 'macintosh' | 'mode7' | 'tinycore';
 
 export interface Theme {
   name: ThemeName;
@@ -109,6 +109,27 @@ export const themes: Record<ThemeName, Theme> = {
       doubleHeight: true,
     },
   },
+  tinycore: {
+    name: 'tinycore',
+    displayName: 'TinyCore Linux',
+    description: 'Minimalist desktop environment with terminal efficiency',
+    fontFamily: "'DejaVu Sans Mono', 'Liberation Mono', 'Consolas', monospace",
+    fontSize: '12px',
+    colors: {
+      primary: '#1E90FF',      // DodgerBlue - classic Linux blue
+      secondary: '#808080',    // Gray - subdued secondary elements
+      background: '#F5F5F5',   // WhiteSmoke - light background
+      text: '#2F2F2F',        // Dark gray - readable text
+      accent: '#FF6347',       // Tomato - accent for highlights
+      success: '#32CD32',      // LimeGreen - terminal success
+      warning: '#FFD700',      // Gold - warning messages
+      error: '#DC143C',        // Crimson - error states
+      info: '#4682B4',         // SteelBlue - information
+    },
+    specialFeatures: {
+      bitmapPatterns: false,
+    },
+  },
 };
 
 export const getTheme = (themeName: ThemeName): Theme => {
@@ -161,6 +182,13 @@ export const themeAssets = {
 ████ █  █ ████  ████ ███  
 █  █ █  █ █        █ █  █ 
 █  █ ████ █████ ████ █   █`,
+    tinycore: `
+ ┌─────────────────────────────────────────┐
+ │         CHEST Desktop (TinyCore)        │
+ │  ┌───┐ ┌───┐ ┌───┐ ┌───┐ ┌───┐ ┌───┐  │
+ │  │ □ │ │ ▣ │ │ ⚙ │ │ ≡ │ │ ⚡ │ │ ✓ │  │
+ │  └───┘ └───┘ └───┘ └───┘ └───┘ └───┘  │
+ └─────────────────────────────────────────┘`,
   },
   
   loadingAnimations: {
@@ -168,6 +196,7 @@ export const themeAssets = {
     c64: ['▁', '▃', '▄', '▅', '▆', '▇', '█', '▇', '▆', '▅', '▄', '▃'],
     macintosh: ['◐', '◓', '◑', '◒'],
     mode7: ['⣾', '⣽', '⣻', '⢿', '⡿', '⣟', '⣯', '⣷'],
+    tinycore: ['⋅', '∘', '○', '●', '○', '∘'],
   },
   
   prompts: {
@@ -175,5 +204,6 @@ export const themeAssets = {
     c64: 'READY.',
     macintosh: 'uDOS %',
     mode7: '*** uDOS ***',
+    tinycore: 'tc@chest:~$',
   },
 };

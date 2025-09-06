@@ -36,7 +36,7 @@ init_udesk_variable_system() {
 # Format: TODO_ID=STATUS:PRIORITY:CATEGORY:TIMESTAMP
 # Status: ACTIVE, IN_PROGRESS, COMPLETED, ARCHIVED
 # Priority: HIGH, MEDIUM, LOW
-# Category: EXPRESS_DEV, WORKFLOW, CHESTER, INFRASTRUCTURE
+# Category: EXPRESS_DEV, WORKFLOW, CHEST, INFRASTRUCTURE
 
 TODO_REGISTRY_VERSION=1.0.7.3
 TODO_SYSTEM_INITIALIZED=$(date -u +%Y-%m-%dT%H:%M:%SZ)
@@ -86,7 +86,7 @@ EOF
       "status": "IN_PROGRESS",
       "completion_date": null
     },
-    "chester_desktop": {
+    "chest_desktop": {
       "todos": ["TODO-011", "TODO-012", "TODO-013", "TODO-014"],
       "status": "PENDING",
       "completion_date": null
@@ -166,7 +166,7 @@ import_express_todos() {
                 category="WORKFLOW"
                 priority="HIGH"
             elif [[ "${BASH_REMATCH[1]}" -le 14 ]]; then
-                category="CHESTER"
+                category="CHEST"
                 priority="MEDIUM"
             else
                 category="INFRASTRUCTURE"
@@ -310,12 +310,12 @@ list_todo_variables() {
     # Show categorized TODO counts
     local express_count=$(grep -c ":EXPRESS_DEV:" "${TODO_REGISTRY}" 2>/dev/null || echo "0")
     local workflow_count=$(grep -c ":WORKFLOW:" "${TODO_REGISTRY}" 2>/dev/null || echo "0")
-    local chester_count=$(grep -c ":CHESTER:" "${TODO_REGISTRY}" 2>/dev/null || echo "0")
+    local chest_count=$(grep -c ":CHEST:" "${TODO_REGISTRY}" 2>/dev/null || echo "0")
     local infra_count=$(grep -c ":INFRASTRUCTURE:" "${TODO_REGISTRY}" 2>/dev/null || echo "0")
     
     echo "  Express Dev: ${express_count} TODOs"
     echo "  Workflow: ${workflow_count} TODOs"
-    echo "  CHESTER: ${chester_count} TODOs"
+    echo "  CHEST: ${chest_count} TODOs"
     echo "  Infrastructure: ${infra_count} TODOs"
 }
 

@@ -4,7 +4,7 @@ import { ThemeName, getTheme, applyThemeToDocument } from './lib/themes';
 import './App.css';
 
 function App() {
-  const [currentTheme, setCurrentTheme] = useState<ThemeName>('polaroid');
+  const [currentTheme, setCurrentTheme] = useState<ThemeName>('tinycore');
 
   useEffect(() => {
     // Apply initial theme

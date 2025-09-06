@@ -3,6 +3,7 @@ import { invoke } from '@tauri-apps/api/core';
 import { ThemeName, getTheme } from '../lib/themes';
 import { BootSequence } from './BootSequence';
 import { Setup } from './Setup';
+import { ChestDesktop } from './ChestDesktop';
 
 interface MainInterfaceProps {
   theme: ThemeName;
@@ -164,7 +165,7 @@ export const MainInterface: React.FC<MainInterfaceProps> = ({ theme, onThemeChan
           </div>
           
           <div className="theme-selector">
-            {(['polaroid', 'c64', 'macintosh', 'mode7'] as ThemeName[]).map(themeName => (
+            {(['polaroid', 'c64', 'macintosh', 'mode7', 'tinycore'] as ThemeName[]).map(themeName => (
               <button
                 key={themeName}
                 onClick={() => onThemeChange(themeName)}
@@ -178,7 +179,11 @@ export const MainInterface: React.FC<MainInterfaceProps> = ({ theme, onThemeChan
       </div>
 
       <div className="desktop-content">
-        {currentView === 'desktop' && (
+        {currentView === 'desktop' && theme === 'tinycore' && (
+          <ChestDesktop theme={theme} onThemeChange={onThemeChange} />
+        )}
+        
+        {currentView === 'desktop' && theme !== 'tinycore' && (
           <div className="desktop-view">
             <div className="desktop-icons">
               <div className="icon-grid">

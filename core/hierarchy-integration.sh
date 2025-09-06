@@ -98,7 +98,7 @@ get_mission_for_todo() {
     elif [[ "$todo_num" =~ ^[6-9]$ ]] || [[ "$todo_num" == "10" ]]; then
         echo "Workflow System Implementation"
     elif [[ "$todo_num" =~ ^1[1-4]$ ]]; then
-        echo "CHESTER AI Integration"
+        echo "CHEST AI Integration"
     else
         echo "Infrastructure Enhancement"
     fi
@@ -116,9 +116,9 @@ get_milestone_for_todo() {
     elif [[ "$todo_num" =~ ^[8-9]$ ]] || [[ "$todo_num" == "10" ]]; then
         echo "Advanced Workflow Engine"
     elif [[ "$todo_num" =~ ^1[1-2]$ ]]; then
-        echo "CHESTER Core Integration"
+        echo "CHEST Core Integration"
     elif [[ "$todo_num" =~ ^1[3-4]$ ]]; then
-        echo "CHESTER Advanced Features"
+        echo "CHEST Advanced Features"
     else
         echo "Production Infrastructure"
     fi
@@ -177,7 +177,7 @@ show_enhanced_hierarchy() {
     echo ""
     
     # Display each mission with its TODOs
-    for mission in "Express Dev Foundation" "Workflow System Implementation" "CHESTER AI Integration" "Infrastructure Enhancement"; do
+    for mission in "Express Dev Foundation" "Workflow System Implementation" "CHEST AI Integration" "Infrastructure Enhancement"; do
         local mission_todos=$(get_todos_for_mission "$mission")
         
         if [[ -n "$mission_todos" ]]; then
@@ -309,7 +309,7 @@ show_hierarchy_progress() {
     # Mission progress
     echo "🎯 MISSION PROGRESS:"
     echo "───────────────────"
-    for mission in "Express Dev Foundation" "Workflow System Implementation" "CHESTER AI Integration" "Infrastructure Enhancement"; do
+    for mission in "Express Dev Foundation" "Workflow System Implementation" "CHEST AI Integration" "Infrastructure Enhancement"; do
         local status=$(get_mission_completion_status "$mission")
         local color=$([[ "$status" =~ "COMPLETE" ]] && echo "$GREEN" || echo "$YELLOW")
         echo -e "   ${color}$mission: $status${NC}"
@@ -318,7 +318,7 @@ show_hierarchy_progress() {
     echo ""
     echo "🏆 MILESTONE PROGRESS:"
     echo "─────────────────────"
-    for milestone in "Express Dev System Complete" "Unified Workflow Commands" "Advanced Workflow Engine" "CHESTER Core Integration" "CHESTER Advanced Features" "Production Infrastructure"; do
+    for milestone in "Express Dev System Complete" "Unified Workflow Commands" "Advanced Workflow Engine" "CHEST Core Integration" "CHEST Advanced Features" "Production Infrastructure"; do
         local status=$(get_milestone_completion_status "$milestone")
         local color=$([[ "$status" =~ "COMPLETE" ]] && echo "$GREEN" || echo "$YELLOW")
         echo -e "   ${color}$milestone: $status${NC}"

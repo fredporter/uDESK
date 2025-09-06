@@ -84,7 +84,7 @@ get_milestone_status() {
         "Workflow System")
             echo "Ready to begin - Foundation complete"
             ;;
-        "CHESTER Desktop")
+        "CHEST Desktop")
             echo "Awaiting workflow completion"
             ;;
         "Infrastructure")

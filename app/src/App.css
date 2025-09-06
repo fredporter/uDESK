@@ -63,6 +63,18 @@
   --border-radius: 0px;
 }
 
+.theme-tinycore {
+  --bg-primary: #f5f5f5;
+  --bg-secondary: #e0e0e0;
+  --text-primary: #2f2f2f;
+  --text-secondary: #808080;
+  --accent-primary: #1e90ff;
+  --accent-secondary: #4682b4;
+  --border-color: #c0c0c0;
+  --shadow-color: rgba(47, 47, 47, 0.2);
+  --border-radius: 2px;
+}
+
 /* Base Styles */
 * {
   margin: 0;
