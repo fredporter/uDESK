@@ -420,6 +420,15 @@ case "${1:-help}" in
             exit 1
         fi
         ;;
+    "assist")
+        # Integration with auto-assist system
+        if [[ -f "${SCRIPT_DIR}/auto-assist.sh" ]]; then
+            "${SCRIPT_DIR}/auto-assist.sh" "${@:2}"
+        else
+            echo "❌ Auto-assist system not available"
+            exit 1
+        fi
+        ;;
     "help"|"--help"|"-h")
         echo "🎯 uDESK Workflow Hierarchy v1.0.7.3"
         echo "════════════════════════════════════"
@@ -432,6 +441,7 @@ case "${1:-help}" in
         echo "  workflow move create      # Create new move"
         echo "  workflow todo create      # Create new todo"
         echo "  workflow sprint [cmd]     # TODO management (status/complete/start)"
+        echo "  workflow assist [cmd]     # Auto-assist suggestions (run/show/config)"
         echo ""
         ;;
     *)

@@ -49,6 +49,11 @@ activate_dev_mode() {
     export UDESK_MODE="dev"
     export UDESK_ASSIST="basic"
     
+    # Auto-assist for dev mode
+    if [[ -f "$(dirname "${BASH_SOURCE[0]}")/auto-assist.sh" ]]; then
+        echo "🤖 Auto-assist available: 'workflow assist show' for suggestions"
+    fi
+    
     # Save to config
     echo "UDESK_MODE=dev" > "$MODE_CONFIG"
     echo "UDESK_ASSIST=basic" >> "$MODE_CONFIG"
@@ -142,6 +147,14 @@ activate_express_mode() {
     echo "✅ Express Mode ACTIVATED"
     echo "✅ Enhanced Assist Mode AUTO-ENABLED"
     echo ""
+    
+    # Initialize auto-assist for Express Mode
+    if [[ -f "$(dirname "${BASH_SOURCE[0]}")/auto-assist.sh" ]]; then
+        echo "🤖 Initializing Auto-Assist for Express Mode..."
+        "$(dirname "${BASH_SOURCE[0]}")/auto-assist.sh" on >/dev/null
+        echo "✅ Auto-Assist enabled for enhanced development guidance"
+        echo ""
+    fi
     
     # Trigger planning session
     echo "🎯 Initiating AI-Guided Sprint Planning..."
