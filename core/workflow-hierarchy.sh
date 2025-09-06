@@ -1,6 +1,7 @@
 #!/bin/bash
 # uDESK Unified Workflow Hierarchy System v1.0.7.3
 # Goal → Mission → Milestone → Move → TODO structure
+# Enhanced with real TODO integration
 
 set -e
 
@@ -9,6 +10,9 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 # Source uCODE input for consistency
 source "$(dirname "${BASH_SOURCE[0]}")/ucode-input.sh"
+
+# Source the enhanced hierarchy integration
+source "$(dirname "${BASH_SOURCE[0]}")/hierarchy-integration.sh"
 
 WORKFLOW_DIR="$HOME/uDESK/uMEMORY/workflows"
 mkdir -p "$WORKFLOW_DIR"/{goals,missions,milestones,moves,todos}
@@ -23,42 +27,14 @@ CYAN='\033[0;36m'
 BOLD='\033[1m'
 NC='\033[0m'
 
-# Hierarchy definitions (compatible with older bash)
-show_hierarchy_levels() {
-    echo "   🌟 GOAL: Ultimate Purpose (Years)"
-    echo "   🎯 MISSION: Strategic Goal (Months)"
-    echo "   🏆 MILESTONE: Major Checkpoint (Weeks)" 
-    echo "   ⚡ MOVE: Action Sequence (Days)"
-    echo "   📋 TODO: Individual Task (Hours)"
+# Enhanced hierarchy display using new integration
+show_hierarchy() {
+    show_enhanced_hierarchy
 }
 
-# Show workflow hierarchy overview
-show_hierarchy() {
-    echo "🎯 uDESK WORKFLOW HIERARCHY"
-    echo "═══════════════════════════"
-    echo ""
-    echo "📊 STRUCTURE OVERVIEW:"
-    echo "─────────────────────"
-    
-    show_hierarchy_levels
-    
-    echo ""
-    echo "🔄 WORKFLOW FLOW:"
-    echo "─────────────────"
-    echo "   🌟 GOAL: Personal Growth Through Systems Mastery"
-    echo "      ↓"
-    echo "   🎯 MISSION: Build uDESK Educational Platform"
-    echo "      ↓"
-    echo "   🏆 MILESTONE: Express Dev Mode Complete"
-    echo "      ↓"
-    echo "   ⚡ MOVE: Implement Sprint Progress Tracking"
-    echo "      ↓"
-    echo "   📋 TODO: Create progress visualization function"
-    
-    echo ""
-    echo "🎯 ACTIVE HIERARCHY:"
-    echo "───────────────────"
-    show_active_hierarchy
+# Show integration with unified workflow
+show_unified_integration() {
+    integrate_with_unified_workflow
 }
 
 # Show active workflow status
@@ -465,23 +441,53 @@ case "${1:-help}" in
             exit 1
         fi
         ;;
+    "integrated"|"enhanced")
+        # Enhanced hierarchy integration
+        show_unified_integration
+        ;;
+    "context")
+        # Show TODO hierarchy context
+        if [[ -n "$2" ]]; then
+            get_todo_hierarchy_context "$2"
+        else
+            echo "Usage: workflow context TODO-XXX"
+            exit 1
+        fi
+        ;;
+    "next")
+        # Get next recommended TODO
+        get_hierarchy_next_todo
+        ;;
     "help"|"--help"|"-h")
         echo "🎯 uDESK Workflow Hierarchy v1.0.7.3"
         echo "════════════════════════════════════"
         echo ""
-        echo "Commands:"
-        echo "  workflow show             # Show complete hierarchy"
+        echo "📊 Hierarchy Display:"
+        echo "  workflow show             # Show complete hierarchy with real TODO data"
+        echo "  workflow integrated       # Show integrated view with unified workflow"
+        echo "  workflow context TODO-XXX # Show hierarchy context for specific TODO"
+        echo "  workflow next             # Get next recommended TODO from hierarchy"
+        echo ""
+        echo "🔧 Hierarchy Management:"
         echo "  workflow goal create      # Create new ultimate goal"
         echo "  workflow mission create   # Create new mission"
         echo "  workflow milestone create # Create new milestone"
         echo "  workflow move create      # Create new move"
         echo "  workflow todo create      # Create new todo"
+        echo ""
+        echo "⚡ System Integration:"
         echo "  workflow sprint [cmd]     # TODO management (status/complete/start)"
         echo "  workflow assist [cmd]     # Auto-assist suggestions (run/show/config)"
         echo "  workflow progress         # Show comprehensive sprint progress"
         echo "  workflow checkpoint [cmd] # Milestone checkpoints (check/create/history)"
         echo "  workflow vars [cmd]       # TODO variable system (list/show/get/set)"
         echo "  workflow unified [cmd]    # Unified workflow management (overview/next/complete)"
+        echo ""
+        echo "💡 Enhanced Features:"
+        echo "  • Real-time TODO integration with EXPRESS-DEV-TODOS.md"
+        echo "  • Mission/Milestone/Move/TODO relationship mapping"
+        echo "  • Sprint progress tracking across hierarchy levels"
+        echo "  • Contextual next-action recommendations"
         echo ""
         ;;
     *)

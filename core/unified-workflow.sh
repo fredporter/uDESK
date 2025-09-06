@@ -19,6 +19,7 @@ WORKFLOW_CATEGORIES_vars="Variable system management"
 WORKFLOW_CATEGORIES_checkpoint="Milestone checkpoints"
 WORKFLOW_CATEGORIES_sync="System synchronization"
 WORKFLOW_CATEGORIES_status="Comprehensive status overview"
+WORKFLOW_CATEGORIES_hierarchy="Mission/milestone/move relationships"
 
 # Show unified workflow command menu
 show_workflow_menu() {
@@ -28,7 +29,7 @@ show_workflow_menu() {
     echo "🎯 **WORKFLOW CATEGORIES**"
     echo ""
     
-    local categories="todo progress assist vars checkpoint sync status"
+    local categories="todo progress assist vars checkpoint sync status hierarchy"
     for category in $categories; do
         local desc_var="WORKFLOW_CATEGORIES_${category}"
         local description="${!desc_var}"
@@ -84,6 +85,12 @@ show_category_commands() {
         "status")
             echo "    status overview       # Complete system status"
             echo "    status quick          # Quick status summary"
+            ;;
+        "hierarchy")
+            echo "    hierarchy show        # Complete hierarchy view"
+            echo "    hierarchy integrated  # Unified workflow integration"
+            echo "    hierarchy context [TODO] # TODO hierarchy context"
+            echo "    hierarchy next        # Next recommended TODO"
             ;;
     esac
 }
@@ -329,9 +336,12 @@ case "${1:-help}" in
     "sync")
         "${SCRIPT_DIR}/todo-sync.sh" "${@:2}"
         ;;
+    "hierarchy")
+        "${SCRIPT_DIR}/hierarchy-integration.sh" "${@:2}"
+        ;;
     *)
         echo "🔧 uDESK Unified Workflow Management"
-        echo "Available commands: menu, overview, next, complete, start, todo, progress, assist, vars, checkpoint, sync"
+        echo "Available commands: menu, overview, next, complete, start, todo, progress, assist, vars, checkpoint, sync, hierarchy"
         echo "Use 'workflow menu' for full command reference"
         exit 1
         ;;

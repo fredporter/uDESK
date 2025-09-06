@@ -19,7 +19,7 @@ This file contains TODO items that will be picked up by VSCode TODO Tree extensi
 // TODO-007: ✅  - COMPLETED
 // Build comprehensive udos commands for workflow management
 
-// TODO-008: Mission/milestone/move/todo hierarchy
+// TODO-008: ✅ Mission/milestone/move/todo hierarchy - COMPLETED
 // Implement hierarchical workflow system with relationships
 
 // TODO-009: Workflow advancement engine
