@@ -12,14 +12,14 @@ uDESK provides TinyCore Linux integration for **uDOS (Universal Device Operating
 ./udesk-install.command
 ```
 
-### **Ubuntu/Debian** 🐧  
+### **Linux** 🐧  
 ```bash
-./installers/install-linux.sh
+./udesk-install-linux.sh
 ```
 
 ### **Windows** 🪟
 ```bash
-./installers/install-windows.bat
+./udesk-install-windows.bat
 ```
 
 > 💡 **Latest Features:**
@@ -37,8 +37,8 @@ All platform installers are lightweight wrappers that call the core `install.sh`
 ```
 Platform Installers (Lightweight Wrappers)
 ├── udesk-install.command        # macOS: Xcode CLI tools check
-├── installers/install-linux.sh  # Linux: Build tools installation  
-└── installers/install-windows.bat # Windows: WSL requirement check
+├── udesk-install-linux.sh       # Linux: Build tools installation  
+└── udesk-install-windows.bat    # Windows: WSL requirement check
             ↓
 Core Installation Logic
 └── install.sh                   # All installation logic with uCODE input parsing
@@ -137,11 +137,11 @@ The uDESK Tauri application features a complete **PANEL system** aligned to the 
 # macOS (with Xcode tools auto-install)
 ./udesk-install.command
 
-# Ubuntu/Debian (with build-essential auto-install)  
-./installers/install-linux.sh
+# Linux (with build-essential auto-install)  
+./udesk-install-linux.sh
 
 # Windows (with MinGW/MSYS2 guidance)
-./installers/install-windows.bat
+./udesk-install-windows.bat
 ```
 
 ### Manual Build & Install
@@ -217,7 +217,7 @@ uDESK/
 ## 🎯 Supported Platforms
 
 - **macOS** (Intel/Apple Silicon): Full support with Xcode integration
-- **Ubuntu/Debian**: Native support with build-essential 
+- **Linux**: Native support with build-essential 
 - **TinyCore Linux**: Primary target with TCZ packaging
 - **Windows**: WSL2 support with MinGW/MSYS2 guidance
 - **Other Linux**: Generic support via build scripts
