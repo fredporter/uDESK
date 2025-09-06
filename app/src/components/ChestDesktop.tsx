@@ -5,6 +5,7 @@ import { ProgressPanel } from './panels/ProgressPanel';
 import { WorkflowPanel } from './panels/WorkflowPanel';
 import { SystemPanel } from './panels/SystemPanel';
 import { udosGridSystem } from '../services/udosGridSystem';
+import ErrorBoundary from './ErrorBoundary';
 import './ChestDesktop.css';
 import './panels/Panels.css';
 
@@ -397,16 +398,24 @@ export const ChestDesktop: React.FC<ChestDesktopProps> = ({ theme, onThemeChange
             </button>
           </div>
           <div className="widgets-container">
-            <TodoPanel className="widget-item" />
-            <ProgressPanel className="widget-item" />
-            <WorkflowPanel 
-              className="widget-item"
-              onActionExecute={(command: string) => {
-                // Add command to terminal history
-                setTerminalHistory(prev => [...prev, `Executed: ${command}`, '']);
-              }}
-            />
-            <SystemPanel className="widget-item" />
+            <ErrorBoundary panelName="TodoPanel">
+              <TodoPanel className="widget-item" />
+            </ErrorBoundary>
+            <ErrorBoundary panelName="ProgressPanel">
+              <ProgressPanel className="widget-item" />
+            </ErrorBoundary>
+            <ErrorBoundary panelName="WorkflowPanel">
+              <WorkflowPanel 
+                className="widget-item"
+                onActionExecute={(command: string) => {
+                  // Add command to terminal history
+                  setTerminalHistory(prev => [...prev, `Executed: ${command}`, '']);
+                }}
+              />
+            </ErrorBoundary>
+            <ErrorBoundary panelName="SystemPanel">
+              <SystemPanel className="widget-item" />
+            </ErrorBoundary>
           </div>
         </div>
       )}
