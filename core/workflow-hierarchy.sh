@@ -447,6 +447,15 @@ case "${1:-help}" in
             exit 1
         fi
         ;;
+    "vars"|"variables")
+        # Integration with TODO variable system
+        if [[ -f "${SCRIPT_DIR}/todo-variables.sh" ]]; then
+            "${SCRIPT_DIR}/todo-variables.sh" "${@:2}"
+        else
+            echo "❌ TODO variable system not available"
+            exit 1
+        fi
+        ;;
     "help"|"--help"|"-h")
         echo "🎯 uDESK Workflow Hierarchy v1.0.7.3"
         echo "════════════════════════════════════"
@@ -462,6 +471,7 @@ case "${1:-help}" in
         echo "  workflow assist [cmd]     # Auto-assist suggestions (run/show/config)"
         echo "  workflow progress         # Show comprehensive sprint progress"
         echo "  workflow checkpoint [cmd] # Milestone checkpoints (check/create/history)"
+        echo "  workflow vars [cmd]       # TODO variable system (list/show/get/set)"
         echo ""
         ;;
     *)
