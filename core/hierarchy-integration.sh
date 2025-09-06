@@ -11,7 +11,7 @@ TODO_VARS_SCRIPT="$SCRIPT_DIR/todo-variables.sh"
 
 # Configuration
 WORKFLOW_DIR="$HOME/uDESK/uMEMORY/workflows"
-EXPRESS_TODOS="$SCRIPT_DIR/../EXPRESS-DEV-TODOS.md"
+EXPRESS_TODOS="$SCRIPT_DIR/../uMEMORY/sandbox/workflows/EXPRESS-DEV-TODOS.md"
 
 # Colors for hierarchy visualization
 RED='\033[0;31m'

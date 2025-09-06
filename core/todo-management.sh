@@ -9,7 +9,7 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 source "${SCRIPT_DIR}/ucode-input.sh"
 
 # Configuration
-TODO_FILE="${SCRIPT_DIR}/../EXPRESS-DEV-TODOS.md"
+TODO_FILE="${SCRIPT_DIR}/../uMEMORY/sandbox/workflows/EXPRESS-DEV-TODOS.md"
 SPRINT_VERSION="v1.0.7.3"
 
 # TODO Management Functions

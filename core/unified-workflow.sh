@@ -20,6 +20,8 @@ WORKFLOW_CATEGORIES_checkpoint="Milestone checkpoints"
 WORKFLOW_CATEGORIES_sync="System synchronization"
 WORKFLOW_CATEGORIES_status="Comprehensive status overview"
 WORKFLOW_CATEGORIES_hierarchy="Mission/milestone/move relationships"
+WORKFLOW_CATEGORIES_advance="Intelligent workflow advancement"
+WORKFLOW_CATEGORIES_organize="Repository structure management"
 
 # Show unified workflow command menu
 show_workflow_menu() {
@@ -29,7 +31,7 @@ show_workflow_menu() {
     echo "🎯 **WORKFLOW CATEGORIES**"
     echo ""
     
-    local categories="todo progress assist vars checkpoint sync status hierarchy"
+    local categories="todo progress assist vars checkpoint sync status hierarchy advance organize"
     for category in $categories; do
         local desc_var="WORKFLOW_CATEGORIES_${category}"
         local description="${!desc_var}"
@@ -92,6 +94,16 @@ show_category_commands() {
             echo "    hierarchy context [TODO] # TODO hierarchy context"
             echo "    hierarchy next        # Next recommended TODO"
             ;;
+        "advance")
+            echo "    advance report        # Comprehensive advancement report"
+            echo "    advance analyze       # Analyze current TODO state"
+            echo "    advance suggest       # Get intelligent action suggestions"
+            echo "    advance track         # Track workflow momentum"
+            ;;
+        "organize")
+            echo "    organize              # Auto-organize misplaced files"
+            echo "    check-structure       # Show current repository structure"
+            ;;
     esac
 }
 
@@ -120,7 +132,7 @@ unified_todo_command() {
             "${SCRIPT_DIR}/todo-variables.sh" show "$todo_id"
             echo ""
             echo "📊 Sprint Context:"
-            grep "$todo_id" "${SCRIPT_DIR}/../EXPRESS-DEV-TODOS.md" || echo "Not found in sprint file"
+            grep "$todo_id" "${SCRIPT_DIR}/../uMEMORY/sandbox/workflows/EXPRESS-DEV-TODOS.md" || echo "Not found in sprint file"
             ;;
         "complete")
             if [[ -z "$todo_id" ]]; then
@@ -213,12 +225,12 @@ unified_progress_command() {
         "summary")
             echo "📈 QUICK PROGRESS SUMMARY"
             echo "═══════════════════════"
-            local completed=$(grep -c "✅.*COMPLETED" "${SCRIPT_DIR}/../EXPRESS-DEV-TODOS.md")
+            local completed=$(grep -c "✅.*COMPLETED" "${SCRIPT_DIR}/../uMEMORY/sandbox/workflows/EXPRESS-DEV-TODOS.md")
             local total=18
             local percentage=$((completed * 100 / total))
             echo "  Overall: ${completed}/${total} TODOs (${percentage}%)"
             echo "  Express Dev: ✅ COMPLETE (5/5)"
-            echo "  Workflow: 🚧 IN PROGRESS ($(grep -E "TODO-00[6-9]|TODO-010" "${SCRIPT_DIR}/../EXPRESS-DEV-TODOS.md" | grep -c "✅.*COMPLETED")/5)"
+            echo "  Workflow: 🚧 IN PROGRESS ($(grep -E "TODO-00[6-9]|TODO-010" "${SCRIPT_DIR}/../uMEMORY/sandbox/workflows/EXPRESS-DEV-TODOS.md" | grep -c "✅.*COMPLETED")/5)"
             echo "  CHESTER: ⏳ PENDING (0/4)"
             echo "  Infrastructure: ⏳ PENDING (0/4)"
             ;;
@@ -259,13 +271,13 @@ unified_status_overview() {
     echo "📈 RECENT ACTIVITY"
     echo "──────────────────"
     echo "Last 3 completed TODOs:"
-    grep "✅.*COMPLETED" "${SCRIPT_DIR}/../EXPRESS-DEV-TODOS.md" | tail -3 | sed 's|^// ||'
+    grep "✅.*COMPLETED" "${SCRIPT_DIR}/../uMEMORY/sandbox/workflows/EXPRESS-DEV-TODOS.md" | tail -3 | sed 's|^// ||'
     echo ""
     
     # Next recommended action
     echo "🎯 NEXT RECOMMENDED ACTION"
     echo "──────────────────────────"
-    local next_todo=$(grep -E "TODO-[0-9]+:" "${SCRIPT_DIR}/../EXPRESS-DEV-TODOS.md" | grep -v "✅.*COMPLETED" | head -1 | sed 's|^// ||' | cut -d: -f1)
+    local next_todo=$(grep -E "TODO-[0-9]+:" "${SCRIPT_DIR}/../uMEMORY/sandbox/workflows/EXPRESS-DEV-TODOS.md" | grep -v "✅.*COMPLETED" | head -1 | sed 's|^// ||' | cut -d: -f1)
     if [[ -n "$next_todo" ]]; then
         echo "  ⚡ Start: ${next_todo}"
         echo "  💡 Command: workflow start ${next_todo}"
@@ -280,7 +292,7 @@ get_next_action() {
     echo "═══════════════════════════════"
     
     # Find next TODO
-    local next_todo=$(grep -E "TODO-[0-9]+:" "${SCRIPT_DIR}/../EXPRESS-DEV-TODOS.md" | grep -v "✅.*COMPLETED" | head -1)
+    local next_todo=$(grep -E "TODO-[0-9]+:" "${SCRIPT_DIR}/../uMEMORY/sandbox/workflows/EXPRESS-DEV-TODOS.md" | grep -v "✅.*COMPLETED" | head -1)
     
     if [[ -n "$next_todo" ]]; then
         local todo_id=$(echo "$next_todo" | sed 's|^// ||' | cut -d: -f1)
@@ -339,9 +351,29 @@ case "${1:-help}" in
     "hierarchy")
         "${SCRIPT_DIR}/hierarchy-integration.sh" "${@:2}"
         ;;
+    "advance")
+        if [ -f "${SCRIPT_DIR}/workflow-advancement.sh" ]; then
+            "${SCRIPT_DIR}/workflow-advancement.sh" "${@:2}"
+        else
+            echo "❌ Workflow advancement engine not found"
+        fi
+        ;;
+    "organize"|"clean")
+        echo "🧹 Organizing repository structure..."
+        "${SCRIPT_DIR}/../uMEMORY/sandbox/scripts/organize-files.sh"
+        ;;
+    "check-structure")
+        echo "📁 Current repository structure:"
+        echo "================================"
+        echo "📋 Root files:"
+        ls -1 "${SCRIPT_DIR}/.." | grep -v "^\." | head -20
+        echo ""
+        echo "📋 uMEMORY structure:"
+        ls -la "${SCRIPT_DIR}/../uMEMORY/" | grep "^d" | awk '{print "   " $9}'
+        ;;
     *)
         echo "🔧 uDESK Unified Workflow Management"
-        echo "Available commands: menu, overview, next, complete, start, todo, progress, assist, vars, checkpoint, sync, hierarchy"
+        echo "Available commands: menu, overview, next, complete, start, todo, progress, assist, vars, checkpoint, sync, hierarchy, advance, organize, check-structure"
         echo "Use 'workflow menu' for full command reference"
         exit 1
         ;;

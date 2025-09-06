@@ -107,7 +107,7 @@ EOF
 
 # Import TODOs from EXPRESS-DEV-TODOS.md into variable system
 import_express_todos() {
-    local express_file="${SCRIPT_DIR}/../EXPRESS-DEV-TODOS.md"
+    local express_file="${SCRIPT_DIR}/../uMEMORY/sandbox/workflows/EXPRESS-DEV-TODOS.md"
     
     if [[ ! -f "${express_file}" ]]; then
         echo "❌ EXPRESS-DEV-TODOS.md not found"

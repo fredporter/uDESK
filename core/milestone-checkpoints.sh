@@ -34,7 +34,7 @@ create_milestone_checkpoint() {
 ## Achievement Summary
 
 ### Completed TODOs
-$(grep "✅.*COMPLETED" "${SCRIPT_DIR}/../EXPRESS-DEV-TODOS.md" | sed 's|^//||' | sed 's/^[[:space:]]*/- /')
+$(grep "✅.*COMPLETED" "${SCRIPT_DIR}/../uMEMORY/sandbox/workflows/EXPRESS-DEV-TODOS.md" | sed 's|^//||' | sed 's/^[[:space:]]*/- /')
 
 ### Progress Metrics
 - **TODO Completion Rate:** ${completion_percentage}%
@@ -120,7 +120,7 @@ get_next_milestone_actions() {
 # Auto checkpoint on milestone completion
 check_and_create_auto_checkpoint() {
     # Check Express Dev System milestone (TODO-001 through TODO-005)
-    local express_completed=$(grep -E "TODO-00[1-5]:.*✅.*COMPLETED" "${SCRIPT_DIR}/../EXPRESS-DEV-TODOS.md" | wc -l | tr -d ' ')
+    local express_completed=$(grep -E "TODO-00[1-5]:.*✅.*COMPLETED" "${SCRIPT_DIR}/../uMEMORY/sandbox/workflows/EXPRESS-DEV-TODOS.md" | wc -l | tr -d ' ')
     
     if [[ "$express_completed" == "5" ]]; then
         local checkpoint_exists=$(find "${CHECKPOINT_DIR}" -name "Express_Dev_System_*.md" | wc -l)
