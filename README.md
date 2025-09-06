@@ -2,10 +2,23 @@
 
 [![Status](https://img.shields.io/badge/status-Production%20Ready-green.svg)](#quick-start)
 [![Build](https://img.shields.io/badge/build-passing-brightgreen.svg)](#package-status)
+[![Wiki](https://img.shields.io/badge/docs-wiki-blue.svg)](https://github.com/fredporter/uDESK/wiki)
 
 uDESK provides TinyCore Linux integration for **uDOS (Universal Device Operating System)**, featuring a modern Tauri application with **PANEL system**, **VSCode integration**, and **live workflow management**.
 
+## 📚 **Documentation**
+
+For comprehensive documentation, visit our **[GitHub Wiki](https://github.com/fredporter/uDESK/wiki)**:
+
+- 🚀 [**Quick Start Guide**](https://github.com/fredporter/uDESK/wiki/Quick-Start) - Get running in 5 minutes
+- 🎛️ [**PANEL System**](https://github.com/fredporter/uDESK/wiki/PANEL-System) - Desktop interface guide  
+- 💻 [**VSCode Integration**](https://github.com/fredporter/uDESK/wiki/VSCode-Integration) - Development workflow
+- 🏗️ [**Architecture**](https://github.com/fredporter/uDESK/wiki/Architecture) - System design
+- 🛠️ [**Development Setup**](https://github.com/fredporter/uDESK/wiki/Development-Setup) - Contributor guide
+
 ## 🚀 **Quick Start** (Choose Your Platform)
+
+> 📖 **For detailed instructions, see the [Quick Start Guide](https://github.com/fredporter/uDESK/wiki/Quick-Start) in our wiki**
 
 ### **macOS** 🍎
 ```bash
