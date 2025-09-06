@@ -1,0 +1,23 @@
+{
+  "visualization": {
+    "version": "1.0.0",
+    "initialized": "2025-09-06 19:50:11",
+    "default_theme": "MODERN",
+    "color_enabled": true,
+    "unicode_enabled": true,
+    "auto_refresh": false
+  },
+  "chart_settings": {
+    "width": 60,
+    "height": 20,
+    "show_values": true,
+    "show_percentages": true,
+    "animate": false
+  },
+  "dashboard_settings": {
+    "refresh_interval": 300,
+    "show_legends": true,
+    "compact_mode": false,
+    "export_format": "markdown"
+  }
+}
