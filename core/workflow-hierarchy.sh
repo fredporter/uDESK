@@ -429,6 +429,24 @@ case "${1:-help}" in
             exit 1
         fi
         ;;
+    "progress")
+        # Integration with sprint progress tracking
+        if [[ -f "${SCRIPT_DIR}/sprint-progress.sh" ]]; then
+            "${SCRIPT_DIR}/sprint-progress.sh"
+        else
+            echo "❌ Sprint progress system not available"
+            exit 1
+        fi
+        ;;
+    "checkpoint")
+        # Integration with milestone checkpoint system
+        if [[ -f "${SCRIPT_DIR}/milestone-checkpoints.sh" ]]; then
+            "${SCRIPT_DIR}/milestone-checkpoints.sh" "${@:2}"
+        else
+            echo "❌ Milestone checkpoint system not available"
+            exit 1
+        fi
+        ;;
     "help"|"--help"|"-h")
         echo "🎯 uDESK Workflow Hierarchy v1.0.7.3"
         echo "════════════════════════════════════"
@@ -442,6 +460,8 @@ case "${1:-help}" in
         echo "  workflow todo create      # Create new todo"
         echo "  workflow sprint [cmd]     # TODO management (status/complete/start)"
         echo "  workflow assist [cmd]     # Auto-assist suggestions (run/show/config)"
+        echo "  workflow progress         # Show comprehensive sprint progress"
+        echo "  workflow checkpoint [cmd] # Milestone checkpoints (check/create/history)"
         echo ""
         ;;
     *)

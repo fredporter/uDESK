@@ -64,29 +64,45 @@ analyze_todo_progress() {
     local completed_todos=0
     local in_progress_todos=0
     
-    # Count TODOs from all workflow files
-    local todo_files=$(find "$WORKFLOW_DIR/todos" -name "*.md" 2>/dev/null)
+    # Check EXPRESS-DEV-TODOS.md first (primary source)
+    local express_todo_file="$(dirname "${BASH_SOURCE[0]}")/../EXPRESS-DEV-TODOS.md"
     
-    if [[ -z "$todo_files" ]]; then
-        echo "📋 $(format_plural "TODO" 0) PROGRESS ANALYSIS:"
-        echo "─────────────────────────"
-        echo "   📝 No $(format_plural "TODO" 0) found"
-        return
-    fi
-    
-    # First count the todos
-    for file in $todo_files; do
+    if [[ -f "$express_todo_file" ]]; then
+        # Count TODOs from EXPRESS-DEV-TODOS.md
         while IFS= read -r line; do
             if [[ "$line" =~ TODO-([0-9]+): ]]; then
                 ((total_todos++))
-                if [[ "$line" =~ ✅ ]]; then
+                if [[ "$line" =~ ✅.*COMPLETED ]]; then
                     ((completed_todos++))
-                elif [[ "$line" =~ 🚧 ]]; then
+                elif [[ "$line" =~ 🚧.*IN\ PROGRESS ]]; then
                     ((in_progress_todos++))
                 fi
             fi
-        done < "$file"
-    done
+        done < "$express_todo_file"
+    else
+        # Fallback to workflow files
+        local todo_files=$(find "$WORKFLOW_DIR/todos" -name "*.md" 2>/dev/null)
+        
+        if [[ -z "$todo_files" ]]; then
+            echo "📋 $(format_plural "TODO" 0) PROGRESS ANALYSIS:"
+            echo "─────────────────────────"
+            echo "   📝 No $(format_plural "TODO" 0) found"
+            return
+        fi
+        
+        for file in $todo_files; do
+            while IFS= read -r line; do
+                if [[ "$line" =~ TODO-([0-9]+): ]]; then
+                    ((total_todos++))
+                    if [[ "$line" =~ ✅ ]]; then
+                        ((completed_todos++))
+                    elif [[ "$line" =~ 🚧 ]]; then
+                        ((in_progress_todos++))
+                    fi
+                fi
+            done < "$file"
+        done
+    fi
     
     local pending_todos=$((total_todos - completed_todos - in_progress_todos))
     
@@ -165,6 +181,16 @@ show_milestone_status() {
 # Check if a specific TODO is completed
 check_todo_completed() {
     local todo_id="$1"
+    local express_todo_file="$(dirname "${BASH_SOURCE[0]}")/../EXPRESS-DEV-TODOS.md"
+    
+    # Check EXPRESS-DEV-TODOS.md first
+    if [[ -f "$express_todo_file" ]]; then
+        if grep -q "$todo_id:.*✅.*COMPLETED" "$express_todo_file"; then
+            return 0
+        fi
+    fi
+    
+    # Fallback to workflow files
     local todo_files=$(find "$WORKFLOW_DIR/todos" -name "*.md" 2>/dev/null)
     
     for file in $todo_files; do
