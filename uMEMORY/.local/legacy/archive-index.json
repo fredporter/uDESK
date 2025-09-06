@@ -1,0 +1,23 @@
+{
+  "legacy_archive": {
+    "version": "1.0.0",
+    "initialized": "2025-09-06 19:41:56",
+    "total_archives": 0,
+    "missions_preserved": 0,
+    "treasures_collected": 0,
+    "wisdom_entries": 0,
+    "last_archive_id": 0
+  },
+  "preservation_stats": {
+    "data_preserved_mb": 0,
+    "stories_generated": 0,
+    "exports_created": 0,
+    "eol_preparations": 0
+  },
+  "access_info": {
+    "created_by": "fredbook",
+    "installation_id": "Mac.net-20250906",
+    "preservation_purpose": "Knowledge immortality and learning continuity",
+    "access_instructions": "Use legacy-archive.sh commands to explore preserved knowledge"
+  }
+}

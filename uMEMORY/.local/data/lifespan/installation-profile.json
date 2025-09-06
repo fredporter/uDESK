@@ -1,0 +1,26 @@
+{
+  "installation": {
+    "id": "Mac.net-20250906",
+    "created": "2025-09-06 19:39:23",
+    "hostname": "Mac.net",
+    "os": "Darwin",
+    "os_version": "24.6.0",
+    "architecture": "arm64",
+    "user": "fredbook",
+    "shell": "/bin/zsh",
+    "udesk_version": "v1.0.7.3",
+    "installation_type": "development"
+  },
+  "lifespan_tracking": {
+    "started": "2025-09-06 19:39:23",
+    "health_checks_enabled": true,
+    "eol_monitoring_enabled": true,
+    "legacy_preparation_enabled": true,
+    "auto_archive_threshold": "EOL_IMMINENT"
+  },
+  "baseline_metrics": {
+    "initial_disk_free": "368Gi",
+    "initial_memory": "N/A",
+    "initial_load": "8.72"
+  }
+}

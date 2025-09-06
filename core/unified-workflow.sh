@@ -21,6 +21,7 @@ WORKFLOW_CATEGORIES_sync="System synchronization"
 WORKFLOW_CATEGORIES_status="Comprehensive status overview"
 WORKFLOW_CATEGORIES_hierarchy="Mission/milestone/move relationships"
 WORKFLOW_CATEGORIES_advance="Intelligent workflow advancement"
+WORKFLOW_CATEGORIES_legacy="Knowledge preservation and EOL preparation"
 WORKFLOW_CATEGORIES_organize="Repository structure management"
 
 # Show unified workflow command menu
@@ -31,7 +32,7 @@ show_workflow_menu() {
     echo "🎯 **WORKFLOW CATEGORIES**"
     echo ""
     
-    local categories="todo progress assist vars checkpoint sync status hierarchy advance organize"
+    local categories="todo progress assist vars checkpoint sync status hierarchy advance legacy organize"
     for category in $categories; do
         local desc_var="WORKFLOW_CATEGORIES_${category}"
         local description="${!desc_var}"
@@ -99,6 +100,14 @@ show_category_commands() {
             echo "    advance analyze       # Analyze current TODO state"
             echo "    advance suggest       # Get intelligent action suggestions"
             echo "    advance track         # Track workflow momentum"
+            ;;
+        "legacy")
+            echo "    legacy init           # Initialize legacy archive system"
+            echo "    legacy archive        # Archive completed mission"
+            echo "    legacy treasure       # Create knowledge treasure"
+            echo "    legacy story          # Generate mission story"
+            echo "    legacy export         # Export for EOL migration"
+            echo "    legacy list           # List all legacy items"
             ;;
         "organize")
             echo "    organize              # Auto-organize misplaced files"
@@ -358,6 +367,19 @@ case "${1:-help}" in
             echo "❌ Workflow advancement engine not found"
         fi
         ;;
+    "legacy")
+        case "$2" in
+            "moves")
+                "${SCRIPT_DIR}/move-logging.sh" "${@:3}"
+                ;;
+            "lifespan")
+                "${SCRIPT_DIR}/installation-lifespan.sh" "${@:3}"
+                ;;
+            *)
+                "${SCRIPT_DIR}/legacy-archive.sh" "${@:2}"
+                ;;
+        esac
+        ;;
     "organize"|"clean")
         echo "🧹 Organizing repository structure..."
         "${SCRIPT_DIR}/../uMEMORY/sandbox/scripts/organize-files.sh"
@@ -373,7 +395,7 @@ case "${1:-help}" in
         ;;
     *)
         echo "🔧 uDESK Unified Workflow Management"
-        echo "Available commands: menu, overview, next, complete, start, todo, progress, assist, vars, checkpoint, sync, hierarchy, advance, organize, check-structure"
+        echo "Available commands: menu, overview, next, complete, start, todo, progress, assist, vars, checkpoint, sync, hierarchy, advance, legacy, organize, check-structure"
         echo "Use 'workflow menu' for full command reference"
         exit 1
         ;;
