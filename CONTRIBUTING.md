@@ -51,10 +51,11 @@ code .
 
 ### **1. Find Your Quest**
 - 🐛 **Bug Reports**: Found something broken? Help us fix it!
-- 💡 **Feature Ideas**: Have a cool idea? Share it in Discussions!
+- 💡 **Feature Ideas**: Share in [GitHub Discussions](https://github.com/fredporter/uDESK/discussions)!
 - 📚 **Documentation**: Help make uDESK more accessible
 - 🎨 **UI/UX**: Improve the user experience
 - 🧪 **Testing**: Help ensure quality across platforms
+- 💬 **Community**: Join discussions, ask questions, share your projects!
 
 ### **2. Development Workflow - Simplified Hierarchy**
 
@@ -158,12 +159,13 @@ git push origin feature/your-awesome-feature
 1. Read our [Architecture Guide](https://github.com/fredporter/uDESK/wiki/Architecture)
 2. Check the [Development Setup](https://github.com/fredporter/uDESK/wiki/Development-Setup)
 3. Browse existing [Issues](https://github.com/fredporter/uDESK/issues) for inspiration
+4. Join [Discussions](https://github.com/fredporter/uDESK/discussions) to connect with the community
 
 ### **Educational Materials**
-- **Wiki**: Comprehensive guides and tutorials
-- **Code Comments**: In-depth explanations of complex concepts
-- **VSCode Integration**: Learning-focused development environment
-- **Community Discussions**: Q&A and knowledge sharing
+- **📚 [GitHub Wiki](https://github.com/fredporter/uDESK/wiki)**: Comprehensive guides and tutorials
+- **💬 [GitHub Discussions](https://github.com/fredporter/uDESK/discussions)**: Q&A and knowledge sharing
+- **📝 Code Comments**: In-depth explanations of complex concepts
+- **🔧 VSCode Integration**: Learning-focused development environment
 
 ## 🏆 Recognition
 
@@ -191,16 +193,25 @@ We believe in celebrating our contributors!
 - **Collaborative**: We succeed together
 - **Growth-Oriented**: Focus on learning and improvement
 
-### **Communication**
+### **Communication Guidelines**
 - **Be Patient**: Remember everyone is learning
-- **Be Helpful**: Share knowledge generously
+- **Be Helpful**: Share knowledge generously  
 - **Be Kind**: Choose words that encourage and support
 - **Be Clear**: Explain concepts thoroughly
+- **Use Discussions**: Leverage our discussion templates for better communication
+- **Search First**: Check existing discussions and issues before posting
 
-## 🐛 Reporting Issues
+### **Discussion Etiquette**
+- **Stay on Topic**: Keep discussions relevant to uDESK
+- **Be Constructive**: Provide helpful feedback and suggestions
+- **Respect Opinions**: Different perspectives make us stronger
+- **Help Others**: Answer questions when you can
+- **Share Knowledge**: Your experience helps the community learn
+
+## 🐛 Reporting Issues & Requesting Features
 
 ### **Bug Reports**
-Use our bug report template and include:
+Use our [bug report template](https://github.com/fredporter/uDESK/issues/new/choose) and include:
 - Clear description of the problem
 - Steps to reproduce
 - Expected vs actual behavior
@@ -208,18 +219,36 @@ Use our bug report template and include:
 - Screenshots/logs if applicable
 
 ### **Feature Requests**
+Use our [feature request discussions](https://github.com/fredporter/uDESK/discussions/new?category=ideas) to:
 - Describe the educational value
 - Explain the use case
 - Consider implementation complexity
 - Suggest learning opportunities
+- Collaborate with the community on design
+
+### **Questions & General Discussion**
+Use [GitHub Discussions](https://github.com/fredporter/uDESK/discussions) for:
+- **❓ Questions**: Get help with installation, usage, or development
+- **� Ideas**: Share feature suggestions and get community feedback
+- **🎉 Show and Tell**: Share what you've built with uDESK
+- **�💬 General**: Open discussions about the project
 
 ## 💬 Getting Help
 
-### **Need Assistance?**
-- 💬 **Discussions**: For questions and ideas
-- 🐛 **Issues**: For bugs and feature requests  
-- 📧 **Email**: For private concerns
-- 💬 **Discord**: Real-time community chat (coming soon!)
+### **Community Support Channels**
+- **❓ [Q&A Discussions](https://github.com/fredporter/uDESK/discussions/categories/q-a)**: Get help from the community
+- **� [Ideas Discussions](https://github.com/fredporter/uDESK/discussions/categories/ideas)**: Propose and discuss new features
+- **🎉 [Show and Tell](https://github.com/fredporter/uDESK/discussions/categories/show-and-tell)**: Share your projects and achievements
+- **💬 [General Discussions](https://github.com/fredporter/uDESK/discussions/categories/general)**: Open conversations
+- **🐛 [GitHub Issues](https://github.com/fredporter/uDESK/issues)**: For confirmed bugs and tasks
+- **📚 [GitHub Wiki](https://github.com/fredporter/uDESK/wiki)**: Comprehensive documentation
+
+### **Discussion Templates**
+We've created helpful templates to guide your discussions:
+- **Questions**: Structured format for getting help quickly
+- **Feature Ideas**: Comprehensive template for feature proposals
+- **Show and Tell**: Share your projects and creations
+- **General**: Open-ended discussions about the project
 
 ### **Mentorship Program**
 New to systems programming? We pair beginners with experienced mentors for guided learning experiences.
@@ -233,3 +262,9 @@ By contributing to uDESK, you're helping create an educational platform that wil
 ---
 
 *Questions? Start a [Discussion](https://github.com/fredporter/uDESK/discussions) - we're here to help!*
+
+### **Quick Links**
+- 💬 [Join Discussions](https://github.com/fredporter/uDESK/discussions)
+- 📚 [Read the Wiki](https://github.com/fredporter/uDESK/wiki)
+- 🐛 [Report Issues](https://github.com/fredporter/uDESK/issues)
+- 🚀 [Quick Start Guide](https://github.com/fredporter/uDESK/wiki/Quick-Start)

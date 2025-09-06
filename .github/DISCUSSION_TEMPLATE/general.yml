@@ -1,0 +1,97 @@
+---
+labels: [general]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        **💬 Start a conversation about uDESK!**
+        
+        This is the place for open discussions about the project, community, or anything uDESK-related.
+
+  - type: checkboxes
+    id: discussion-type
+    attributes:
+      label: Discussion Type
+      description: What kind of discussion is this?
+      options:
+        - label: Project direction and roadmap
+        - label: Architecture and design philosophy  
+        - label: Community building and governance
+        - label: Best practices and workflows
+        - label: Integration with other tools
+        - label: Educational use cases
+        - label: Performance and optimization
+        - label: User experience and usability
+        - label: Documentation improvements
+        - label: General feedback
+        - label: Other
+
+  - type: textarea
+    id: topic
+    attributes:
+      label: Discussion Topic
+      description: What would you like to discuss?
+      placeholder: |
+        I've been thinking about...
+        What are your thoughts on...
+        Has anyone tried...
+    validations:
+      required: true
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Context & Background
+      description: Provide any relevant background information
+      placeholder: |
+        Background context:
+        - 
+        - 
+        
+        Related to:
+        - 
+    validations:
+      required: false
+
+  - type: textarea
+    id: questions
+    attributes:
+      label: Questions for the Community
+      description: What specific questions do you have?
+      placeholder: |
+        1. 
+        2. 
+        3. 
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: seeking
+    attributes:
+      label: What are you looking for?
+      description: How can the community help with this discussion?
+      options:
+        - label: Different perspectives and opinions
+        - label: Technical advice and guidance
+        - label: Collaboration opportunities  
+        - label: Resource recommendations
+        - label: Experience sharing
+        - label: Feedback on ideas
+        - label: Just want to start a conversation
+
+  - type: markdown
+    attributes:
+      value: |
+        ---
+        
+        🤝 **Discussion Guidelines**:
+        - Be respectful and constructive
+        - Stay on topic and relevant to uDESK
+        - Share your experience and insights
+        - Ask questions if anything is unclear
+        - Help others by sharing knowledge
+        
+        📚 **Helpful Resources**:
+        - [📖 Wiki Documentation](https://github.com/fredporter/uDESK/wiki)
+        - [🛠️ Development Guide](https://github.com/fredporter/uDESK/wiki/Development-Setup)
+        - [🎯 Project Roadmap](https://github.com/fredporter/uDESK/wiki/Development-Roadmap)

@@ -1,0 +1,97 @@
+---
+labels: [feature-request]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        **💡 Got an idea to make uDESK better?**
+        
+        We'd love to hear your feature suggestions! Please provide details so we can understand and evaluate your idea.
+
+  - type: checkboxes
+    id: feature-category
+    attributes:
+      label: Feature Category
+      description: What area does this feature relate to?
+      options:
+        - label: PANEL System (TodoPanel, ProgressPanel, WorkflowPanel, SystemPanel)
+        - label: VSCode Integration
+        - label: Workflow Management
+        - label: Installation/Setup
+        - label: User Interface/UX
+        - label: Performance
+        - label: Documentation
+        - label: Developer Tools
+        - label: Other
+
+  - type: dropdown
+    id: priority
+    attributes:
+      label: Priority Level
+      description: How important is this feature to you?
+      options:
+        - "Nice to have"
+        - "Would be helpful" 
+        - "Important for my workflow"
+        - "Critical/Blocking"
+    validations:
+      required: true
+
+  - type: textarea
+    id: problem-solution
+    attributes:
+      label: Problem & Proposed Solution
+      description: What problem does this solve? How would you like it to work?
+      placeholder: |
+        **Problem**: Currently I have to...
+        **Solution**: It would be great if uDESK could...
+    validations:
+      required: true
+
+  - type: textarea
+    id: use-case
+    attributes:
+      label: Use Case
+      description: Describe a specific scenario where this feature would be useful
+      placeholder: When I'm working on... I would use this feature to...
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives Considered
+      description: Are there workarounds or other ways to achieve this?
+      placeholder: Currently I work around this by...
+    validations:
+      required: false
+
+  - type: textarea
+    id: additional-context
+    attributes:
+      label: Additional Context
+      description: Mockups, examples from other tools, or additional details
+      placeholder: Screenshots, links, or other context...
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: contribution
+    attributes:
+      label: Contribution
+      description: Would you be interested in helping implement this?
+      options:
+        - label: I'd be willing to help implement this feature
+        - label: I could help with testing this feature
+        - label: I could help with documentation for this feature
+        - label: I'm interested but need guidance on how to contribute
+
+  - type: markdown
+    attributes:
+      value: |
+        ---
+        
+        🔍 **Before submitting**, please check:
+        - [📚 Existing Features](https://github.com/fredporter/uDESK/wiki) in our documentation
+        - [💭 Similar Ideas](https://github.com/fredporter/uDESK/discussions) in discussions
+        - [🎯 Project Roadmap](https://github.com/fredporter/uDESK/wiki/Development-Roadmap)

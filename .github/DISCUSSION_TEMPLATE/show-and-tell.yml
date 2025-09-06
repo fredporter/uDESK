@@ -1,0 +1,125 @@
+---
+labels: [showcase]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        **🎉 Show off what you've built with uDESK!**
+        
+        Share your projects, workflows, customizations, or creative uses of the uDESK system.
+
+  - type: input
+    id: project-title
+    attributes:
+      label: Project Title
+      description: What's the name of your project or creation?
+      placeholder: My Amazing uDESK Workflow
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: showcase-type
+    attributes:
+      label: What are you showcasing?
+      description: Select all that apply
+      options:
+        - label: Custom PANEL configuration
+        - label: Workflow automation scripts
+        - label: VSCode integration setup
+        - label: Development environment
+        - label: Educational project
+        - label: Business/Production use
+        - label: Creative/Artistic project
+        - label: Extension or add-on
+        - label: Documentation/Tutorial
+        - label: Other
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: Tell us about your project! What does it do? How did you build it?
+      placeholder: |
+        My project does...
+        I built it using...
+        The coolest feature is...
+    validations:
+      required: true
+
+  - type: textarea
+    id: technical-details
+    attributes:
+      label: Technical Details
+      description: Share technical implementation details, code snippets, or architecture
+      placeholder: |
+        Key technologies used:
+        - 
+        - 
+        
+        Implementation highlights:
+        ```
+        // Code examples
+        ```
+    validations:
+      required: false
+
+  - type: textarea
+    id: challenges-learned
+    attributes:
+      label: Challenges & What You Learned
+      description: What obstacles did you overcome? What did you discover?
+      placeholder: |
+        Biggest challenge was...
+        I learned that...
+        Next time I would...
+    validations:
+      required: false
+
+  - type: textarea
+    id: media-links
+    attributes:
+      label: Screenshots, Videos, or Links
+      description: Share visual content or links to your project
+      placeholder: |
+        Screenshots: [Upload or paste images]
+        Live demo: https://...
+        Repository: https://github.com/...
+        Video: https://...
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: sharing-permissions
+    attributes:
+      label: Sharing Permissions
+      description: How can the community use your work?
+      options:
+        - label: Feel free to feature this in uDESK documentation
+        - label: OK to share in social media or blog posts
+        - label: Available for others to build upon (include license info below)
+        - label: Contact me before sharing elsewhere
+
+  - type: textarea
+    id: additional-info
+    attributes:
+      label: Additional Information
+      description: Anything else you'd like to share? Thanks, credits, future plans?
+      placeholder: |
+        Special thanks to...
+        Future plans include...
+        You can reach me at...
+    validations:
+      required: false
+
+  - type: markdown
+    attributes:
+      value: |
+        ---
+        
+        🌟 **Thank you for sharing!** Your projects inspire the community and help others learn.
+        
+        💡 **Tips for great showcases**:
+        - Include screenshots or videos when possible
+        - Share code snippets or configuration examples
+        - Explain your thought process and decisions
+        - Mention any resources that helped you
