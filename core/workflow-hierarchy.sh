@@ -197,10 +197,10 @@ create_goal() {
     echo ""
     
     local goal_name
-    goal_name=$(prompt_ucode "🌟 Enter ultimate goal name")
+    goal_name=$(prompt_text "🌟 Enter ultimate goal name")
     
     local goal_description
-    goal_description=$(prompt_ucode "📝 Enter goal description")
+    goal_description=$(prompt_text "📝 Enter goal description")
     
     local timeframe
     timeframe=$(prompt_ucode "⏰ Goal timeframe" "1-YEAR|2-YEARS|5-YEARS|LIFETIME" "2-YEARS")
@@ -257,10 +257,10 @@ create_mission() {
     echo ""
     
     local mission_name
-    mission_name=$(prompt_ucode "⚡ Enter mission name")
+    mission_name=$(prompt_text "⚡ Enter mission name")
     
     local mission_description
-    mission_description=$(prompt_ucode "📝 Enter mission description")
+    mission_description=$(prompt_text "📝 Enter mission description")
     
     local duration
     duration=$(prompt_duration "⏰ Mission duration")
@@ -326,10 +326,10 @@ create_milestone() {
     echo ""
     
     local milestone_name
-    milestone_name=$(prompt_ucode "🏆 Enter milestone name")
+    milestone_name=$(prompt_text "🏆 Enter milestone name")
     
     local milestone_description
-    milestone_description=$(prompt_ucode "📝 Enter milestone description")
+    milestone_description=$(prompt_text "📝 Enter milestone description")
     
     echo ""
     echo "🏆 MILESTONE SUMMARY:"

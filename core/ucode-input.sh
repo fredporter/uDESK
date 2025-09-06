@@ -210,6 +210,33 @@ prompt_priority() {
     prompt_ucode "$prompt" "LOW|MEDIUM|HIGH|CRITICAL" "$default"
 }
 
+# Free-form text input prompt with educational messaging
+prompt_text() {
+    local prompt="$1"
+    local allow_empty="${2:-false}"
+    local input
+    
+    while true; do
+        echo -ne "${CYAN}$prompt${NC}: " >&2
+        read input
+        
+        if [[ -z "$input" ]]; then
+            if [[ "$allow_empty" == "true" ]]; then
+                echo "$input"
+                return 0
+            else
+                echo -e "${RED}📝 We need your input to continue this learning journey!${NC}" >&2
+                echo -e "   ${BLUE}💡 Please enter some text to proceed${NC}" >&2
+                echo "" >&2
+            fi
+        else
+            echo -e "${GREEN}✨ Perfect! You entered: $input${NC}" >&2
+            echo "$input"
+            return 0
+        fi
+    done
+}
+
 # Personal growth message functions
 growth_message() {
     local context="$1"
@@ -260,6 +287,7 @@ test_ucode_compatibility() {
 # Export core functions for use in other scripts
 export -f parse_ucode_input
 export -f prompt_ucode  
+export -f prompt_text
 export -f prompt_yes_no
 export -f prompt_confirm_modify
 export -f prompt_duration
