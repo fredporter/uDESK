@@ -1,33 +1,44 @@
-# uDESK v1.0.7.2 Getting Started
+# 🎯 uDESK v1.0.7.3 Educational Quick Start
 
-> Complete installation and development quick start guide
+> **Learn Systems Programming Through Real OS Development!** 🎓
 
-## 🚀 Quick Start (30 seconds)
+Welcome to uDESK - where coding education meets operating system development! Whether you're new to programming or an experienced developer, this guide will get you started on an amazing learning journey.
 
-### Option 1: Desktop Application (Recommended)
+## 🚀 What is uDESK?
+
+uDESK is an **educational platform** that teaches systems programming through hands-on OS development. Build your own desktop environment while mastering:
+- 🧠 **Operating System Concepts**
+- ⚡ **Systems Programming** 
+- 🔧 **Hardware Interaction**
+- 🎨 **Desktop Environment Design**
+- 🤝 **Open Source Collaboration**
+
+## ⚡ Quick Start (5 minutes)
+
+### 🎓 **Educational Mode (Perfect for Learning)**
 ```bash
-# Download and run installer
-curl -O https://github.com/fredporter/uDESK/raw/main/udesk-install.command
-chmod +x udesk-install.command
-./udesk-install.command         # macOS
+# Clone the educational repository
+git clone https://github.com/fredporter/uDESK.git
+cd uDESK
 
-curl -O https://github.com/fredporter/uDESK/raw/main/udesk-install-linux.sh  
-chmod +x udesk-install-linux.sh
-./udesk-install-linux.sh        # Linux
+# Open in VSCode (auto-configures learning tools!)
+code .
 
-curl -O https://github.com/fredporter/uDESK/raw/main/udesk-install-windows.bat
-# Run udesk-install-windows.bat  # Windows
-
-# Build your preferred mode
-./build.sh user                 # Essential features
-./build.sh wizard               # Advanced features  
-./build.sh developer            # Full development toolkit
+# Start your guided learning journey
+./core/express-dev.sh
 ```
 
-### Option 2: Direct Build
+### 🔧 **Developer Mode (Ready to Contribute)**
 ```bash
-# Clone and build
-git clone <repo-url> uDESK
+# Fork first, then clone your fork
+git clone https://github.com/YOUR_USERNAME/uDESK.git
+cd uDESK
+
+# Set up development environment  
+./install.sh dev
+
+# Start developing with full toolchain
+code .
 cd uDESK
 ./build.sh user && ./udos
 ```

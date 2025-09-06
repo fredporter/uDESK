@@ -1,5 +1,15 @@
-# uDESK - Clean Structure .gitignore
-# ===================================
+# uDESK Development Environment
+# Keep repository clean and aspirational for community
+# ====================================================
+
+# Local Development Files (VSCode managed only)
+# ----------------------------------------------
+/dev/notes/
+/dev/progress/
+/dev/workflows/
+/dev/personal/
+.vscode/settings.json.local
+.vscode/launch.json.local
 
 # Old/Legacy Directories (DO NOT TRACK)
 # -------------------------------------
