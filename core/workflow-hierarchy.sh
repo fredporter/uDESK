@@ -4,6 +4,9 @@
 
 set -e
 
+# Set script directory
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
 # Source uCODE input for consistency
 source "$(dirname "${BASH_SOURCE[0]}")/ucode-input.sh"
 
@@ -402,6 +405,21 @@ case "${1:-help}" in
             "show"|*) get_mission_milestones "$(get_active_mission)" ;;
         esac
         ;;
+    "todo")
+        case "${2:-show}" in
+            "create") create_todo ;;
+            "show"|*) get_milestone_todos "$(get_active_milestone)" ;;
+        esac
+        ;;
+    "sprint")
+        # Integration with TODO management system
+        if [[ -f "${SCRIPT_DIR}/todo-management.sh" ]]; then
+            "${SCRIPT_DIR}/todo-management.sh" "${@:2}"
+        else
+            echo "❌ TODO management system not available at ${SCRIPT_DIR}/todo-management.sh"
+            exit 1
+        fi
+        ;;
     "help"|"--help"|"-h")
         echo "🎯 uDESK Workflow Hierarchy v1.0.7.3"
         echo "════════════════════════════════════"
@@ -413,6 +431,7 @@ case "${1:-help}" in
         echo "  workflow milestone create # Create new milestone"
         echo "  workflow move create      # Create new move"
         echo "  workflow todo create      # Create new todo"
+        echo "  workflow sprint [cmd]     # TODO management (status/complete/start)"
         echo ""
         ;;
     *)
