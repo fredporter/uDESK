@@ -1,7 +1,7 @@
 {
   "name": "udesk-app",
   "private": true,
-  "version": "1.0.7",
+  "version": "1.0.8",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -19,7 +19,7 @@
   "dependencies": {
     "@tauri-apps/api": "^2.8.0",
     "@tauri-apps/plugin-fs": "^2.2.0",
-    "@tauri-apps/plugin-opener": "^2.2.0",
+    "@tauri-apps/plugin-opener": "2.2.3",
     "@tauri-apps/plugin-process": "^2.2.0",
     "@tauri-apps/plugin-shell": "^2.2.0",
     "react": "^19.1.0",

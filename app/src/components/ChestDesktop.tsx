@@ -1,6 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { ThemeName, getTheme, themeAssets } from '../lib/themes';
+import { TodoPanel } from './panels/TodoPanel';
+import { ProgressPanel } from './panels/ProgressPanel';
+import { WorkflowPanel } from './panels/WorkflowPanel';
+import { SystemPanel } from './panels/SystemPanel';
+import { udosGridSystem } from '../services/udosGridSystem';
 import './ChestDesktop.css';
+import './panels/Panels.css';
 
 interface ChestDesktopProps {
   theme: ThemeName;
@@ -70,6 +76,7 @@ export const ChestDesktop: React.FC<ChestDesktopProps> = ({ theme, onThemeChange
   ]);
 
   const [activeWindow, setActiveWindow] = useState<string | null>(null);
+  const [showWidgets, setShowWidgets] = useState(true);
   const [terminalHistory, setTerminalHistory] = useState<string[]>([
     'CHEST Desktop v1.0.0 (TinyCore Linux inspired)',
     'Welcome to uDESK Unified Workflow System',
@@ -87,6 +94,36 @@ export const ChestDesktop: React.FC<ChestDesktopProps> = ({ theme, onThemeChange
     memory: '234MB',
     uptime: '2:34:56',
   });
+
+  // Initialize uDOS Grid System and get CSS variables
+  const udosVariables = udosGridSystem.generateCSSVariables();
+  
+  useEffect(() => {
+    // Apply uDOS grid system variables to CSS
+    const root = document.documentElement;
+    Object.entries(udosVariables).forEach(([key, value]) => {
+      root.style.setProperty(key, value);
+    });
+    
+    // Initialize panel tiles in the grid
+    udosGridSystem.setDisplayMode('DESKTOP');
+    udosGridSystem.clearGrid();
+    
+    // Create panel tiles
+    const panelPositions = udosGridSystem.calculatePanelLayout(4);
+    const panelTypes = ['todo', 'progress', 'workflow', 'system'] as const;
+    
+    panelTypes.forEach((type, index) => {
+      if (panelPositions[index]) {
+        const tile = udosGridSystem.createPanelTile(
+          `panel-${type}`,
+          panelPositions[index],
+          type
+        );
+        udosGridSystem.addTileToGrid(tile);
+      }
+    });
+  }, []);
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -346,6 +383,45 @@ export const ChestDesktop: React.FC<ChestDesktopProps> = ({ theme, onThemeChange
         )}
       </div>
 
+      {/* Panels Container */}
+      {showWidgets && (
+        <div className="widgets-panel">
+          <div className="widgets-header">
+            <h3>📊 Dashboard Panels</h3>
+            <button 
+              className="toggle-widgets-btn"
+              onClick={() => setShowWidgets(false)}
+              title="Hide Panels"
+            >
+              ×
+            </button>
+          </div>
+          <div className="widgets-container">
+            <TodoPanel className="widget-item" />
+            <ProgressPanel className="widget-item" />
+            <WorkflowPanel 
+              className="widget-item"
+              onActionExecute={(command: string) => {
+                // Add command to terminal history
+                setTerminalHistory(prev => [...prev, `Executed: ${command}`, '']);
+              }}
+            />
+            <SystemPanel className="widget-item" />
+          </div>
+        </div>
+      )}
+
+      {/* Show Panels Button (when hidden) */}
+      {!showWidgets && (
+        <button 
+          className="show-widgets-btn"
+          onClick={() => setShowWidgets(true)}
+          title="Show Panels"
+        >
+          📊
+        </button>
+      )}
+
       {/* Bottom Taskbar */}
       <div className="taskbar">
         
@@ -382,6 +458,13 @@ export const ChestDesktop: React.FC<ChestDesktopProps> = ({ theme, onThemeChange
             <span title="CPU Usage">{systemStats.cpu}</span>
             <span title="Memory Usage">{systemStats.memory}</span>
           </div>
+          <button 
+            className="widgets-toggle"
+            onClick={() => setShowWidgets(!showWidgets)}
+            title={showWidgets ? 'Hide Panels' : 'Show Panels'}
+          >
+            📊
+          </button>
           <div className="system-time">
             {currentTime.toLocaleTimeString()}
           </div>

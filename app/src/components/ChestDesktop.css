@@ -590,3 +590,166 @@
   font-weight: bold;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
+
+/* Widgets Panel Styling */
+.widgets-panel {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 320px;
+  height: 100vh;
+  background: rgba(47, 47, 47, 0.95);
+  backdrop-filter: blur(10px);
+  border-left: 2px solid var(--border-color);
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-shadow: -4px 0 20px rgba(0, 0, 0, 0.3);
+}
+
+.widgets-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px;
+  background: var(--bg-secondary);
+  border-bottom: 1px solid var(--border-color);
+}
+
+.widgets-header h3 {
+  margin: 0;
+  color: var(--text-primary);
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.toggle-widgets-btn {
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  font-size: 18px;
+  cursor: pointer;
+  padding: 5px;
+  border-radius: 3px;
+  transition: all 0.2s ease;
+}
+
+.toggle-widgets-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--text-primary);
+}
+
+.widgets-container {
+  flex: 1;
+  padding: 10px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border-color) transparent;
+}
+
+.widgets-container::-webkit-scrollbar {
+  width: 6px;
+}
+
+.widgets-container::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.widgets-container::-webkit-scrollbar-thumb {
+  background: var(--border-color);
+  border-radius: 3px;
+}
+
+.widget-item {
+  margin-bottom: 15px;
+}
+
+.show-widgets-btn {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  width: 50px;
+  height: 50px;
+  background: var(--bg-secondary);
+  border: 2px solid var(--border-color);
+  border-radius: 25px;
+  color: var(--text-primary);
+  font-size: 20px;
+  cursor: pointer;
+  z-index: 999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.show-widgets-btn:hover {
+  background: var(--accent-color);
+  border-color: var(--accent-color);
+  transform: scale(1.1);
+  box-shadow: 0 6px 20px rgba(30, 144, 255, 0.3);
+}
+
+.widgets-toggle {
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  font-size: 16px;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 3px;
+  transition: all 0.2s ease;
+  margin-right: 10px;
+}
+
+.widgets-toggle:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--text-primary);
+}
+
+/* Theme-specific widget styling */
+.theme-tinycore .widgets-panel {
+  background: rgba(240, 240, 240, 0.95);
+  border-left-color: #c0c0c0;
+}
+
+.theme-tinycore .widgets-header {
+  background: rgba(255, 255, 255, 0.9);
+  border-bottom-color: #c0c0c0;
+}
+
+.theme-tinycore .widgets-header h3 {
+  color: #2f2f2f;
+}
+
+.theme-tinycore .toggle-widgets-btn {
+  color: #666;
+}
+
+.theme-tinycore .toggle-widgets-btn:hover {
+  background: rgba(30, 144, 255, 0.1);
+  color: #1e90ff;
+}
+
+.theme-tinycore .show-widgets-btn {
+  background: rgba(255, 255, 255, 0.9);
+  border-color: #c0c0c0;
+  color: #2f2f2f;
+}
+
+.theme-tinycore .show-widgets-btn:hover {
+  background: #1e90ff;
+  border-color: #1e90ff;
+  color: white;
+}
+
+.theme-tinycore .widgets-toggle {
+  color: #666;
+}
+
+.theme-tinycore .widgets-toggle:hover {
+  background: rgba(30, 144, 255, 0.1);
+  color: #1e90ff;
+}

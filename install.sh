@@ -1,5 +1,5 @@
 #!/bin/bash
-# uDESK Bootstrap Installer v1.0.7.2
+# uDESK Bootstrap Installer v1.0.8
 # Single directory installation - everything in ~/uDESK
 
 set -e
@@ -348,7 +348,7 @@ launch_tauri_app() {
     fi
 }
 
-echo "🚀 uDESK Bootstrap Installer v1.0.7.2"
+echo "🚀 uDESK Bootstrap Installer"
 echo "====================================="
 
 # Handle existing directory (if not called from platform installer)
@@ -376,7 +376,7 @@ if [ "$2" != "--skip-iso-download" ]; then
     download_tinycore_iso
 fi
 
-# Modern repository-based installation (uDESK v1.0.7.2+)
+# Modern repository-based installation
 echo ""
 echo "🏗️  Configuring uDESK system integration..."
 
@@ -414,7 +414,7 @@ else
 fi
 
 echo ""
-echo "✅ uDESK v1.0.7.2 installation complete!"
+echo "✅ uDESK installation complete!"
 echo ""
 echo "📂 Unified Directory Structure:"
 echo "  uDESK/                  - Complete system (root)"
