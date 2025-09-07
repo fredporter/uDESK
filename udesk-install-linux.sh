@@ -49,14 +49,18 @@ else
 fi
 
 
-# Download and run the main cross-platform installer
-if [ ! -f "install.sh" ]; then
-    echo " Downloading install.sh..."
-    curl -L "https://raw.githubusercontent.com/fredporter/uDESK/main/install.sh" -o install.sh
-    chmod +x install.sh
-fi
+# Ensure ~/uDESK exists and run everything in that directory (subshell for piped execution)
+mkdir -p "$HOME/uDESK"
+(
+    cd "$HOME/uDESK"
+    if [ ! -f "install.sh" ]; then
+            echo "📦 Downloading install.sh..."
+            curl -L "https://raw.githubusercontent.com/fredporter/uDESK/main/install.sh" -o install.sh
+            chmod +x install.sh
+    fi
 
-echo "� Running main uDESK installer (cross-platform logic in install.sh)..."
-bash install.sh dev
+    echo "🚀 Running main uDESK installer (cross-platform logic in install.sh)..."
+    bash install.sh dev
+)
 
 # All output and next steps are handled by install.sh
