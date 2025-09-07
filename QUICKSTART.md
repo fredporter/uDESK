@@ -82,19 +82,23 @@ chmod +x udesk-install.command
 # - Git (if not present)
 ```
 
-#### Ubuntu/Debian Installation
+#### Ubuntu/Debian One-Click Installation (Recommended)
 ```bash
-# Download uDESK installer
-curl -O https://github.com/fredporter/uDESK/raw/main/udesk-install-linux.sh
-chmod +x udesk-install-linux.sh
+curl -L https://github.com/fredporter/uDESK/raw/main/udesk-install-linux.sh | bash
+```
 
-# Run installer (handles dependencies automatically)
-./udesk-install-linux.sh
+This command will:
+- Download and run the latest uDESK installer
+- Automatically install all required dependencies (`build-essential`, `git`, `curl`, `npm`, `nodejs`)
+- Make all scripts executable
+- Build the system for you
+- Print clear next steps
 
-# Dependencies auto-installed:
-# - build-essential package
-# - Git
-# - Basic development tools
+After installation, you can run:
+```bash
+cd ~/uDESK
+./build/user/udos         # Start uDOS (CLI)
+cd app && npm run tauri dev  # Start the desktop app (GUI)
 ```
 
 #### Windows Installation
@@ -379,11 +383,9 @@ npm run tauri dev
 
 **Permission errors**
 ```bash
-# Solution: Make scripts executable
-chmod +x build.sh udesk-install*.{command,sh,bat}
-
-# Check installer permissions
-ls -la udesk-install*
+# Solution: The one-click installer now makes all scripts executable automatically.
+# If you ever need to fix permissions manually:
+chmod +x *.sh udesk-app
 ```
 
 ### Debug Mode

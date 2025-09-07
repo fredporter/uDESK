@@ -29,52 +29,34 @@ if [ ! -d "$HOME/uDESK" ]; then
     fi
 fi
 
-# Check for essential build tools first
-echo "🔧 Checking build tools..."
-if ! command -v gcc &> /dev/null; then
-    echo "⚠️  GCC not found - build essentials required for uDESK"
-    read -p "Install build tools automatically? [YES|NO]: " choice
-    choice=$(echo "$choice" | tr '[:lower:]' '[:upper:]')
-    if [[ "$choice" =~ ^(Y|YES)$ ]]; then
-        echo "📦 Installing build essentials..."
-        if command -v apt-get &> /dev/null; then
-            sudo apt-get update && sudo apt-get install -y build-essential
-        elif command -v yum &> /dev/null; then
-            sudo yum groupinstall -y "Development Tools"
-        elif command -v pacman &> /dev/null; then
-            sudo pacman -S base-devel
-        elif command -v dnf &> /dev/null; then
-            sudo dnf groupinstall -y "Development Tools"
-        fi
-    else
-        echo "❌ Build tools required for uDESK. Installation cancelled."
-        exit 1
-    fi
-fi
 
-# Download the installer if we don't have it locally
-if [ ! -f "install.sh" ]; then
-    echo "📦 Downloading installer..."
-    curl -L "https://raw.githubusercontent.com/fredporter/uDESK/main/install.sh" -o "/tmp/udesk-install.sh"
-    bash "/tmp/udesk-install.sh"
+# Minimal Linux installer: only install dependencies, fetch and run install.sh
+echo "🔧 Installing required dependencies (build-essential, git, curl, npm, nodejs)..."
+if command -v apt-get &> /dev/null; then
+    sudo apt-get update
+    sudo apt-get install -y build-essential git curl npm nodejs
+elif command -v yum &> /dev/null; then
+    sudo yum groupinstall -y "Development Tools"
+    sudo yum install -y git curl npm nodejs
+elif command -v pacman &> /dev/null; then
+    sudo pacman -Sy --noconfirm base-devel git curl npm nodejs
+elif command -v dnf &> /dev/null; then
+    sudo dnf groupinstall -y "Development Tools"
+    sudo dnf install -y git curl npm nodejs
 else
-    # Run the comprehensive installer
-    bash install.sh
+    echo "❌ Unsupported package manager. Please install build-essential, git, curl, npm, and nodejs manually."
+    exit 1
 fi
 
-echo ""
-echo "🎉 Installation Complete!"
-echo ""
-echo "📂 Your unified uDESK installation:"
-echo "   Complete system: ~/uDESK/"
-echo "   User workspace:  ~/uDESK/uMEMORY/sandbox/"
-echo "   ISOs:           ~/uDESK/iso/"
-echo ""
-echo "📚 Documentation: https://github.com/fredporter/uDESK"
-echo "🔧 To run uDOS again: cd ~/uDESK && ./build/user/udos"
-echo ""
-echo "💡 To create a desktop shortcut:"
-echo "   cp ~/uDESK/udesk-install-linux.sh ~/Desktop/"
-echo ""
-echo "Press any key to close this installer..."
-read -n 1 -s
+
+# Download and run the main cross-platform installer
+if [ ! -f "install.sh" ]; then
+    echo " Downloading install.sh..."
+    curl -L "https://raw.githubusercontent.com/fredporter/uDESK/main/install.sh" -o install.sh
+    chmod +x install.sh
+fi
+
+echo "� Running main uDESK installer (cross-platform logic in install.sh)..."
+bash install.sh dev
+
+# All output and next steps are handled by install.sh
