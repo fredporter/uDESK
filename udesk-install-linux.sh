@@ -18,14 +18,20 @@ echo "• Configure the unified environment"
 echo "• Test and launch uDOS"
 echo ""
 
-# If no uDESK directory exists, show continue prompt
+# If no uDESK directory exists, show continue prompt (interactive) or auto-continue (non-interactive)
 if [ ! -d "$HOME/uDESK" ]; then
     echo "Ready to install uDESK v1.0.7.2"
-    read -p "Continue with installation? [YES|NO]: " choice
-    choice=$(echo "$choice" | tr '[:lower:]' '[:upper:]')
-    if [[ ! "$choice" =~ ^(Y|YES)$ ]]; then
-        echo "❌ Installation cancelled"
-        exit 1
+    if [ -t 0 ]; then
+        # Interactive shell
+        read -p "Continue with installation? [YES|NO]: " choice
+        choice=$(echo "$choice" | tr '[:lower:]' '[:upper:]')
+        if [[ ! "$choice" =~ ^(Y|YES)$ ]]; then
+            echo "❌ Installation cancelled"
+            exit 1
+        fi
+    else
+        # Non-interactive (piped) install: auto-continue
+        echo "Auto-continue in non-interactive mode."
     fi
 fi
 
